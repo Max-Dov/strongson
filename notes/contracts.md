@@ -93,10 +93,6 @@ interface WorldConfig {
      */
     id: string;
     /**
-     * Unique world seed. Used for random generation.
-     */
-    seed: number;
-    /**
      * List of available tiles in the world.
      */
     tiles: Set<TileConfig>;
@@ -136,6 +132,10 @@ interface World {
      * Config world is based on.
      */
     configId: WorldConfig['id'];
+    /**
+     * Unique world seed. Used for random generation.
+     */
+    seed: number;
     /**
      * World number of iteration. Worlds should start with 0 as starting point.
      */
