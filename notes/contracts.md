@@ -152,7 +152,7 @@ interface World {
 }
 ```
 
-Сигнатура генератора мира
+Сигнатура итератора/генератора мира
 -----------
 ```
 /**
@@ -163,4 +163,13 @@ interface World {
  * @returns next or first world iteration
  */
 type iterateWorld = (worldConfig: WorldConfig, world?: World) => World
+```
+
+Сигнатура функции генерации псевдо-случайного числа
+-----------
+```
+/**
+ * Generates number based on world seed, epoch and tile coordinates.
+ */
+type random = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile['coordinates']) => number
 ```
