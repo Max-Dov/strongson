@@ -57,8 +57,9 @@ interface TileConfig {
     /**
      * Representation dependent on game implementation.
      * Can be picture address e.g. "land_grass_tile.png" or ID for picture from DB "land_grass_tile".
+     * Or can be different variants, which are represented as array.
      */
-    representation: string;
+    representation: string | Array<string>;
     /**
      * Base chance to mutate into a neighbor. Dimension is %. E.g. "15" stands for "15%".
      */
@@ -110,6 +111,10 @@ interface Tile {
      * Unique tile ID.
      */
     id: TileConfig['id'];
+    /**
+     * Representation or variant of representation.
+     */
+    representation: TileConfig['representation'] | TileConfig['representation'][number]
     /**
      * Tuple of X and Y coordinates.
      */
