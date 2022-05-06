@@ -174,7 +174,8 @@ type iterateWorld = (worldConfig: WorldConfig, world?: World) => World
 -----------
 ```
 /**
- * Generates number based on world seed, epoch and tile coordinates.
+ * Generates number based on world seed, world epoch, tile coordinates and iteration on given tile.
+ * @returns number between 0 and 1.
  */
-type random = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile['coordinates']) => number
+type random = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile['coordinates'], iteration: number) => number
 ```
