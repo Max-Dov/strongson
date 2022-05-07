@@ -15,22 +15,24 @@ export const generateWorld = (
     epoch: World['epoch'],
     dimensions: World['dimensions'],
 ): World => {
-    const tiles = new Map<TileHash, Tile>();
+    const worldTiles = new Map<TileHash, Tile>();
     const availableTiles = [...config.tiles.values()];
 
     /**
      * Create starting tile.
      */
     const startingTile = getStartingTile(availableTiles, seed, epoch);
-    tiles.set(getTileHash(startingTile), startingTile)
+    worldTiles.set(getTileHash(startingTile), startingTile);
+
+
 
     return {
         configId: config.id,
         seed,
         epoch,
         dimensions,
-        tiles,
-    }
+        tiles: worldTiles,
+    };
 };
 
 const getStartingTile = (
@@ -38,16 +40,25 @@ const getStartingTile = (
     seed: World['seed'],
     epoch: World['epoch'],
 ): Tile => {
-    const coordinates: Tile['coordinates'] = [0, 0]
+    const coordinates: Tile['coordinates'] = [0, 0];
+    /**
+     * Figure out TileConfig.
+     */
     const tileNumberRng = rng(seed, epoch, coordinates);
-    const tileRepresentationRng = rng(seed, epoch, coordinates);
     const tileConfig = availableTileConfigs[Math.trunc(tileNumberRng * availableTileConfigs.length + 1)];
-    const availableRepresentation = tileConfig.representation
-    const representation = availableRepresentation?.[tileRepresentationRng * availableRepresentation.length] || availableRepresentation
+    /**
+     * Figure out tile representation.
+     */
+    const availableRepresentation = tileConfig.representation;
+    let representation = availableRepresentation as string;
+    if (Array.isArray(availableRepresentation)) {
+        const tileRepresentationRng = rng(seed, epoch, coordinates);
+        representation = availableRepresentation[Math.trunc(tileRepresentationRng * availableRepresentation.length)];
+    }
     return {
         id: tileConfig.id,
         representation,
         coordinates,
-        chanceToMutate: tileConfig.chanceToMutate
-    }
+        chanceToMutate: tileConfig.chanceToMutate,
+    };
 };

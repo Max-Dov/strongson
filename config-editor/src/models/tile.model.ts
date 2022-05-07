@@ -11,7 +11,7 @@ export interface Tile {
     /**
      * Representation or variant of representation.
      */
-    representation: TileConfig['representation'] | TileConfig['representation'][number]
+    representation: TileConfig['representation'][number]
     /**
      * Tuple of X and Y coordinates.
      */
