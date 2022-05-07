@@ -1,5 +1,6 @@
 import {WorldConfig} from './world-config.model';
 import {Tile} from './tile.model';
+import {TileHash} from './tile-hash.model';
 
 /**
  * Actual world.
@@ -18,12 +19,12 @@ export interface World {
      */
     epoch: number;
     /**
-     * X and Y dimensions of world.
-     * Note: would be changed when "chanks" would be implemented;
+     * World dimensions.
+     * Starting point is [0, 0, ...], then dimensions can be represented as point with maximum values for every dimension.
      */
-    dimensions: [number, number];
+    dimensions: Tile['coordinates'];
     /**
      * World tiles.
      */
-    tiles: Array<Tile>;
+    tiles: Map<TileHash, Tile>;
 }

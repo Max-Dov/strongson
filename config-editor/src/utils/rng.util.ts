@@ -6,11 +6,28 @@ const sin = Math.sin;
 const cos = Math.cos;
 
 /**
+ * Relation of [seed, epoch, coordinates] tuples to its number of iterations.
+ */
+const iterationsMap = new Map<string, number>();
+
+/**
+ * Generates random number based on world seed, world epoch and tile coordinates.
+ * @returns number between 0 and 1.
+ */
+export const rng = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile['coordinates']) => {
+    const stringifiedTuple = [seed, epoch, coordinates.join(',')].join(',');
+    let iteration = iterationsMap.get(stringifiedTuple) || 0;
+    const rngNumber = rngAlgorithm(seed, epoch, coordinates, iteration);
+    iterationsMap.set(stringifiedTuple, iteration + 1);
+    return rngNumber;
+};
+
+/**
  * Random Number Generator - RNG v0.1
  * Generates random number based on world seed, world epoch, tile coordinates and iteration on that tile.
  * @returns number between 0 and 1.
  */
-export const rng = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile['coordinates'], iteration = 0) => {
+const rngAlgorithm = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile['coordinates'], iteration = 0) => {
     const seedMix = abs(cos(seed));
     const epochMix = abs(sin(epoch));
     const coordinatesMix = abs(cos(Number(coordinates.join('17'))));

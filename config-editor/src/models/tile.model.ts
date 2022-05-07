@@ -17,7 +17,7 @@ export interface Tile {
      */
     coordinates: [number, number];
     /**
-     * Actual chance to mutate based on neighbor mutationMagnitude and base changeToMutate.
+     * Actual chance to mutate based on neighbor mutationMagnitude and base chanceToMutate.
      */
     chanceToMutate: number;
 }
