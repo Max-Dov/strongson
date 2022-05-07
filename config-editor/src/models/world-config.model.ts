@@ -11,5 +11,9 @@ export interface WorldConfig {
     /**
      * List of available tiles in the world.
      */
-    tiles: Set<TileConfig>;
+    tiles: Array<TileConfig>;
+    /**
+     * World tile geometry.
+     */
+    // worldGeometry: 'squares' | 'hexagons' | 'triangles' | ...
 }

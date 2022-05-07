@@ -5,6 +5,7 @@ import {rng} from './rng.util';
 import {TileConfig} from '../models/tile-config.model';
 import {TileHash} from '../models/tile-hash.model';
 import {getTileHash} from './get-tile-hash.util';
+import {getNeighbors} from './get-neighbors.util';
 
 /**
  * Generates World. Expected use case is preview of possible world for given world config.
@@ -16,7 +17,14 @@ export const generateWorld = (
     dimensions: World['dimensions'],
 ): World => {
     const worldTiles = new Map<TileHash, Tile>();
-    const availableTiles = [...config.tiles.values()];
+    const availableTiles = config.tiles;
+    const world = {
+        configId: config.id,
+        seed,
+        epoch,
+        dimensions,
+        tiles: worldTiles,
+    };
 
     /**
      * Create starting tile.
@@ -24,15 +32,12 @@ export const generateWorld = (
     const startingTile = getStartingTile(availableTiles, seed, epoch);
     worldTiles.set(getTileHash(startingTile), startingTile);
 
+    /**
+     * Iterate through every dimension and create tile for every coordinate.
+     */
 
 
-    return {
-        configId: config.id,
-        seed,
-        epoch,
-        dimensions,
-        tiles: worldTiles,
-    };
+    return world;
 };
 
 const getStartingTile = (
@@ -61,4 +66,38 @@ const getStartingTile = (
         coordinates,
         chanceToMutate: tileConfig.chanceToMutate,
     };
+};
+
+/**
+ * For given coordinate, create random tile.
+ */
+const iterateCoordinate = (coordinate: Tile['coordinates'], world: World, configTiles: WorldConfig['tiles']) => {
+    /**
+     * To figure out what tile can exist on given coordinate, list of available TileConfigs should be obtained.
+     * Expect that all TileConfigs are available, then for every config check its neighbor constraints.
+     * If any constraint fails - tile should be excluded from available TileConfigs.
+     */
+    const availableTileConfigs = [...configTiles.values()].filter(tileConfig => {
+        /**
+         * Check if some constraint fails.
+         * Tile config would pass check if there are no failed constraints.
+         */
+        return !tileConfig.neighbors.some(constraint => {
+            const {neighborId, minAmount, maxAmount, minimumDistance, maximumDistance} = constraint;
+            if (!minimumDistance && !maximumDistance) return true; // should not happen, but theoretically possible.
+            if (!minAmount && !maxAmount) return true; // should not happen, but theoretically possible.
+            /**
+             * First, check if there are neighbors closer than allowed.
+             */
+            if (minimumDistance) {
+                const neighbors = getNeighbors(world.tiles, minimumDistance);
+                if (neighbors.size > 0) {
+                    return true;
+                }
+            }
+            if (maximumDistance) {
+                //
+            }
+        });
+    });
 };
