@@ -1,9 +1,11 @@
 import {TileConfig} from './tile-config.model';
+import {WorldGeometry} from '../constants/world-geometry.model';
+import {GeometryDimensions} from './geometry-dimensions.model';
 
 /**
  * Actual tile in world.
  */
-export interface Tile {
+export interface Tile<Geometry extends WorldGeometry = WorldGeometry.UNKNOWN> {
     /**
      * Unique tile ID.
      */
@@ -13,9 +15,10 @@ export interface Tile {
      */
     representation: TileConfig['representation'][number]
     /**
-     * Tuple of X and Y coordinates.
+     * Tuple of tile coordinates.
+     * Dependent on WorldGeometry.
      */
-    coordinates: [number, number];
+    coordinates: GeometryDimensions[Geometry]
     /**
      * Actual chance to mutate based on neighbor mutationMagnitude and base chanceToMutate.
      */

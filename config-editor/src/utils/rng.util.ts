@@ -1,5 +1,6 @@
 import {World} from '../models/world.model';
 import {Tile} from '../models/tile.model';
+import {WorldGeometry} from '../constants/world-geometry.model';
 
 const abs = Math.abs;
 const sin = Math.sin;
@@ -14,7 +15,7 @@ const iterationsMap = new Map<string, number>();
  * Generates random number based on world seed, world epoch and tile coordinates.
  * @returns number between 0 and 1.
  */
-export const rng = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile['coordinates']) => {
+export const rng = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile<WorldGeometry>['coordinates']) => {
     const stringifiedTuple = [seed, epoch, coordinates.join(',')].join(',');
     let iteration = iterationsMap.get(stringifiedTuple) || 0;
     const rngNumber = rngAlgorithm(seed, epoch, coordinates, iteration);
@@ -27,7 +28,7 @@ export const rng = (seed: World['seed'], epoch: World['epoch'], coordinates: Til
  * Generates random number based on world seed, world epoch, tile coordinates and iteration on that tile.
  * @returns number between 0 and 1.
  */
-const rngAlgorithm = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile['coordinates'], iteration = 0) => {
+const rngAlgorithm = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile<WorldGeometry>['coordinates'], iteration = 0) => {
     const seedMix = abs(cos(seed));
     const epochMix = abs(sin(epoch));
     const coordinatesMix = abs(cos(Number(coordinates.join('17'))));

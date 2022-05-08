@@ -1,4 +1,5 @@
 import {TileConfig} from './tile-config.model';
+import {WorldGeometry} from '../constants/world-geometry.model';
 
 /**
  * Config that is used by World Compilator to create world or next iteration of world.
@@ -15,5 +16,5 @@ export interface WorldConfig {
     /**
      * World tile geometry.
      */
-    // worldGeometry: 'squares' | 'hexagons' | 'triangles' | ...
+    geometry: WorldGeometry;
 }
