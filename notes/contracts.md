@@ -1,47 +1,93 @@
-# Contracts between application modules written in TypeScript.
+# Contracts between application modules
+Contracts are written in TypeScript.
 
-Конфиг тайла-соседа
-------
-```
+World contracts
+=====
+```typescript
 /**
- * Single neighbor constraint description.
- * That model describes exact tile to neighbor tiles relation, not to single neighbor tile.
+ * Config that is used by World Compilator to create world or next iteration of world.
  */
-interface NeighborConstraint {
+export interface WorldConfig {
     /**
-     * Tile ID that has neighbors; e.g. "land-grass"
+     * Unique world ID; e.g. "land-world", "cloud-world".
      */
-    id: TileConfig['id'];
+    id: string;
     /**
-     * Reference to tile by ID; e.g. "castle-lvl1"
+     * List of available tiles in the world.
      */
-    neighborId: TileConfig['id'];
+    tiles: Array<TileConfig>;
     /**
-     * Minimum amount of neighbor tiles.
+     * World tile geometry.
      */
-    minAmount?: number;
-    /**
-     * Maximum amount of neighbor tiles.
-     */
-    maxAmount?: number;
-    /**
-     * Minimum distance to a neighbor tiles.
-     */
-    minimumDistance?: number;
-    /**
-     * Maximum distance to a neighbor tiles.
-     */
-    maximumDistance?: number;
+    geometry: WorldGeometry;
 }
 ```
 
-Конфиг конкретного тайла
------
+```typescript
+/**
+ * Actual world.
+ */
+export interface World<Geometry extends WorldGeometry = WorldGeometry.UNKNOWN> {
+    /**
+     * Config world is based on.
+     */
+    configId: WorldConfig['id'];
+    /**
+     * Unique seed. Used for random generation.
+     */
+    seed: number;
+    /**
+     * World iterations number.
+     */
+    epoch: number;
+    /**
+     * World geometry. Geometry stands for tile shape. Display format is dependent on geometry.
+     */
+    geometry: Geometry;
+    /**
+     * World dimensions.
+     * Starting point is [0, 0, ...], then dimensions can be represented as point with maximum values for every dimension.
+     */
+    dimensions: Tile<Geometry>['coordinates'];
+    /**
+     * World tiles.
+     */
+    tiles: Map<TileHash, Tile<Geometry>>;
+}
 ```
+
+```typescript
+/**
+ * List of supported world geometries. "Geometry" stands for tile shape.
+ */
+export enum WorldGeometry {
+    HEXAGONAL = 'HEXAGONAL',
+    TETRAGONAL = 'TETRAGONAL',
+    /**
+     * When things are really messed up.
+     */
+    UNKNOWN = 'UNKNOWN',
+}
+```
+
+```typescript
+/**
+ * Relation of WorldGeometry to its dimensions (set of coordinates)
+ */
+export interface GeometryDimensions {
+    [WorldGeometry.HEXAGONAL]: [number, number, number]
+    [WorldGeometry.TETRAGONAL]: [number, number]
+    [WorldGeometry.UNKNOWN]: []
+}
+```
+
+Tile contracts
+=====
+```typescript
 /**
  * Single tile config.
  */
-interface TileConfig {
+export interface TileConfig {
     /**
      * Unique tile ID; e.g. "castle-lvl1"
      */
@@ -82,31 +128,44 @@ interface TileConfig {
 }
 ```
 
-Конфиг Мира
--------
-```
+```typescript
 /**
- * Config that is used by World Compilator to create world or next iteration of world.
+ * Single neighbor constraint description.
+ * That model describes exact tile to neighbor tiles relation, not to single neighbor tile.
  */
-interface WorldConfig {
+export interface NeighborConstraint {
     /**
-     * Unique world ID; e.g. "land-world", "cloud-world".
+     * Tile ID that has neighbors; e.g. "land-grass"
      */
-    id: string;
+    id: TileConfig['id'];
     /**
-     * List of available tiles in the world.
+     * Reference to tile by ID; e.g. "castle-lvl1"
      */
-    tiles: Set<TileConfig>;
+    neighborId: TileConfig['id'];
+    /**
+     * Minimum amount of neighbor tiles.
+     */
+    minAmount?: number;
+    /**
+     * Maximum amount of neighbor tiles.
+     */
+    maxAmount?: number;
+    /**
+     * Minimum distance to a neighbor tiles.
+     */
+    minimumDistance?: number;
+    /**
+     * Maximum distance to a neighbor tiles.
+     */
+    maximumDistance?: number;
 }
 ```
 
-Конкретный тайл в мире
---------
-```
+```typescript
 /**
  * Actual tile in world.
  */
-interface Tile {
+export interface Tile<Geometry extends WorldGeometry = WorldGeometry.UNKNOWN> {
     /**
      * Unique tile ID.
      */
@@ -114,52 +173,33 @@ interface Tile {
     /**
      * Representation or variant of representation.
      */
-    representation: TileConfig['representation'] | TileConfig['representation'][number]
+    representation: TileConfig['representation'][number]
     /**
-     * Tuple of X and Y coordinates.
+     * Tuple of tile coordinates.
+     * Dependent on WorldGeometry.
      */
-    coordinates: [number, number];
+    coordinates: GeometryDimensions[Geometry]
     /**
-     * Actual chance to mutate based on neighbor mutationMagnitude and base changeToMutate.
+     * Actual chance to mutate based on neighbor mutationMagnitude and base chanceToMutate.
      */
     chanceToMutate: number;
 }
 ```
 
-Конкретный мир
--------
-```
+```typescript
 /**
- * Actual world.
+ * World Tile hash for accessing tile in World['tiles'].
+ * Hash is string concat of coordinates. E.g. tile with coordinates === [1, 22, 333] has hash equal to "1,22,333"
  */
-interface World {
-    /**
-     * Config world is based on.
-     */
-    configId: WorldConfig['id'];
-    /**
-     * Unique world seed. Used for random generation.
-     */
-    seed: number;
-    /**
-     * World number of iteration. Worlds should start with 0 as starting point.
-     */
-    epoch: number;
-    /**
-     * X and Y dimensions of world.
-     * Note: would be changed when "chanks" would be implemented;
-     */
-    dimensions: [number, number];
-    /**
-     * World tiles.
-     */
-    tiles: Array<Tile>;
-}
+export type TileHash = string;
 ```
 
+Misc
+=====
+
 Сигнатура итератора/генератора мира
------------
-```
+-----
+```typescript
 /**
  * Generates next world iteration based on worldConfig.
  * If world is not specified, should create first world iteration based on it's seed. World epoch would be 0.
@@ -171,8 +211,8 @@ type iterateWorld = (worldConfig: WorldConfig, world?: World) => World
 ```
 
 Сигнатура функции генерации псевдо-случайного числа
------------
-```
+-----
+```typescript
 /**
  * Generates random number based on world seed, world epoch, tile coordinates and iteration on that tile.
  * @returns number between 0 and 1.
