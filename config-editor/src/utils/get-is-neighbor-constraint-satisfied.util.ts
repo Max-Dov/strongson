@@ -3,11 +3,16 @@ import {Tile} from '../models/tile.model';
 import {World} from '../models/world.model';
 import {getNeighbors} from './neighbors-extraction/get-neighbors.util';
 import {filterTiles} from './neighbors-extraction/filter-neighbors.util';
+import {WorldGeometry} from '../constants/world-geometry.model';
 
 /**
  * Returns true if neighbor constraint passes check against coordinate.
  */
-export const getIsNeighborConstraintSatisfied = (constraint: NeighborConstraint, coordinates: Tile['coordinates'], world: World) => {
+export const getIsNeighborConstraintSatisfied = <Geometry extends WorldGeometry>(
+    constraint: NeighborConstraint,
+    coordinates: Tile<Geometry>['coordinates'],
+    world: World<Geometry>,
+): boolean => {
     const {neighborId, minAmount, maxAmount, minimumDistance, maximumDistance} = constraint;
     if (!minimumDistance && !maximumDistance) return false; // should not happen, but theoretically possible.
     if (!minAmount && !maxAmount) return false; // should not happen, but theoretically possible.
@@ -26,5 +31,5 @@ export const getIsNeighborConstraintSatisfied = (constraint: NeighborConstraint,
     const neighborsAmount = configNeighbors.size;
     // reversed fail conditions; if any of them succeed, returns false
     return !(maxAmount && neighborsAmount <= maxAmount
-        || minAmount && neighborsAmount < minAmount)
-}
+        || minAmount && neighborsAmount < minAmount);
+};

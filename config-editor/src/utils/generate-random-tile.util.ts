@@ -7,11 +7,11 @@ import {WorldGeometry} from '../constants/world-geometry.model';
 /**
  * Generates random tile based on available TileConfigs. World parameters and tile coordinates are defining random config.
  */
-export const generateRandomTile = (
+export const generateRandomTile = <Geometry extends WorldGeometry>(
     availableTileConfigs: TileConfig[],
-    world: World<WorldGeometry>,
-    coordinates: Tile<WorldGeometry>['coordinates']
-): Tile<WorldGeometry> => {
+    world: World<Geometry>,
+    coordinates: Tile<Geometry>['coordinates']
+): Tile<Geometry> => {
     /**
      * Figure out TileConfig.
      */
