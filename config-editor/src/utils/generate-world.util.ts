@@ -4,9 +4,8 @@ import {Tile} from '../models/tile.model';
 import {rng} from './rng.util';
 import {TileConfig} from '../models/tile-config.model';
 import {getTileHash} from './get-tile-hash.util';
-import {getNeighbors} from './neighbors-extraction/get-neighbors.util';
-import {filterTiles} from './neighbors-extraction/filter-neighbors.util';
 import {WorldGeometry} from '../constants/world-geometry.model';
+import {getIsTileConfigAllowed} from './get-is-tile-config-allowed.util';
 
 /**
  * Generates World. Expected use case is preview of possible world for given world config.
@@ -77,38 +76,13 @@ const getStartingTile = (
 /**
  * For given coordinates, create random tile.
  */
-const iterateCoordinates = (coordinates: Tile['coordinates'], world: World, configTiles: WorldConfig['tiles']) => {
+const iterateCoordinates = (coordinates: Tile['coordinates'], world: World, configTiles: WorldConfig['tiles']): Tile => {
     /**
      * To figure out what tile can exist on given coordinate, list of available TileConfigs should be obtained.
      * Expect that all TileConfigs are available, then for every config check its neighbor constraints.
      * If any constraint fails - tile should be excluded from available TileConfigs.
      */
-    const availableTileConfigs = [...configTiles.values()].filter(tileConfig => {
-        /**
-         * Check if some constraint fails.
-         * Tile config would pass check if there are no failed constraints.
-         */
-        return !tileConfig.neighbors.some(constraint => {
-            const {neighborId, minAmount, maxAmount, minimumDistance, maximumDistance} = constraint;
-            if (!minimumDistance && !maximumDistance) return true; // should not happen, but theoretically possible.
-            if (!minAmount && !maxAmount) return true; // should not happen, but theoretically possible.
-            /**
-             * First, check if there are neighbors closer than allowed.
-             */
-            if (minimumDistance) {
-                const allNeighbors = getNeighbors(coordinates, world, minimumDistance);
-                const configNeighbors = filterTiles(allNeighbors, neighborId);
-                if (configNeighbors.size > 0) {
-                    return true;
-                }
-            }
-            const allNeighbors = getNeighbors(coordinates, world, maximumDistance, minimumDistance);
-            const configNeighbors = filterTiles(allNeighbors, neighborId);
-            const neighborsAmount = configNeighbors.size;
-            return maxAmount && neighborsAmount > maxAmount
-                || minAmount && neighborsAmount < minAmount;
-        });
-    });
-    // ... to be continued
+    const availableTileConfigs = [...configTiles.values()].filter(tileConfig => getIsTileConfigAllowed(tileConfig, coordinates, world));
+
     // figure out tile based on config tiles weight
 };
