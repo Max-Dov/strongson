@@ -4,7 +4,6 @@ import {Tile} from '../models/tile.model';
 import {TileConfig} from '../models/tile-config.model';
 import {getTileHash} from './get-tile-hash.util';
 import {WorldGeometry} from '../constants/world-geometry.model';
-import {getIsTileConfigAllowed} from './get-is-tile-config-allowed.util';
 import {generateRandomTile} from './generate-random-tile.util';
 
 /**
@@ -45,10 +44,10 @@ export const generateWorld = <Geometry extends WorldGeometry = WorldGeometry.UNK
         for (let x = 0; x < maxX; x++)
             for (let y = 0; y < maxY; y++)
                 for (let z = 0; z < maxZ; z++) {
-                    const newTile = iterateCoordinates<WorldGeometry.HEXAGONAL>(
-                        [x, y, z],
-                        world as World<WorldGeometry.HEXAGONAL>,
+                    const newTile = generateRandomTile<WorldGeometry.HEXAGONAL>(
                         config.tiles,
+                        world as World<WorldGeometry.HEXAGONAL>,
+                        [x, y, z],
                     );
                     worldTiles.set(getTileHash(newTile.coordinates), newTile as Tile<Geometry>)
                 }
@@ -67,24 +66,4 @@ export const generateStartingTile = (
         default:
             return generateRandomTile(availableTileConfigs, world, []); // idk what that even would be
     }
-};
-
-/**
- * For given coordinates, create random tile.
- * @param coordinates - new tile coordinates; used in rng
- * @param world - world with all tiles; used for figuring out what tile can exist there; used in rng
- * @param configTiles - tiles configs for that world.
- */
-const iterateCoordinates = <Geometry extends WorldGeometry>(
-    coordinates: Tile<Geometry>['coordinates'],
-    world: World<Geometry>,
-    configTiles: WorldConfig['tiles'],
-): Tile<Geometry> => {
-    /**
-     * To figure out what tile can exist on given coordinate, list of available TileConfigs should be obtained.
-     * Expect that all TileConfigs are available, then for every config check its neighbor constraints.
-     * If any constraint fails - tile should be excluded from available TileConfigs.
-     */
-    const availableTileConfigs = [...configTiles.values()].filter(tileConfig => getIsTileConfigAllowed(tileConfig, coordinates, world));
-    return generateRandomTile(availableTileConfigs, world, coordinates) as Tile<Geometry>;
 };

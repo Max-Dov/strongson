@@ -3,15 +3,25 @@ import {TileConfig} from '../models/tile-config.model';
 import {World} from '../models/world.model';
 import {rngNumber} from './rng.util';
 import {WorldGeometry} from '../constants/world-geometry.model';
+import {getIsTileConfigAllowed} from './get-is-tile-config-allowed.util';
 
 /**
- * Generates random tile based on available TileConfigs. World parameters and tile coordinates are defining random config.
+ * For given coordinates, create random tile.
+ * @param tilesConfigs - tiles configs for that world.
+ * @param world - world with all tiles; used for figuring out what tile can exist there; used in rng
+ * @param coordinates - new tile coordinates; used in rng
  */
 export const generateRandomTile = <Geometry extends WorldGeometry>(
-    availableTileConfigs: TileConfig[],
+    tilesConfigs: TileConfig[],
     world: World<Geometry>,
     coordinates: Tile<Geometry>['coordinates']
 ): Tile<Geometry> => {
+    /**
+     * To figure out what tile can exist on given coordinate, list of available TileConfigs should be obtained.
+     * Expect that all TileConfigs are available, then for every config check its neighbor constraints.
+     * If any constraint fails - tile should be excluded from available TileConfigs.
+     */
+    const availableTileConfigs = [...tilesConfigs.values()].filter(tileConfig => getIsTileConfigAllowed(tileConfig, coordinates, world));
     /**
      * Figure out TileConfig.
      */
