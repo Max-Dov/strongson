@@ -24,6 +24,13 @@ export const rng = (seed: World['seed'], epoch: World['epoch'], coordinates: Til
 };
 
 /**
+ * Generates random integer based on world seed, world epoch and tile coordinates.
+ * @returns random integer less than @param multiplier.
+ */
+export const rngNumber = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile<WorldGeometry>['coordinates'], multiplier: number) =>
+    Math.trunc(multiplier * rng(seed, epoch, coordinates))
+
+/**
  * Random Number Generator - RNG v0.1
  * Generates random number based on world seed, world epoch, tile coordinates and iteration on that tile.
  * @returns number between 0 and 1.
