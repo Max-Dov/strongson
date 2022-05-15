@@ -1,10 +1,12 @@
 import {WorldConfig} from '../models/world-config.model';
 import {World} from '../models/world.model';
 import {Tile} from '../models/tile.model';
+import {rng} from './rng.util';
 import {TileConfig} from '../models/tile-config.model';
 import {getTileHash} from './get-tile-hash.util';
+import {getNeighbors} from './neighbors-extraction/get-neighbors.util';
+import {filterTiles} from './neighbors-extraction/filter-neighbors.util';
 import {WorldGeometry} from '../constants/world-geometry.model';
-import {generateRandomTile} from './generate-random-tile.util';
 
 /**
  * Generates World. Expected use case is preview of possible world for given world config.
@@ -14,16 +16,16 @@ export const generateWorld = <Geometry extends WorldGeometry = WorldGeometry.UNK
     seed: World<Geometry>['seed'],
     epoch: World<Geometry>['epoch'],
     dimensions: World<Geometry>['dimensions'],
-): World<Geometry> => {
+): World<WorldGeometry> => {
     const worldTiles: World<Geometry>['tiles'] = new Map();
     const availableTiles = config.tiles;
-    const world: World<Geometry> = {
+    const world: World<WorldGeometry> = {
         configId: config.id,
         seed,
         epoch,
         dimensions,
         tiles: worldTiles,
-        geometry: config.geometry as Geometry,
+        geometry: config.geometry
     };
 
     if (config.geometry === WorldGeometry.UNKNOWN) { // should not happen, but theoretically can.
@@ -33,37 +35,80 @@ export const generateWorld = <Geometry extends WorldGeometry = WorldGeometry.UNK
     /**
      * Create starting tile.
      */
-    const startingTile = generateStartingTile(availableTiles, world);
+    const startingTile = getStartingTile(availableTiles, seed, epoch);
     worldTiles.set(getTileHash(startingTile.coordinates), startingTile as Tile<Geometry>);
 
     /**
      * Iterate through every dimension and create tile for every coordinate.
      */
-    if (world.geometry === WorldGeometry.HEXAGONAL) {
-        const [maxX, maxY, maxZ] = world.dimensions as World<WorldGeometry.HEXAGONAL>['dimensions'];
-        for (let x = 0; x < maxX; x++)
-            for (let y = 0; y < maxY; y++)
-                for (let z = 0; z < maxZ; z++) {
-                    const newTile = generateRandomTile<WorldGeometry.HEXAGONAL>(
-                        config.tiles,
-                        world as World<WorldGeometry.HEXAGONAL>,
-                        [x, y, z],
-                    );
-                    worldTiles.set(getTileHash(newTile.coordinates), newTile as Tile<Geometry>)
-                }
-    }
+    // to be continued
 
     return world;
 };
 
-export const generateStartingTile = (
+const getStartingTile = (
     availableTileConfigs: TileConfig[],
-    world: World<WorldGeometry>,
+    seed: World['seed'],
+    epoch: World['epoch'],
 ): Tile<WorldGeometry> => {
-    switch (world.geometry) {
-        case WorldGeometry.HEXAGONAL:
-            return generateRandomTile(availableTileConfigs, world, [0, 0, 0]);
-        default:
-            return generateRandomTile(availableTileConfigs, world, []); // idk what that even would be
+    const coordinates: Tile<WorldGeometry.HEXAGONAL>['coordinates'] = [0, 0, 0];
+    /**
+     * Figure out TileConfig.
+     */
+    const tileNumberRng = rng(seed, epoch, coordinates);
+    const tileConfig = availableTileConfigs[Math.trunc(tileNumberRng * availableTileConfigs.length + 1)];
+    /**
+     * Figure out tile representation.
+     */
+    const availableRepresentation = tileConfig.representation;
+    let representation = availableRepresentation as string;
+    if (Array.isArray(availableRepresentation)) {
+        const tileRepresentationRng = rng(seed, epoch, coordinates);
+        representation = availableRepresentation[Math.trunc(tileRepresentationRng * availableRepresentation.length)];
     }
+    return {
+        id: tileConfig.id,
+        representation,
+        coordinates,
+        chanceToMutate: tileConfig.chanceToMutate,
+    };
+};
+
+/**
+ * For given coordinates, create random tile.
+ */
+const iterateCoordinates = (coordinates: Tile['coordinates'], world: World, configTiles: WorldConfig['tiles']) => {
+    /**
+     * To figure out what tile can exist on given coordinate, list of available TileConfigs should be obtained.
+     * Expect that all TileConfigs are available, then for every config check its neighbor constraints.
+     * If any constraint fails - tile should be excluded from available TileConfigs.
+     */
+    const availableTileConfigs = [...configTiles.values()].filter(tileConfig => {
+        /**
+         * Check if some constraint fails.
+         * Tile config would pass check if there are no failed constraints.
+         */
+        return !tileConfig.neighbors.some(constraint => {
+            const {neighborId, minAmount, maxAmount, minimumDistance, maximumDistance} = constraint;
+            if (!minimumDistance && !maximumDistance) return true; // should not happen, but theoretically possible.
+            if (!minAmount && !maxAmount) return true; // should not happen, but theoretically possible.
+            /**
+             * First, check if there are neighbors closer than allowed.
+             */
+            if (minimumDistance) {
+                const allNeighbors = getNeighbors(coordinates, world, minimumDistance);
+                const configNeighbors = filterTiles(allNeighbors, neighborId);
+                if (configNeighbors.size > 0) {
+                    return true;
+                }
+            }
+            const allNeighbors = getNeighbors(coordinates, world, maximumDistance, minimumDistance);
+            const configNeighbors = filterTiles(allNeighbors, neighborId);
+            const neighborsAmount = configNeighbors.size;
+            return maxAmount && neighborsAmount > maxAmount
+                || minAmount && neighborsAmount < minAmount;
+        });
+    });
+    // ... to be continued
+    // figure out tile based on config tiles weight
 };

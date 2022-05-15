@@ -1,0 +1,4 @@
+.contact-form input[type=checkbox]:not(:first-of-type),
+.contact-form input[type=radio]:not(:first-of-type) {
+    margin-left: 1rem;
+}
