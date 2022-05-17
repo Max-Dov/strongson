@@ -1,6 +1,6 @@
 import React from 'react';
-import { WorldGeometry } from '../../../../constants/world-geometry.model';
-import { WorldConfig } from '../../../../models/world-config.model';
+import { WorldGeometry } from '../../../../../constants/world-geometry.model';
+import { WorldConfig } from '../../../../../models/world-config.model';
 import './geometry-config.styles.scss';
 
 const GeometryConfigComponent = (props: {

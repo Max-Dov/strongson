@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import './config-page.styles.scss';
-import GeometryConfigComponent from '../WorldGeometryConfigEditor/geometry-config.component'
-import IdConfigComponent from '../WorldIdConfigEditor/id-config.component';
-import ResultConfigComponent from '../config-results/results-config.component';
+import GeometryConfigComponent from './WorldGeometryInput/world-geometry-input.component'
+import IdConfigComponent from './WorldIdInput/world-id-input.component';
+import ResultConfigComponent from '../WorldConfigResults/world-config-results.component';
 import { WorldConfig } from '../../../../models/world-config.model';
+import { TileConfig } from '../../../../models/tile-config.model';
+import TileNameConfigComponent from './TilesEditor/TilesNameInput/tiles-name-input';
 
 const ConfigPage = () => {
 
 
     const [worldConfig, setWorldConfig] = useState<Partial<WorldConfig>>({});
+    const [tileConfig, setTileConfig] = useState<Partial<TileConfig>>({});
+
 
 
     return (
@@ -16,6 +20,7 @@ const ConfigPage = () => {
             <IdConfigComponent worldConfig={worldConfig} setWorldConfig={setWorldConfig} />
             <GeometryConfigComponent worldConfig={worldConfig} setWorldConfig={setWorldConfig} />
             <ResultConfigComponent worldConfig={worldConfig}></ResultConfigComponent>
+            <TileNameConfigComponent tileConfig={tileConfig} setTileConfig={setTileConfig} ></TileNameConfigComponent>
         </section>
     )
 

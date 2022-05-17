@@ -1,5 +1,5 @@
 import React from 'react';
-import { WorldConfig } from '../../../../models/world-config.model';
+import { WorldConfig } from '../../../../../models/world-config.model';
 import './id-config.styles.scss';
 
 const IdConfigComponent = (props: {
