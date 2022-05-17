@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './config-page.styles.scss';
-import GeometryConfigComponent from '../config-geometry/geometry-config.component'
-import IdConfigComponent from '../config-id/id-config.component';
+import GeometryConfigComponent from '../WorldGeometryConfigEditor/geometry-config.component'
+import IdConfigComponent from '../WorldIdConfigEditor/id-config.component';
 import ResultConfigComponent from '../config-results/results-config.component';
 import { WorldConfig } from '../../../../models/world-config.model';
 
