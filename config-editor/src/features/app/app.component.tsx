@@ -1,6 +1,6 @@
 import React from 'react';
 import './app.styles.scss';
-import ConfigPage from './config-editor-components/config-page/config-page'
+import ConfigPage from './config-editor-components/WorldConfigEditor/worldConfigEditor'
 
 
 export const App = () => (
