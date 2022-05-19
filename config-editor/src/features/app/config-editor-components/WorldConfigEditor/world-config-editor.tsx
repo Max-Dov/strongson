@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './config-page.styles.scss';
+// import './config-page.styles.scss';
 import GeometryConfigComponent from './WorldGeometryInput/world-geometry-input.component'
 import IdConfigComponent from './WorldIdInput/world-id-input.component';
 import ResultConfigComponent from '../WorldConfigResults/world-config-results.component';
@@ -19,8 +19,8 @@ const ConfigPage = () => {
         <section className="contact-form">
             <IdConfigComponent worldConfig={worldConfig} setWorldConfig={setWorldConfig} />
             <GeometryConfigComponent worldConfig={worldConfig} setWorldConfig={setWorldConfig} />
-            <ResultConfigComponent worldConfig={worldConfig}></ResultConfigComponent>
             <TileNameConfigComponent tileConfig={tileConfig} setTileConfig={setTileConfig} ></TileNameConfigComponent>
+            <ResultConfigComponent worldConfig={worldConfig} tileConfig={tileConfig} ></ResultConfigComponent>
         </section>
     )
 

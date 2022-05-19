@@ -1,6 +1,6 @@
 import React from 'react';
 import { WorldConfig } from '../../../../../models/world-config.model';
-import './id-config.styles.scss';
+// import './id-config.styles.scss';
 
 const IdConfigComponent = (props: {
     worldConfig: Partial<WorldConfig>
