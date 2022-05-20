@@ -6,9 +6,9 @@ const TileNeighborIdConfigComponent = (props: {
     setTileNeighborConfig: (tileNeighborConfig: Partial<NeighborConstraint>) => void;
 }) => {
 
-    const onChangeNeighborId = (newTileConfigNeighborId: NeighborConstraint['id']) => {
+    const onChangeNeighborId = (newTileConfigNeighborId: NeighborConstraint['neighborId']) => {
         const newTileNeighborConfig = { ...props.tileNeighborConfig }
-        newTileNeighborConfig.id = newTileConfigNeighborId
+        newTileNeighborConfig.neighborId = newTileConfigNeighborId
         props.setTileNeighborConfig(newTileNeighborConfig)
 
     }
