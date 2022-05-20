@@ -6,7 +6,7 @@ const TileChanceToMutateConfigComponent = (props: {
     setTileConfig: (tileConfig: Partial<TileConfig>) => void;
 }) => {
 
-    const onChangeId = (newTileConfigChanceToMutate: TileConfig['chanceToMutate']) => {
+    const onChangechanceToMutate = (newTileConfigChanceToMutate: TileConfig['chanceToMutate']) => {
         const newTileConfig = { ...props.tileConfig }
         newTileConfig.chanceToMutate = newTileConfigChanceToMutate
         props.setTileConfig(newTileConfig)
@@ -16,12 +16,12 @@ const TileChanceToMutateConfigComponent = (props: {
     return (
         <div>
             <h2>
-                Tile  chanceToMutate
+                Tile  chance To Mutate
             </h2>
             <input
-                type="text"
+                type="number"
                 value={props.tileConfig.chanceToMutate}
-                onChange={(e) => onChangeId(e.target.valueAsNumber)}
+                onChange={(e) => onChangechanceToMutate(e.target.valueAsNumber)}
             />
         </div>
     )

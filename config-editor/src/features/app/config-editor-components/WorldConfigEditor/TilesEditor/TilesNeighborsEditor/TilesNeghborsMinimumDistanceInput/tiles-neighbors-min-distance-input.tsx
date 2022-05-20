@@ -19,8 +19,8 @@ const TileNeighborMinimumDistanceConfigComponent = (props: {
                 Neighbor Tile min Distance
             </h2>
             <input
-                type="text"
-                value={props.tileNeighborConfig.id}
+                type="number"
+                value={props.tileNeighborConfig.minimumDistance}
                 onChange={(e) => onChangeNeighborMinimumDistance(e.target.valueAsNumber)}
             />
         </div>

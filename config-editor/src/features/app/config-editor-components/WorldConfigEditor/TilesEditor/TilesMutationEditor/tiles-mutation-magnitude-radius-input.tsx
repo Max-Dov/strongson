@@ -19,8 +19,8 @@ const TileMutationMagnitudeRadiusConfigComponent = (props: {
                 Tile  mutation Magnitude Radius
             </h2>
             <input
-                type="text"
-                value={props.tileConfig.chanceToMutate}
+                type="number"
+                value={props.tileConfig.mutationMagnitudeRadius}
                 onChange={(e) => onChangeId(e.target.valueAsNumber)}
             />
         </div>

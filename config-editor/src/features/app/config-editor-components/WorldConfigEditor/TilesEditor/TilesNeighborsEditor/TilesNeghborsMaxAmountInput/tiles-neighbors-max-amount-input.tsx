@@ -8,7 +8,7 @@ const TileNeighborMaxAmountConfigComponent = (props: {
 
     const onChangeNeighborMaxAmount = (newTileConfigNeighborMaxAmount: NeighborConstraint['maxAmount']) => {
         const newTileNeighborMaxAmountConfig = { ...props.tileNeighborConfig }
-        newTileNeighborMaxAmountConfig.minAmount = newTileConfigNeighborMaxAmount
+        newTileNeighborMaxAmountConfig.maxAmount = newTileConfigNeighborMaxAmount
         props.setTileNeighborConfig(newTileNeighborMaxAmountConfig)
 
     }
@@ -19,8 +19,8 @@ const TileNeighborMaxAmountConfigComponent = (props: {
                 Neighbor Tile max Amount
             </h2>
             <input
-                type="text"
-                value={props.tileNeighborConfig.id}
+                type="number"
+                value={props.tileNeighborConfig.maxAmount}
                 onChange={(e) => onChangeNeighborMaxAmount(e.target.valueAsNumber)}
             />
         </div>

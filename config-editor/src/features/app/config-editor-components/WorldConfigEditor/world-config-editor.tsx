@@ -6,6 +6,7 @@ import ResultConfigComponent from '../WorldConfigResults/world-config-results.co
 import { WorldConfig } from '../../../../models/world-config.model';
 import { TileConfig } from '../../../../models/tile-config.model';
 import TileNameConfigComponent from './TilesEditor/TilesNameInput/tiles-name-input';
+import TileConfigPage from './TilesEditor/tiles-config-editor';
 
 const ConfigPage = () => {
 
@@ -15,11 +16,12 @@ const ConfigPage = () => {
 
 
 
+
     return (
         <section className="contact-form">
             <IdConfigComponent worldConfig={worldConfig} setWorldConfig={setWorldConfig} />
             <GeometryConfigComponent worldConfig={worldConfig} setWorldConfig={setWorldConfig} />
-            <TileNameConfigComponent tileConfig={tileConfig} setTileConfig={setTileConfig} ></TileNameConfigComponent>
+            <TileConfigPage />
             <ResultConfigComponent worldConfig={worldConfig} tileConfig={tileConfig} ></ResultConfigComponent>
         </section>
     )

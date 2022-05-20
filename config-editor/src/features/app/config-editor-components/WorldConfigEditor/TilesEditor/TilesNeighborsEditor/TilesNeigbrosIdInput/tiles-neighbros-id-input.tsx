@@ -20,7 +20,7 @@ const TileNeighborIdConfigComponent = (props: {
             </h2>
             <input
                 type="text"
-                value={props.tileNeighborConfig.id}
+                value={props.tileNeighborConfig.neighborId}
                 onChange={(e) => onChangeNeighborId(e.target.value)}
             />
         </div>

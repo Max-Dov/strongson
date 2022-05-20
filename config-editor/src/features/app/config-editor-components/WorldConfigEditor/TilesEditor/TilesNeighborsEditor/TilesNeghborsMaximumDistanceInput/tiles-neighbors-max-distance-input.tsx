@@ -8,7 +8,7 @@ const TileNeighborMaximumDistanceConfigComponent = (props: {
 
     const onChangeNeighborMaximumDistance = (newTileConfigNeighborMaximumDistance: NeighborConstraint['maximumDistance']) => {
         const newTileNeighborMaximumDistanceConfig = { ...props.tileNeighborConfig }
-        newTileNeighborMaximumDistanceConfig.minAmount = newTileConfigNeighborMaximumDistance
+        newTileNeighborMaximumDistanceConfig.maximumDistance = newTileConfigNeighborMaximumDistance
         props.setTileNeighborConfig(newTileNeighborMaximumDistanceConfig)
 
     }
@@ -19,8 +19,8 @@ const TileNeighborMaximumDistanceConfigComponent = (props: {
                 Neighbor Tile maximum Distance
             </h2>
             <input
-                type="text"
-                value={props.tileNeighborConfig.id}
+                type="number"
+                value={props.tileNeighborConfig.maximumDistance}
                 onChange={(e) => onChangeNeighborMaximumDistance(e.target.valueAsNumber)}
             />
         </div>

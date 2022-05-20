@@ -19,8 +19,8 @@ const TileMutationWeightConfigComponent = (props: {
                 Tile  mutation Weight
             </h2>
             <input
-                type="text"
-                value={props.tileConfig.chanceToMutate}
+                type="number"
+                value={props.tileConfig.mutationWeight}
                 onChange={(e) => onChangeId(e.target.valueAsNumber)}
             />
         </div>

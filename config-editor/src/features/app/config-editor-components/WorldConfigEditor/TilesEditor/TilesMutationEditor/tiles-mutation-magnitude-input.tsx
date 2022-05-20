@@ -6,7 +6,7 @@ const TileMutationMagnitudeConfigComponent = (props: {
     setTileConfig: (tileConfig: Partial<TileConfig>) => void;
 }) => {
 
-    const onChangeId = (newTileConfigMutationMagnitude: TileConfig['mutationMagnitude']) => {
+    const onChangeMutationMagnitude = (newTileConfigMutationMagnitude: TileConfig['mutationMagnitude']) => {
         const newTileConfig = { ...props.tileConfig }
         newTileConfig.mutationMagnitude = newTileConfigMutationMagnitude
         props.setTileConfig(newTileConfig)
@@ -19,9 +19,9 @@ const TileMutationMagnitudeConfigComponent = (props: {
                 Tile   mutation Magnitude
             </h2>
             <input
-                type="text"
-                value={props.tileConfig.chanceToMutate}
-                onChange={(e) => onChangeId(e.target.valueAsNumber)}
+                type="number"
+                value={props.tileConfig.mutationMagnitude}
+                onChange={(e) => onChangeMutationMagnitude(e.target.valueAsNumber)}
             />
         </div>
     )

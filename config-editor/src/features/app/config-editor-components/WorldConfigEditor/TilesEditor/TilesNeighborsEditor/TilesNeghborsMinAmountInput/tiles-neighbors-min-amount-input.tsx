@@ -19,8 +19,8 @@ const TileNeighborMinAmountConfigComponent = (props: {
                 Neighbor Tile min Amount
             </h2>
             <input
-                type="text"
-                value={props.tileNeighborConfig.id}
+                type="number"
+                value={props.tileNeighborConfig.minAmount}
                 onChange={(e) => onChangeNeighborMinAmount(e.target.valueAsNumber)}
             />
         </div>
