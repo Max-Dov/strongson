@@ -12,10 +12,12 @@ import TileNeighborSelfIdConfigComponent from './TilesNeighborsSelfIdInput/tiles
 
 
 
-const TileNeighborConstraintEditor = () => {
-
-    const [tileNeighborConfig, setTileNeighborConfig] = useState<Partial<NeighborConstraint>>({});
-
+const TileNeighborConstraintEditor = (
+    { tileNeighborConfig, setTileNeighborConfig }: {
+        tileNeighborConfig: Partial<NeighborConstraint>
+        setTileNeighborConfig: (setTileNeighborConfig: Partial<NeighborConstraint>) => void;
+    }
+) => {
 
 
     return (
