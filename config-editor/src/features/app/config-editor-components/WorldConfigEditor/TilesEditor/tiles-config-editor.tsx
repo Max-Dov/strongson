@@ -18,7 +18,7 @@ import { NeighborConstraint } from '../../../../../models/neighbor-constraint.mo
 const NeighborEditor = ({ neighbors = [], setNeighbors }: { neighbors: NeighborConstraint[], setNeighbors: any }) => {
     const updateNeighbors = (newNeighbor: any, index: number) => {
         const newNeighbors = [...neighbors];
-        newNeighbor[index] = newNeighbor;
+        newNeighbors[index] = newNeighbor;
         setNeighbors(newNeighbors);
     };
 
