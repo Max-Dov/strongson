@@ -23,6 +23,11 @@ export const JsonViewer = <ObjectToDisplay extends object>({
      */
     const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const newStringifiedObject = e.target.value;
+        if (newStringifiedObject === '') {
+            setIsObjectInvalid(false);
+            onObjectToDisplayUpdate({} as ObjectToDisplay);
+            return
+        }
         const parsedObject = parseJsonObject(newStringifiedObject);
         if (parsedObject) {
             setIsObjectInvalid(false);
