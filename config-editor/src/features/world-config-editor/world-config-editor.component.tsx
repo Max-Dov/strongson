@@ -1,7 +1,7 @@
 import {WorldConfig} from '../../models/world-config.model';
-import {Input} from '../../shared/input.component';
+import {Input} from '../../shared/input/input.component';
 import {Searchable} from '../searchable/searchable.component';
-import {ChangeEvent, createContext, useState} from 'react';
+import {createContext, useState} from 'react';
 import {WorldGeometry} from '../../constants/world-geometry.model';
 import {TilesEditor} from '../tiles-editor/tiles-editor.component';
 import {TileConfig} from '../../models/tile-config.model';
@@ -22,10 +22,10 @@ export const WorldConfigEditor = ({
 }: WorldConfigEditorProps) => {
     const [searchedString, setSearchedString] = useState<string>('');
 
-    const onConfigIdChange = (e: ChangeEvent<HTMLInputElement>): void => setWorldConfig({...worldConfig, id: e.target.value});
-    const onConfigGeometryChange = (e: ChangeEvent<HTMLInputElement>): void => setWorldConfig({
+    const onConfigIdChange = (id: string): void => setWorldConfig({...worldConfig, id});
+    const onConfigGeometryChange = (geometry: string): void => setWorldConfig({
         ...worldConfig,
-        geometry: e.target.value as WorldGeometry,
+        geometry: geometry as WorldGeometry,
     });
     const onConfigTilesChange = (newTiles: Array<Partial<TileConfig>>): void => {
         // TODO consider providing valid "deep partial" type for WorldConfig

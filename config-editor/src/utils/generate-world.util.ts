@@ -25,7 +25,7 @@ export const generateWorld = <Geometry extends WorldGeometry = WorldGeometry.UNK
         epoch,
         dimensions,
         tiles: worldTiles,
-        geometry: config.geometry
+        geometry: config.geometry,
     };
 
     if (config.geometry === WorldGeometry.UNKNOWN) { // should not happen, but theoretically can.
@@ -61,11 +61,8 @@ const getStartingTile = (
      * Figure out tile representation.
      */
     const availableRepresentation = tileConfig.representation;
-    let representation = availableRepresentation as string;
-    if (Array.isArray(availableRepresentation)) {
-        const tileRepresentationRng = rng(seed, epoch, coordinates);
-        representation = availableRepresentation[Math.trunc(tileRepresentationRng * availableRepresentation.length)];
-    }
+    const tileRepresentationRng = rng(seed, epoch, coordinates);
+    const representation = availableRepresentation[Math.trunc(tileRepresentationRng * availableRepresentation.length)];
     return {
         id: tileConfig.id,
         representation,

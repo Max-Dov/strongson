@@ -21,7 +21,7 @@ export interface TileConfig {
      * Can be picture address e.g. "land_grass_tile.png" or ID for picture from DB "land_grass_tile".
      * Or can be different variants, which are represented as array.
      */
-    representation: string | Array<string>;
+    representation: Array<string>;
     /**
      * Base chance to mutate into a neighbor. Dimension is %. E.g. "15" stands for "15%".
      */
