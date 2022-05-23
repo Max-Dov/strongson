@@ -36,6 +36,9 @@ interface RadioInputProps extends InputHTMLAttributes<HTMLInputElement> {
     radioOptions?: RadioOptions;
 }
 
+/**
+ * List of radio options for Input component.
+ */
 const RadioInput = ({radioOptions, value: inputValue, ...htmlInputProps}: RadioInputProps) =>
     <>{radioOptions?.map(({value, displayLabel}) =>
         <div key={value}>

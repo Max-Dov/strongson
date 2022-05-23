@@ -1,10 +1,7 @@
-import {HTMLAttributes, useEffect, useState} from 'react';
+import {HTMLAttributes, useContext, useEffect, useState} from 'react';
+import {SearchContext} from '../world-config-editor/world-config-editor.component';
 
 interface SearchProps extends HTMLAttributes<HTMLDivElement> {
-    /**
-     * String from search input.
-     */
-    searchedString: string;
     /**
      * List that contains items that are searched by.
      */
@@ -13,13 +10,14 @@ interface SearchProps extends HTMLAttributes<HTMLDivElement> {
 
 /**
  * Component displays children only if searched string is empty or is contained in searchable list.
+ * Searched string is extracted from WorldConfig SearchContext.
  */
 export const Searchable = ({
-    searchedString,
     searchList,
     children,
 }: SearchProps) => {
     const [lookupString, setLookupString] = useState<string>('');
+    const searchedString = useContext(SearchContext)
     const shouldDisplay = !searchedString || lookupString.includes(searchedString.toLowerCase());
 
     useEffect(() => {
