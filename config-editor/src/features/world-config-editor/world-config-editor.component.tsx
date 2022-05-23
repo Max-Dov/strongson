@@ -3,6 +3,8 @@ import {Input} from '../../shared/input.component';
 import {Searchable} from '../searchable/searchable.component';
 import {ChangeEvent, createContext, useState} from 'react';
 import {WorldGeometry} from '../../constants/world-geometry.model';
+import {TilesEditor} from '../tiles-editor/tiles-editor.component';
+import {TileConfig} from '../../models/tile-config.model';
 
 export const SearchContext = createContext('');
 
@@ -20,11 +22,15 @@ export const WorldConfigEditor = ({
 }: WorldConfigEditorProps) => {
     const [searchedString, setSearchedString] = useState<string>('');
 
-    const onConfigIdChange = (e: ChangeEvent<HTMLInputElement>) => setWorldConfig({...worldConfig, id: e.target.value});
-    const onConfigGeometryChange = (e: ChangeEvent<HTMLInputElement>) => setWorldConfig({
+    const onConfigIdChange = (e: ChangeEvent<HTMLInputElement>): void => setWorldConfig({...worldConfig, id: e.target.value});
+    const onConfigGeometryChange = (e: ChangeEvent<HTMLInputElement>): void => setWorldConfig({
         ...worldConfig,
         geometry: e.target.value as WorldGeometry,
     });
+    const onConfigTilesChange = (newTiles: Array<Partial<TileConfig>>): void => {
+        // TODO consider providing valid "deep partial" type for WorldConfig
+        setWorldConfig({...worldConfig, tiles: newTiles as WorldConfig['tiles']})
+    }
 
     return <section>
         <h2>
@@ -48,6 +54,10 @@ export const WorldConfigEditor = ({
                     onChange={onConfigGeometryChange}
                 />
             </Searchable>
+            <TilesEditor
+                tiles={worldConfig.tiles}
+                setTiles={onConfigTilesChange}
+            />
         </SearchContext.Provider>
     </section>;
 };
@@ -66,6 +76,6 @@ const SearchBar = ({
 }: SearchBarProps) => {
     return <div>
         <span>Search fields by name: </span>
-        <input value={searchString} onChange={(e) => setSearchString(e.target.value)}/>
+        <input value={searchString} onChange={(e) => setSearchString(e.target.value.replace(/ /g, ''))}/>
     </div>;
 };
