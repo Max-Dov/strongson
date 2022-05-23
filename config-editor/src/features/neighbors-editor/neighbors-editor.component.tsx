@@ -33,7 +33,16 @@ export const NeighborsEditor = ({
         }
     };
 
-    const renderNeighborConstraintEditor = (neighborConstraint: Partial<NeighborConstraint>, index: number): ReactNode =>
+    const onRemoveNeighbor = (index: number) => {
+        if (neighbors) {
+            const newNeighbors = [...neighbors];
+            newNeighbors.splice(index, 1);
+            setNeighbors(newNeighbors);
+        }
+    };
+
+    const renderNeighborConstraintEditor = (neighborConstraint: Partial<NeighborConstraint>, index: number): ReactNode => <>
+        <button onClick={() => onRemoveNeighbor(index)}>Remove Neighbor</button>
         <NeighborConstraintEditor
             neighborConstraint={neighborConstraint}
             setNeighborConstraint={newNeighborConstraint => {
@@ -45,7 +54,9 @@ export const NeighborsEditor = ({
                     setNeighbors([newNeighborConstraint]);
                 }
             }}
-        />;
+        />
+
+    </>;
 
     return <section>
         <h4>

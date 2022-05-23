@@ -21,6 +21,13 @@ export const TileConfigEditor = ({
         ...tileConfig,
         neighbors: neighbors as Array<NeighborConstraint>,
     });
+    const onNewId = (id: TileConfig['id']) => {
+        setTileConfig({
+            ...tileConfig,
+            id,
+            neighbors: tileConfig.neighbors?.map(neighbor => ({...neighbor, id})),
+        });
+    };
 
     return <section>
         <h4>
@@ -28,7 +35,7 @@ export const TileConfigEditor = ({
         </h4>
         <Searchable searchList={['tileconfig', 'id']}>
             <Input label="ID" value={tileConfig.id}
-                   onChange={id => setTileConfig({...tileConfig, id})}/>
+                   onChange={onNewId}/>
         </Searchable>
         <Searchable searchList={['tileconfig', 'displayName']}>
             <Input label="Display Name" value={tileConfig.displayName}

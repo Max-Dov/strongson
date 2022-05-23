@@ -30,16 +30,26 @@ export const TilesEditor = ({
         }
     };
 
-    const renderTileConfigEditor = (tileConfig: Partial<TileConfig>, index: number): ReactNode =>
+    const onRemoveTile = (index: number) => {
+        if (tiles) {
+            const newTiles = [...tiles];
+            newTiles.splice(index, 1);
+            setTiles(newTiles);
+        }
+    };
+
+    const renderTileConfigEditor = (tileConfig: Partial<TileConfig>, index: number): ReactNode => <>
+        <button onClick={() => onRemoveTile(index)}>Remove Tile</button>
         <TileConfigEditor tileConfig={tileConfig} setTileConfig={(newConfig) => {
             if (tiles) {
                 const newTiles = [...tiles];
                 newTiles[index] = newConfig;
                 setTiles(newTiles);
             } else {
-                setTiles([newConfig])
+                setTiles([newConfig]);
             }
-        }}/>;
+        }}/>
+    </>;
 
 
     return <section>

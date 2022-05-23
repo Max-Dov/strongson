@@ -17,7 +17,8 @@ export const NeighborConstraintEditor = ({
             {neighborId ? `Constraint to ${neighborId}` : 'New Neighbor Constraint'}
         </h5>
         <Searchable searchList={['neighborconstraint', 'id']}>
-            <Input label="ID" value={neighborConstraint.id} disabled={true}/>
+            <div>ID</div>
+            <div>{neighborConstraint.id}</div>
         </Searchable>
         <Searchable searchList={['neighborconstraint', 'neighborId']}>
             <Input label="Neighbor ID" value={neighborConstraint.neighborId}
