@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MediatR;
 
-using WorldIterator.Application.Handlers.WorldIteration.Dto;
-using WorldIterator.Application.Handlers.WorldIteration.Queries;
+using WorldProcessor.Application.Handlers.WorldIteration.Dto;
+using WorldProcessor.Application.Handlers.WorldIteration.Queries;
 
-namespace WorldIterator.WebApi.Controllers
+namespace WorldProcessor.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]

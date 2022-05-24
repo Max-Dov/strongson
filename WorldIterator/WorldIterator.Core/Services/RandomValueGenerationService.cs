@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using WorldIterator.Core.Interfaces;
-using WorldIterator.Core.Interfaces.Services;
+using WorldProcessor.Core.Interfaces;
+using WorldProcessor.Core.Interfaces.Services;
 
-namespace WorldIterator.Core.Services
+namespace WorldProcessor.Core.Services
 {
     public class RandomValueGenerationService : IRandomValueGenerationService
     {

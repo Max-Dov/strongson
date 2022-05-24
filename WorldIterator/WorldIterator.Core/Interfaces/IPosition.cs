@@ -1,4 +1,4 @@
-﻿namespace WorldIterator.Core.Interfaces
+﻿namespace WorldProcessor.Core.Interfaces
 {
     public interface IPosition : IEquatable<IPosition>, IStringHashable
     {
