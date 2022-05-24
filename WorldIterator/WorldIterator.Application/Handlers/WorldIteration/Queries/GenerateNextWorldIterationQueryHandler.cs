@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using AutoMapper;
 
-using WorldIterator.Core.Entities;
-using WorldIterator.Core.Interfaces.Services;
-using WorldIterator.Application.Handlers.WorldIteration.Dto;
+using WorldProcessor.Core.Entities;
+using WorldProcessor.Core.Interfaces.Services;
+using WorldProcessor.Application.Handlers.WorldIteration.Dto;
 
-namespace WorldIterator.Application.Handlers.WorldIteration.Queries
+namespace WorldProcessor.Application.Handlers.WorldIteration.Queries
 {
     public class GenerateNextWorldIterationQueryHandler 
         : IRequestHandler<GenerateNextWorldIterationQuery, WorldDto>

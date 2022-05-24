@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 
-using WorldIterator.Core.Entities;
-using WorldIterator.Core.Interfaces;
-using WorldIterator.Core.Interfaces.Services;
+using WorldProcessor.Core.Entities;
+using WorldProcessor.Core.Interfaces;
+using WorldProcessor.Core.Interfaces.Services;
 
-namespace WorldIterator.Core.Services
+namespace WorldProcessor.Core.Services
 {
     public class WorldIterationService : IWorldIterationService
     {

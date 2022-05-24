@@ -1,4 +1,4 @@
-﻿namespace WorldIterator.Core.Interfaces.Services
+﻿namespace WorldProcessor.Core.Interfaces.Services
 {
     public interface IRandomValueGenerationService
     {

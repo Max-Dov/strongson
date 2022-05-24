@@ -1,4 +1,4 @@
-using WorldIterator.Application.DependencyInjection;
+using WorldProcessor.Application.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 

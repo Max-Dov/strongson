@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldIterator.Core", "WorldIterator.Core\WorldIterator.Core.csproj", "{9E147C96-7879-4DB7-81B2-3FE223F77303}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldProcessor.Core", "WorldIterator.Core\WorldProcessor.Core.csproj", "{9E147C96-7879-4DB7-81B2-3FE223F77303}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldIterator.WebApi", "WorldIterator.WebApi\WorldIterator.WebApi.csproj", "{85758835-7758-4274-8DAD-1A12FAC08C97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldProcessor.WebApi", "WorldIterator.WebApi\WorldProcessor.WebApi.csproj", "{85758835-7758-4274-8DAD-1A12FAC08C97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldIterator.Application", "WorldIterator.Application\WorldIterator.Application.csproj", "{6516649D-3ED4-4F84-A1C0-85456D9A9E6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldProcessor.Application", "WorldIterator.Application\WorldProcessor.Application.csproj", "{6516649D-3ED4-4F84-A1C0-85456D9A9E6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

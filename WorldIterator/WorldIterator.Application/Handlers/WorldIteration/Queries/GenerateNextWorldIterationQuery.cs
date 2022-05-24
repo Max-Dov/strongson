@@ -1,8 +1,8 @@
 ﻿using MediatR;
 
-using WorldIterator.Application.Handlers.WorldIteration.Dto;
+using WorldProcessor.Application.Handlers.WorldIteration.Dto;
 
-namespace WorldIterator.Application.Handlers.WorldIteration.Queries
+namespace WorldProcessor.Application.Handlers.WorldIteration.Queries
 {
     public record GenerateNextWorldIterationQuery : IRequest<WorldDto>
     {

@@ -1,4 +1,4 @@
-﻿namespace WorldIterator.Core.Enums
+﻿namespace WorldProcessor.Core.Enums
 {
     public enum TetragonalDirection
     {

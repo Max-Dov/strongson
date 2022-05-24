@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 
-using WorldIterator.Core.Entities;
-using WorldIterator.Core.Interfaces;
-using WorldIterator.Core.ValueTypes;
-using WorldIterator.Application.Handlers.WorldIteration.Dto;
+using WorldProcessor.Core.Entities;
+using WorldProcessor.Core.Interfaces;
+using WorldProcessor.Core.ValueTypes;
+using WorldProcessor.Application.Handlers.WorldIteration.Dto;
 
-namespace WorldIterator.Application.Handlers.WorldIteration.Mapping
+namespace WorldProcessor.Application.Handlers.WorldIteration.Mapping
 {
     public class WorldIterationAutoMapperProfile : Profile
     {

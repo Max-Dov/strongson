@@ -1,6 +1,6 @@
-﻿using WorldIterator.Core.Interfaces;
+﻿using WorldProcessor.Core.Interfaces;
 
-namespace WorldIterator.Core.Entities
+namespace WorldProcessor.Core.Entities
 {
     public class World
     {

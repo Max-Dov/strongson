@@ -1,4 +1,4 @@
-﻿namespace WorldIterator.Core.Exceptions
+﻿namespace WorldProcessor.Core.Exceptions
 {
     public class InvalidHexagonalDirectionException
         : InvalidDirectionException

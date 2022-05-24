@@ -1,4 +1,4 @@
-﻿namespace WorldIterator.Application.Handlers.WorldIteration.Dto
+﻿namespace WorldProcessor.Application.Handlers.WorldIteration.Dto
 {
     public class NeighborConstraintDto
     {

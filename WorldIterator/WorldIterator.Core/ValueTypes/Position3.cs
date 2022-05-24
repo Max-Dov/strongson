@@ -1,8 +1,8 @@
-﻿using WorldIterator.Core.Interfaces;
-using WorldIterator.Core.Enums;
-using WorldIterator.Core.Exceptions;
+﻿using WorldProcessor.Core.Interfaces;
+using WorldProcessor.Core.Enums;
+using WorldProcessor.Core.Exceptions;
 
-namespace WorldIterator.Core.ValueTypes
+namespace WorldProcessor.Core.ValueTypes
 {
     public struct Position3 : IPosition
     {

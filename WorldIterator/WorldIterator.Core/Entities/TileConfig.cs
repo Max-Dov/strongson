@@ -1,4 +1,4 @@
-﻿namespace WorldIterator.Core.Entities
+﻿namespace WorldProcessor.Core.Entities
 {
     public class TileConfig
     {

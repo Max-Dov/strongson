@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 
-using WorldIterator.Core.Interfaces.Services;
-using WorldIterator.Core.Services;
-using WorldIterator.Application.Handlers.WorldIteration.Queries;
-using WorldIterator.Application.Handlers.WorldIteration.Mapping;
+using WorldProcessor.Core.Interfaces.Services;
+using WorldProcessor.Core.Services;
+using WorldProcessor.Application.Handlers.WorldIteration.Queries;
+using WorldProcessor.Application.Handlers.WorldIteration.Mapping;
 
-namespace WorldIterator.Application.DependencyInjection
+namespace WorldProcessor.Application.DependencyInjection
 {
     public static class DependencyInjection
     {

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WorldIterator.Core\WorldIterator.Core.csproj" />
+    <ProjectReference Include="..\WorldIterator.Core\WorldProcessor.Core.csproj" />
   </ItemGroup>
 
 </Project>
