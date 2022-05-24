@@ -1,6 +1,17 @@
 import React, {ButtonHTMLAttributes} from 'react';
 import './button.styles.scss';
 
+export enum ButtonType {
+    PRIMARY = 'primary',
+    SECONDARY = 'secondary',
+}
+
+export enum ButtonSize {
+    SMALL = 'small',
+    NORMAL = 'normal',
+    BIG = 'big'
+}
+
 interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
     type?: ButtonType
     size?: ButtonSize
@@ -21,14 +32,3 @@ export const Button = ({
     >
         {children}
     </button>;
-
-export enum ButtonType {
-    PRIMARY = 'primary',
-    SECONDARY = 'secondary',
-}
-
-export enum ButtonSize {
-    SMALL = 'small',
-    NORMAL = 'normal',
-    BIG = 'big'
-}

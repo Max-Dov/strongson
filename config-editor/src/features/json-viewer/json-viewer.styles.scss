@@ -28,4 +28,11 @@
       border-color: transparent;
     }
   }
+
+  .ctrl-z-note {
+    margin-left: 0.5em;
+    font-size: 0.6em;
+    font-weight: $font-thin;
+    color: rgba($font-color, 0.5);
+  }
 }
