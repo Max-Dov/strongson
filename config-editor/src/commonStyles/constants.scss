@@ -1,0 +1,22 @@
+// A settings stylesheet that collects all variables.
+
+$primary-color: #313D5A;
+$accent-color: #E9D985;
+
+$font-color: #FFF;
+$font-thin: 100;
+$font-regular: 400;
+$font-bold: 700;
+
+$transition-normal: 100ms;
+$transition-slow: 200ms;
+$transition-very-slow: 300ms;
+
+$outline-basic: 2px dashed $primary-color;
+$outline-offset-basic: 0.25rem;
+
+$shadow-big: 0 0 1rem rgba(black, 0.3);
+$shadow-medium: 0 0 0.5rem rgba(black, 0.3);
+
+// properties used for smooth outline fade-in and -out
+$outline-properties: outline-color, outline-offset;

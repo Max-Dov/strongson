@@ -1,3 +1,31 @@
-.App {
+@import 'commonStyles/constants.scss';
+
+.app {
   text-align: center;
+
+  sup {
+    font-weight: $font-thin;
+    color: rgba($font-color, 0.5);
+  }
+}
+
+.editor-and-json-sections {
+  text-align: left;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-around;
+  max-width: 100rem;
+  margin: auto;
+  padding: 0 1rem;
+
+  .json-viewer, .world-config {
+    flex: 1;
+    padding: 1rem;
+    box-shadow: 0 0 0.5rem rgba(black, 0.3);
+  }
+
+  .json-viewer {
+    max-width: 20rem;
+    height: fit-content;
+  }
 }

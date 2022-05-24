@@ -1,0 +1,43 @@
+@import "commonStyles/constants.scss";
+
+button.button {
+  display: inline-block;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: $font-color;
+  padding: 0.4em 1em;
+  font-weight: $font-bold;
+  user-select: none;
+
+  transition-property: background-color, $outline-properties;
+  transition-duration: $transition-normal;
+
+  &.normal {
+    font-size: 1rem;
+  }
+
+  &.small {
+    font-size: 0.8rem;
+  }
+
+  &.big {
+    font-size: 1.6rem;
+  }
+
+  &.primary {
+    background: $accent-color;
+    &:hover,
+    &:focus {
+      background: lighten($accent-color, 10%);
+    }
+  }
+
+  &.secondary {
+    border: 2px solid $accent-color;
+    &:hover,
+    &:focus {
+      background: lighten($primary-color, 10%);
+    }
+  }
+}

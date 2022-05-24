@@ -1,0 +1,32 @@
+@import 'commonStyles/constants.scss';
+
+.tile-config-editor {
+  display: inline-block;
+  vertical-align: top;
+  box-shadow: $shadow-medium;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  width: 15rem;
+  resize: horizontal;
+  overflow: auto;
+  background-color: rgba(blue, 0.05);
+
+  h4 {
+    margin-top: 0;
+  }
+
+  .mutation-label {
+    width: 10em;
+    display: inline-block;
+  }
+
+  .mutation-field {
+    width: 5em;
+    display: inline-block;
+  }
+}
+
+.remove-button {
+  float: right;
+  font-size: 1.5rem;
+}
