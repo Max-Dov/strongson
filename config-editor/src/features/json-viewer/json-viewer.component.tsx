@@ -1,5 +1,6 @@
 import {ChangeEvent, useEffect, useState} from 'react';
 import './json-viewer.styles.scss';
+import {Button} from '../../shared/button/button.component';
 
 // TODO fix cursor position even on rerender.
 
@@ -51,7 +52,7 @@ export const JsonViewer = <ObjectToDisplay extends object>({
         setStringifiedObject(newStringifiedObject);
     }, [objectToDisplay]);
 
-    return <div className="json-viewer">
+    return <section className="json-viewer">
         <h2>
             JSON
         </h2>
@@ -64,10 +65,10 @@ export const JsonViewer = <ObjectToDisplay extends object>({
         {isObjectInvalid && <p className={'error-message'}>
             Above object is not valid JSON.
         </p>}
-        <button onClick={onCopy}>
+        <Button onClick={onCopy}>
             Copy to clipboard
-        </button>
-    </div>;
+        </Button>
+    </section>;
 };
 
 const parseJsonObject = (objectToParse: string): object | null => {

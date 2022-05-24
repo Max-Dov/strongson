@@ -1,7 +1,9 @@
+import {ReactNode} from 'react';
 import {WorldConfig} from '../../models/world-config.model';
 import {TileConfigEditor} from '../tile-config-editor/tile-config-editor.component';
 import {TileConfig} from '../../models/tile-config.model';
-import {ReactNode} from 'react';
+import {AddHexagonButton} from '../../svgs/add-hexagon-button.svg';
+import './tiles-editor.styles.scss';
 
 type Tile = Partial<WorldConfig['tiles'][number]>
 type Tiles = Array<Tile>
@@ -17,14 +19,13 @@ interface TilesEditorProps {
     setTiles: (newTiles: Tiles) => void;
 }
 
-
 export const TilesEditor = ({
     tiles,
     setTiles,
 }: TilesEditorProps) => {
     const onAddTileToWorld = () => {
         if (tiles) {
-            setTiles([{}, ...tiles]);
+            setTiles([...tiles, {}]);
         } else {
             setTiles([{}]);
         }
@@ -38,25 +39,31 @@ export const TilesEditor = ({
         }
     };
 
-    const renderTileConfigEditor = (tileConfig: Partial<TileConfig>, index: number): ReactNode => <>
-        <button onClick={() => onRemoveTile(index)}>Remove Tile</button>
-        <TileConfigEditor tileConfig={tileConfig} setTileConfig={(newConfig) => {
-            if (tiles) {
-                const newTiles = [...tiles];
-                newTiles[index] = newConfig;
-                setTiles(newTiles);
-            } else {
-                setTiles([newConfig]);
-            }
-        }}/>
-    </>;
+    const onConfigChange = (newConfig: Partial<TileConfig>, index: number) => {
+        if (tiles) {
+            const newTiles = [...tiles];
+            newTiles[index] = newConfig;
+            setTiles(newTiles);
+        } else {
+            setTiles([newConfig]);
+        }
+    };
+
+    const renderTileConfigEditor = (tileConfig: Partial<TileConfig>, index: number): ReactNode =>
+        <TileConfigEditor
+            tileConfig={tileConfig}
+            setTileConfig={(newTileConfig) => onConfigChange(newTileConfig, index)}
+            onRemove={() => onRemoveTile(index)}
+        />;
 
 
-    return <section>
+    return <section className="tiles-editor">
         <h3>
-            World Tiles
+            <strong>World Tiles</strong>
+            <AddHexagonButton onClick={onAddTileToWorld}/>
         </h3>
-        <button onClick={onAddTileToWorld}>Add tile</button>
-        {tiles?.map(renderTileConfigEditor)}
+        <div className="tiles-container">
+            {tiles?.map(renderTileConfigEditor)}
+        </div>
     </section>;
 };

@@ -5,6 +5,7 @@ import {createContext, useState} from 'react';
 import {WorldGeometry} from '../../constants/world-geometry.model';
 import {TilesEditor} from '../tiles-editor/tiles-editor.component';
 import {TileConfig} from '../../models/tile-config.model';
+import './world-config-editor.styles.scss'
 
 export const SearchContext = createContext('');
 
@@ -32,12 +33,12 @@ export const WorldConfigEditor = ({
         setWorldConfig({...worldConfig, tiles: newTiles as WorldConfig['tiles']})
     }
 
-    return <section>
+    return <section className="world-config">
         <h2>
             World Config
-        </h2>
-        <SearchContext.Provider value={searchedString}>
             <SearchBar searchString={searchedString} setSearchString={setSearchedString}/>
+        </h2>
+        <SearchContext.Provider value={searchedString.replace(/ /g, '')}>
             <Searchable searchList={['worldconfig', 'id']}>
                 <Input label="ID" value={worldConfig.id} onChange={onConfigIdChange}/>
             </Searchable>
@@ -74,8 +75,13 @@ const SearchBar = ({
     searchString,
     setSearchString,
 }: SearchBarProps) => {
-    return <div>
-        <span>Search fields by name: </span>
-        <input value={searchString} onChange={(e) => setSearchString(e.target.value.replace(/ /g, ''))}/>
+    return <div className="search-bar">
+        <span><strong>Search fields</strong> by name: </span>
+        <Input
+            value={searchString}
+            onChange={(value) => setSearchString(value)}
+            placeholder="e.g. mutation"
+            display="inline-block"
+        />
     </div>;
 };

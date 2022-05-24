@@ -1,6 +1,31 @@
-.json-viewer textarea {
-  width: 100%;
-  height: 30rem;
-  padding: 0;
-  display: inline-block;
+@import 'commonStyles/constants.scss';
+
+.json-viewer {
+  h2 {
+    margin-top: 0;
+  }
+
+  textarea {
+    width: 100%;
+    height: 30rem;
+    padding: 0.5rem;
+    display: inline-block;
+    background: transparent;
+    color: $accent-color;
+    resize: vertical;
+    border: 2px dashed rgba(black, 0.1);
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+
+    transition-property: $outline-properties, border-bottom-color, border-left-color, border-right-color, border-top-color;
+    transition-duration: $transition-normal;
+
+    &:hover {
+      border-color: rgba($accent-color, 0.5);
+    }
+
+    &:active, &:focus {
+      border-color: transparent;
+    }
+  }
 }

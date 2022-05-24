@@ -1,0 +1,23 @@
+@import "commonStyles/constants.scss";
+
+.neighbor-constraint-editor {
+  .remove-button {
+    float: right;
+    font-size: 1em;
+  }
+
+  .constraint-id-label {
+    color: $accent-color;
+  }
+
+  .constraint-label {
+    display: inline-block;
+    width: 10em;
+  }
+
+  .constraint-input {
+    display: inline-block;
+    width: 5em;
+  }
+}
+

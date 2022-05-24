@@ -1,6 +1,7 @@
 import {ChangeEvent, InputHTMLAttributes, ReactNode} from 'react';
 import {RadioInput} from './radio-input.component';
 import {ArrayInput} from './array-input.component';
+import './input.styles.scss'
 
 type RadioOptions = Array<{ value: string, displayLabel: string }>
 
@@ -8,7 +9,7 @@ interface InputProps<ValueType extends (string | Array<string> | number) = strin
     /**
      * Label to display for input.
      */
-    label: ReactNode;
+    label?: ReactNode;
     /**
      * List of options to display if input type is "radio".
      */
@@ -25,6 +26,10 @@ interface InputProps<ValueType extends (string | Array<string> | number) = strin
      * Input value to set.
      */
     value?: ValueType;
+    /**
+     * Display property of Input container. 'block' by default
+     */
+    display?: 'block' | 'inline-block';
 }
 
 /**
@@ -35,11 +40,12 @@ export const Input = <ValueType extends (string | Array<string> | number) = stri
     type,
     value,
     onChange,
+    display = 'block',
     ...htmlInputProps
 }: InputProps<ValueType>) => {
     const defaultOnChange = (e: ChangeEvent<HTMLInputElement>) => onChange?.(e.target.value as ValueType);
     const arrayOnChange = (newValues: Array<string>) => onChange?.(newValues as ValueType);
-    const numberOnChange = (e: ChangeEvent<HTMLInputElement>) => onChange?.(e.target.valueAsNumber as ValueType);
+    const numberOnChange = (e: ChangeEvent<HTMLInputElement>) => onChange?.((e.target.valueAsNumber || 0) as ValueType);
     let inputElement = <input {...htmlInputProps} value={value || ''} onChange={defaultOnChange}/>;
     switch (type) {
         case 'radio':
@@ -52,10 +58,10 @@ export const Input = <ValueType extends (string | Array<string> | number) = stri
             inputElement = <input {...htmlInputProps} type="number" value={value} onChange={numberOnChange}/>
             break;
     }
-    return <div className="input">
-        <div className="label">
+    return <div className={`input ${display}`}>
+        {label && <div className="label">
             {label}
-        </div>
+        </div>}
         {inputElement}
     </div>;
 };

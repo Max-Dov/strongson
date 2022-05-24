@@ -1,0 +1,19 @@
+@import "commonStyles/constants.scss";
+
+section.world-config {
+  .search-bar {
+    font-size: 1rem;
+    float: right;
+    display: inline-block;
+    box-shadow: $shadow-medium;
+    padding: 0 0.5em;
+  }
+
+  h2 {
+    margin-top: 0;
+  }
+
+  .input {
+    margin: 0.5em 0
+  }
+}

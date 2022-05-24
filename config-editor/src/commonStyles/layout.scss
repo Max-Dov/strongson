@@ -1,0 +1,12 @@
+@import 'commonStyles/constants.scss';
+
+// Layout stylesheet describing common layout rules (margins, paddings, etc)
+
+h1, h2, h3, h4, h5, p {
+  margin: 1rem 0;
+  line-height: 1em;
+}
+
+.full-width {
+  width: 100%
+}

@@ -2,6 +2,8 @@ import {TileConfig} from '../../models/tile-config.model';
 import {ReactNode} from 'react';
 import {NeighborConstraintEditor} from '../neighbor-constraint-editor/neighbor-constraint-editor.component';
 import {NeighborConstraint} from '../../models/neighbor-constraint.model';
+import {AddHexagonButton} from '../../svgs/add-hexagon-button.svg';
+import './neighbors-editor.styles.scss';
 
 type Neighbor = Partial<TileConfig['neighbors'][number]>
 
@@ -41,28 +43,28 @@ export const NeighborsEditor = ({
         }
     };
 
-    const renderNeighborConstraintEditor = (neighborConstraint: Partial<NeighborConstraint>, index: number): ReactNode => <>
-        <button onClick={() => onRemoveNeighbor(index)}>Remove Neighbor</button>
+    const onUpdateNeighbor = (newNeighborConstraint: Partial<NeighborConstraint>, index: number) => {
+        if (neighbors) {
+            const newNeighbors = [...neighbors];
+            newNeighbors[index] = newNeighborConstraint;
+            setNeighbors(newNeighbors);
+        } else {
+            setNeighbors([newNeighborConstraint]);
+        }
+    };
+
+    const renderNeighborConstraintEditor = (neighborConstraint: Partial<NeighborConstraint>, index: number): ReactNode =>
         <NeighborConstraintEditor
             neighborConstraint={neighborConstraint}
-            setNeighborConstraint={newNeighborConstraint => {
-                if (neighbors) {
-                    const newNeighbors = [...neighbors];
-                    newNeighbors[index] = newNeighborConstraint;
-                    setNeighbors(newNeighbors);
-                } else {
-                    setNeighbors([newNeighborConstraint]);
-                }
-            }}
-        />
+            setNeighborConstraint={(newNeighbor) => onUpdateNeighbor(newNeighbor, index)}
+            onRemove={() => onRemoveNeighbor(index)}
+        />;
 
-    </>;
-
-    return <section>
+    return <section className="neighbors-editor">
         <h4>
-            Tile Constraints
+            <strong>Tile Constraints</strong>
+            <AddHexagonButton onClick={onAddNeighbor}/>
         </h4>
-        <button onClick={onAddNeighbor}>Add neighbor constraint</button>
         {neighbors?.map(renderNeighborConstraintEditor)}
     </section>;
 };
