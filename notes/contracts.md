@@ -93,38 +93,47 @@ export interface TileConfig {
      */
     id: string;
     /**
-     * Name to represent to player; e.g. "Castle lvl 1"
-     */
-    displayName: string;
-    /**
      * List of neighbor constraints.
      */
     neighbors: Array<NeighborConstraint>;
     /**
-     * Representation dependent on game implementation.
-     * Can be picture address e.g. "land_grass_tile.png" or ID for picture from DB "land_grass_tile".
-     * Or can be different variants, which are represented as array.
-     */
-    representation: string | Array<string>;
-    /**
-     * Base chance to mutate into a neighbor. Dimension is %. E.g. "15" stands for "15%".
-     */
-    chanceToMutate: number;
-    /**
-     * Factor to count when tile needs to mutate into other tile.
+     * Factor to count when tile needs to mutate into another tile.
      *
-     * For example, when some tile actually have to mutate, it will roll a random number and then pick neighboring tile.
-     * Neighboring tiles with greater mutationWeight will have greater chance to be mutated into.
+     * For example, when tile must mutate, it will roll a random number and then pick new tile.
+     * New tiles with greater mutationWeight will have greater chance to be mutated into.
      */
     mutationWeight: number;
     /**
-     * Multiplier effect on neighbor tiles that affects their chanceToMutate.
+     * Factor to count when tile needs to mutate into another tile.
+     *
+     * For example, when tile must mutate, it will roll a random number and then pick new tile.
+     * New tiles with greater number around current coordinate will have greater change to be mutated into.
      */
-    mutationMagnitude: number;
+    crowdWeightMultiplier: number;
     /**
-     * Radius of multiplier effect on neighbor tiles that affects their chanceToMutate.
+     * Radius of crowd weight multiplier effect.
      */
-    mutationMagnitudeRadius: number;
+    crowdWeightMultiplierRadius: number;
+    /**
+     * Base chance to mutate into another tile. Dimension is %. E.g. "15" stands for "15%".
+     */
+    mutationChance: number;
+    /**
+     * Minimum amount of epoch cycles when tile may exist.
+     */
+    minAge: number;
+    /**
+     * Maximum amount of epoch cycles when tile may exist.
+     */
+    maxAge: number;
+    /**
+     * Multiplier on neighbor tiles that affects their mutationChance.
+     */
+    neighborsMutationMultiplier: number;
+    /**
+     * Radius of multiplier on neighbor tiles that affects their mutationChance.
+     */
+    neighborsMutationMultiplierRadius: number;
 }
 ```
 
@@ -163,17 +172,42 @@ export interface NeighborConstraint {
 
 ```typescript
 /**
+ * Representation fields of Tile in World. All fields are related to information shown in game UI or game GUI.
+ */
+export interface TileRepresentation {
+    /**
+     * Tile ID, e.g. "castle-lvl1"
+     */
+    id: TileConfig['id'];
+    /**
+     * Name to represent to player; e.g. "Castle lvl 1"
+     */
+    displayName: string;
+    /**
+     * Representation dependent on game implementation.
+     * Values can be picture address e.g. "land_grass_tile.png" or ID for picture from DB "land_grass_tile".
+     */
+    representation: Array<string>;
+    /**
+     * Tile description.
+     */
+    description: string;
+}
+```
+
+```typescript
+/**
  * Actual tile in world.
  */
 export interface Tile<Geometry extends WorldGeometry = WorldGeometry.UNKNOWN> {
     /**
-     * Unique tile ID.
+     * Tile Config ID.
      */
     id: TileConfig['id'];
     /**
-     * Representation or variant of representation.
+     * Variant of representation.
      */
-    representation: TileConfig['representation'][number]
+    representation: TileRepresentation['representation'][number]
     /**
      * Tuple of tile coordinates.
      * Dependent on WorldGeometry.
@@ -183,12 +217,16 @@ export interface Tile<Geometry extends WorldGeometry = WorldGeometry.UNKNOWN> {
      * Actual chance to mutate based on neighbor mutationMagnitude and base chanceToMutate.
      */
     chanceToMutate: number;
+    /**
+     * Number of epoch cycles lived though.
+     */
+    age: number;
 }
 ```
 
 ```typescript
 /**
- * World Tile hash for accessing tile in World['tiles'].
+ * Tile hash for accessing tile in World['tiles'].
  * Hash is string concat of coordinates. E.g. tile with coordinates === [1, 22, 333] has hash equal to "1,22,333"
  */
 export type TileHash = string;

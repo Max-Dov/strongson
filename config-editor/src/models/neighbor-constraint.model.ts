@@ -24,9 +24,9 @@ export interface NeighborConstraint {
     /**
      * Minimum distance to a neighbor tiles.
      */
-    minimumDistance?: number;
+    minDistance?: number;
     /**
      * Maximum distance to a neighbor tiles.
      */
-    maximumDistance?: number;
+    maxDistance?: number;
 }
