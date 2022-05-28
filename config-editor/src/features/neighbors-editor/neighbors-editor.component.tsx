@@ -62,7 +62,7 @@ export const NeighborsEditor = ({
 
     return <section className="neighbors-editor">
         <h4>
-            <strong>Tile Constraints</strong>
+            <strong>Tile Neighbors</strong>
             <AddHexagonButton onClick={onAddNeighbor}/>
         </h4>
         {neighbors?.map(renderNeighborConstraintEditor)}

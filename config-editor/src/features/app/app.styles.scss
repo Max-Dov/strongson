@@ -18,14 +18,25 @@
   margin: auto;
   padding: 0 1rem;
 
-  .json-viewer, .world-config {
+  .json-viewer, .world-config-section-with-search {
     flex: 1;
+  }
+
+  .json-viewer, .world-config {
     padding: 1rem;
     box-shadow: 0 0 0.5rem rgba(black, 0.3);
+  }
+
+  .world-config-section-with-search {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
   }
 
   .json-viewer {
     max-width: 20rem;
     height: fit-content;
+    position: sticky;
+    top: 1rem;
   }
 }

@@ -29,11 +29,12 @@ export const TileConfigEditor = ({
     setTileConfig,
     onRemove,
 }: TileConfigEditorProps) => {
-    const tileName = tileConfig?.displayName;
+    const tileId = tileConfig.id
     const onNewNeighbors = (neighbors: Array<Partial<NeighborConstraint>>) => setTileConfig({
         ...tileConfig,
         neighbors: neighbors as Array<NeighborConstraint>,
     });
+
     const onNewId = (id: TileConfig['id']) => {
         setTileConfig({
             ...tileConfig,
@@ -44,51 +45,52 @@ export const TileConfigEditor = ({
 
     return <section className="tile-config-editor">
         <h4>
-            {tileName ? `"${tileName}" Tile` : 'New Tile'}
+            {tileId ? `"${tileId}" tile` : 'New Tile'}
             <RemoveCircleButton className="remove-button" onClick={onRemove}/>
         </h4>
         <Searchable searchList={['tileconfig', 'id']}>
             <Input label="ID" value={tileConfig.id} onChange={onNewId} className="full-width"/>
         </Searchable>
-        <Searchable searchList={['tileconfig', 'displayName']}>
-            <Input label="Display Name" value={tileConfig.displayName} className="full-width"
-                   onChange={displayName => setTileConfig({...tileConfig, displayName})}/>
-        </Searchable>
-        <Searchable searchList={['tileconfig', 'representation']}>
-            <Input
-                label="Representation"
-                type="array"
-                value={tileConfig.representation}
-                className="full-width"
-                onChange={representation => setTileConfig({...tileConfig, representation})}
-            />
-        </Searchable>
         <Searchable searchList={['tileconfig', 'mutationchance']}>
-            <Input label={<span className="mutation-label">Mutation chance (%)</span>}
-                   value={tileConfig.chanceToMutate} type="number"
-                   className="mutation-field"
-                   onChange={chanceToMutate => setTileConfig({...tileConfig, chanceToMutate})}/>
+            <Input label={<span className="numeric-field-label">Mutation chance (%)</span>}
+                   value={tileConfig.mutationChance} type="number"
+                   className="numeric-field"
+                   onChange={mutationChance => setTileConfig({...tileConfig, mutationChance})}/>
+        </Searchable>
+        <Searchable searchList={['tileconfig', 'crowdWeightMultiplier']}>
+            <Input label={<span className="numeric-field-label">Crowd weight multiplier</span>}
+                   value={tileConfig.crowdWeightMultiplier}
+                   type="number"
+                   className="numeric-field"
+                   onChange={crowdWeightMultiplier => setTileConfig({...tileConfig, crowdWeightMultiplier})}/>
+        </Searchable>
+        <Searchable searchList={['tileconfig', 'crowdWeightMultiplierRadius']}>
+            <Input label={<span className="numeric-field-label">Crowd weight multiplier radius</span>}
+                   value={tileConfig.crowdWeightMultiplierRadius}
+                   type="number"
+                   className="numeric-field"
+                   onChange={crowdWeightMultiplierRadius => setTileConfig({...tileConfig, crowdWeightMultiplierRadius})}/>
         </Searchable>
         <Searchable searchList={['tileconfig', 'mutationWeight']}>
-            <Input label={<span className="mutation-label">Mutation weight</span>}
+            <Input label={<span className="numeric-field-label">Mutation weight</span>}
                    value={tileConfig.mutationWeight}
                    type="number"
-                   className="mutation-field"
+                   className="numeric-field"
                    onChange={mutationWeight => setTileConfig({...tileConfig, mutationWeight})}/>
         </Searchable>
-        <Searchable searchList={['tileconfig', 'mutationMagnitude']}>
-            <Input label={<span className="mutation-label">Mutation magnitude</span>}
-                   value={tileConfig.mutationMagnitude}
+        <Searchable searchList={['tileconfig', 'neighborsMutationMultiplier']}>
+            <Input label={<span className="numeric-field-label">Neighbors mutation multiplier</span>}
+                   value={tileConfig.neighborsMutationMultiplier}
                    type="number"
-                   className="mutation-field"
-                   onChange={mutationMagnitude => setTileConfig({...tileConfig, mutationMagnitude})}/>
+                   className="numeric-field"
+                   onChange={neighborsMutationMultiplier => setTileConfig({...tileConfig, neighborsMutationMultiplier})}/>
         </Searchable>
-        <Searchable searchList={['tileconfig', 'mutationMagnitudeRadius']}>
-            <Input label={<span className="mutation-label">Mutation radius</span>}
-                   value={tileConfig.mutationMagnitudeRadius}
+        <Searchable searchList={['tileconfig', 'neighborsMutationMultiplierRadius']}>
+            <Input label={<span className="numeric-field-label">Neighbors mutation multiplier radius</span>}
+                   value={tileConfig.neighborsMutationMultiplierRadius}
                    type="number"
-                   className="mutation-field"
-                   onChange={mutationMagnitudeRadius => setTileConfig({...tileConfig, mutationMagnitudeRadius})}/>
+                   className="numeric-field"
+                   onChange={neighborsMutationMultiplierRadius => setTileConfig({...tileConfig, neighborsMutationMultiplierRadius})}/>
         </Searchable>
         <NeighborsEditor neighbors={tileConfig.neighbors} setNeighbors={onNewNeighbors} originId={tileConfig.id}/>
     </section>;

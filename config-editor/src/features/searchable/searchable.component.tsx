@@ -1,5 +1,5 @@
 import {HTMLAttributes, useContext, useEffect, useState} from 'react';
-import {SearchContext} from '../world-config-editor/world-config-editor.component';
+import {SearchContext} from '../app/app.component';
 
 interface SearchProps extends HTMLAttributes<HTMLDivElement> {
     /**
@@ -17,8 +17,8 @@ export const Searchable = ({
     children,
 }: SearchProps) => {
     const [lookupString, setLookupString] = useState<string>('');
-    const searchedString = useContext(SearchContext)
-    const shouldDisplay = !searchedString || lookupString.includes(searchedString.toLowerCase());
+    const {searchValue} = useContext(SearchContext);
+    const shouldDisplay = !searchValue || lookupString.includes(searchValue.toLowerCase());
 
     useEffect(() => {
         setLookupString(searchList.join('').toLowerCase());

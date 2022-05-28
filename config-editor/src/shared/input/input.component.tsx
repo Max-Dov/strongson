@@ -59,9 +59,9 @@ export const Input = <ValueType extends (string | Array<string> | number) = stri
             break;
     }
     return <div className={`input ${display}`}>
-        {label && <div className="label">
+        {label && <label htmlFor={htmlInputProps.id}>
             {label}
-        </div>}
+        </label>}
         {inputElement}
     </div>;
 };

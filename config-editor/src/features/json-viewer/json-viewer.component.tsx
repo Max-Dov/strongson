@@ -2,8 +2,6 @@ import {ChangeEvent, useEffect, useRef, useState} from 'react';
 import './json-viewer.styles.scss';
 import {Button} from '../../shared/button/button.component';
 
-// TODO fix cursor position even on rerender.
-
 interface JsonViewerProps<ObjectToDisplay extends object> {
     objectToDisplay: ObjectToDisplay;
     onObjectToDisplayUpdate: (object: ObjectToDisplay) => void;
