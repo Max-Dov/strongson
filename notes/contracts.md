@@ -19,7 +19,7 @@ export interface WorldConfig {
     /**
      * World tile geometry.
      */
-    geometry: WorldGeometry;
+    tileShape: TileShape;
 }
 ```
 
@@ -27,7 +27,7 @@ export interface WorldConfig {
 /**
  * Actual world.
  */
-export interface World<Geometry extends WorldGeometry = WorldGeometry.UNKNOWN> {
+export interface World<Shape extends TileShape = TileShape.UNKNOWN> {
     /**
      * Config world is based on.
      */
@@ -43,24 +43,24 @@ export interface World<Geometry extends WorldGeometry = WorldGeometry.UNKNOWN> {
     /**
      * World geometry. Geometry stands for tile shape. Display format is dependent on geometry.
      */
-    geometry: Geometry;
+    tileShape: Shape;
     /**
      * World dimensions.
      * Starting point is [0, 0, ...], then dimensions can be represented as point with maximum values for every dimension.
      */
-    dimensions: Tile<Geometry>['coordinates'];
+    dimensions: Tile<Shape>['coordinates'];
     /**
      * World tiles.
      */
-    tiles: Map<TileHash, Tile<Geometry>>;
+    tiles: Map<TileHash, Tile<Shape>>;
 }
 ```
 
 ```typescript
 /**
- * List of supported world geometries. "Geometry" stands for tile shape.
+ * List of supported tile shapes.
  */
-export enum WorldGeometry {
+export enum TileShape {
     HEXAGONAL = 'HEXAGONAL',
     TETRAGONAL = 'TETRAGONAL',
     /**
@@ -72,12 +72,13 @@ export enum WorldGeometry {
 
 ```typescript
 /**
- * Relation of WorldGeometry to its dimensions (set of coordinates)
+ * Relation of TileShape to its dimensions (set of coordinates).
+ * Order of dimensions: X, Y, Z. Orientation of axes is counterclock-wise.
  */
-export interface GeometryDimensions {
-    [WorldGeometry.HEXAGONAL]: [number, number, number]
-    [WorldGeometry.TETRAGONAL]: [number, number]
-    [WorldGeometry.UNKNOWN]: []
+export interface ShapeDimensions {
+    [TileShape.HEXAGONAL]: [number, number, number]
+    [TileShape.TETRAGONAL]: [number, number]
+    [TileShape.UNKNOWN]: []
 }
 ```
 
@@ -93,38 +94,47 @@ export interface TileConfig {
      */
     id: string;
     /**
-     * Name to represent to player; e.g. "Castle lvl 1"
-     */
-    displayName: string;
-    /**
      * List of neighbor constraints.
      */
     neighbors: Array<NeighborConstraint>;
     /**
-     * Representation dependent on game implementation.
-     * Can be picture address e.g. "land_grass_tile.png" or ID for picture from DB "land_grass_tile".
-     * Or can be different variants, which are represented as array.
-     */
-    representation: string | Array<string>;
-    /**
-     * Base chance to mutate into a neighbor. Dimension is %. E.g. "15" stands for "15%".
-     */
-    chanceToMutate: number;
-    /**
-     * Factor to count when tile needs to mutate into other tile.
+     * Factor to count when tile needs to mutate into another tile.
      *
-     * For example, when some tile actually have to mutate, it will roll a random number and then pick neighboring tile.
-     * Neighboring tiles with greater mutationWeight will have greater chance to be mutated into.
+     * For example, when tile must mutate, it will roll a random number and then pick new tile.
+     * New tiles with greater mutationWeight will have greater chance to be mutated into.
      */
     mutationWeight: number;
     /**
-     * Multiplier effect on neighbor tiles that affects their chanceToMutate.
+     * Base chance to mutate into another tile. Dimension is %. E.g. "15" stands for "15%".
      */
-    mutationMagnitude: number;
+    mutationChance: number;
     /**
-     * Radius of multiplier effect on neighbor tiles that affects their chanceToMutate.
+     * Factor to count when tile needs to mutate into another tile.
+     *
+     * For example, when tile must mutate, it will roll a random number and then pick new tile.
+     * New tiles with greater number around current coordinate will have greater change to be mutated into.
      */
-    mutationMagnitudeRadius: number;
+    crowdWeightMultiplier?: number;
+    /**
+     * Radius of crowd weight multiplier effect.
+     */
+    crowdWeightMultiplierRadius?: number;
+    /**
+     * Minimum amount of epoch cycles when tile may exist.
+     */
+    minAge?: number;
+    /**
+     * Maximum amount of epoch cycles when tile may exist.
+     */
+    maxAge?: number;
+    /**
+     * Multiplier on neighbor tiles that affects their mutationChance.
+     */
+    neighborsMutationMultiplier?: number;
+    /**
+     * Radius of multiplier on neighbor tiles that affects their mutationChance.
+     */
+    neighborsMutationMultiplierRadius?: number;
 }
 ```
 
@@ -137,11 +147,11 @@ export interface NeighborConstraint {
     /**
      * Tile ID that has neighbors; e.g. "land-grass"
      */
-    id: TileConfig['id'];
+    configId: TileConfig['id'];
     /**
      * Reference to tile by ID; e.g. "castle-lvl1"
      */
-    neighborId: TileConfig['id'];
+    neighborConfigId: TileConfig['id'];
     /**
      * Minimum amount of neighbor tiles.
      */
@@ -153,11 +163,36 @@ export interface NeighborConstraint {
     /**
      * Minimum distance to a neighbor tiles.
      */
-    minimumDistance?: number;
+    minDistance?: number;
     /**
      * Maximum distance to a neighbor tiles.
      */
-    maximumDistance?: number;
+    maxDistance?: number;
+}
+```
+
+```typescript
+/**
+ * Representation fields of Tile in World. All fields are related to information shown in game UI or game GUI.
+ */
+export interface TileRepresentation {
+    /**
+     * Tile ID, e.g. "castle-lvl1"
+     */
+    configId: TileConfig['id'];
+    /**
+     * Name to represent to player; e.g. "Castle lvl 1"
+     */
+    displayName: string;
+    /**
+     * Representation dependent on game implementation.
+     * Values can be picture address e.g. "land_grass_tile.png" or ID for picture from DB "land_grass_tile".
+     */
+    representation: Array<string>;
+    /**
+     * Tile description.
+     */
+    description: string;
 }
 ```
 
@@ -165,30 +200,34 @@ export interface NeighborConstraint {
 /**
  * Actual tile in world.
  */
-export interface Tile<Geometry extends WorldGeometry = WorldGeometry.UNKNOWN> {
+export interface Tile<Shape extends TileShape = TileShape.UNKNOWN> {
     /**
-     * Unique tile ID.
+     * Tile Config ID.
      */
-    id: TileConfig['id'];
+    configId: TileConfig['id'];
     /**
-     * Representation or variant of representation.
+     * Variant of representation.
      */
-    representation: TileConfig['representation'][number]
+    representation: TileRepresentation['representation'][number];
     /**
      * Tuple of tile coordinates.
-     * Dependent on WorldGeometry.
+     * Dependent on Shape.
      */
-    coordinates: GeometryDimensions[Geometry]
+    coordinates: ShapeDimensions[Shape];
     /**
      * Actual chance to mutate based on neighbor mutationMagnitude and base chanceToMutate.
      */
     chanceToMutate: number;
+    /**
+     * World['epoch'] when tile started existing.
+     */
+    birthEpoch: number;
 }
 ```
 
 ```typescript
 /**
- * World Tile hash for accessing tile in World['tiles'].
+ * Tile hash for accessing tile in World['tiles'].
  * Hash is string concat of coordinates. E.g. tile with coordinates === [1, 22, 333] has hash equal to "1,22,333"
  */
 export type TileHash = string;

@@ -6,29 +6,29 @@ import {TileConfig} from '../models/tile-config.model';
 import {getTileHash} from './get-tile-hash.util';
 import {getNeighbors} from './neighbors-extraction/get-neighbors.util';
 import {filterTiles} from './neighbors-extraction/filter-neighbors.util';
-import {WorldGeometry} from '../constants/world-geometry.model';
+import {TileShape} from '../constants/tile-shape.model';
 
 /**
  * Generates World. Expected use case is preview of possible world for given world config.
  */
-export const generateWorld = <Geometry extends WorldGeometry = WorldGeometry.UNKNOWN>(
+export const generateWorld = <Geometry extends TileShape = TileShape.UNKNOWN>(
     config: WorldConfig,
     seed: World<Geometry>['seed'],
     epoch: World<Geometry>['epoch'],
     dimensions: World<Geometry>['dimensions'],
-): World<WorldGeometry> => {
+): World<TileShape> => {
     const worldTiles: World<Geometry>['tiles'] = new Map();
     const availableTiles = config.tiles;
-    const world: World<WorldGeometry> = {
+    const world: World<TileShape> = {
         configId: config.id,
         seed,
         epoch,
         dimensions,
         tiles: worldTiles,
-        geometry: config.geometry,
+        tileShape: config.tileShape,
     };
 
-    if (config.geometry === WorldGeometry.UNKNOWN) { // should not happen, but theoretically can.
+    if (config.tileShape === TileShape.UNKNOWN) { // should not happen, but theoretically can.
         return world;
     }
 
@@ -50,8 +50,8 @@ const getStartingTile = (
     availableTileConfigs: TileConfig[],
     seed: World['seed'],
     epoch: World['epoch'],
-): Tile<WorldGeometry> => {
-    const coordinates: Tile<WorldGeometry.HEXAGONAL>['coordinates'] = [0, 0, 0];
+): Tile<TileShape> => {
+    const coordinates: Tile<TileShape.HEXAGONAL>['coordinates'] = [0, 0, 0];
     /**
      * Figure out TileConfig.
      */
@@ -64,7 +64,7 @@ const getStartingTile = (
     const tileRepresentationRng = rng(seed, epoch, coordinates);
     const representation = availableRepresentation[Math.trunc(tileRepresentationRng * availableRepresentation.length)];
     return {
-        id: tileConfig.id,
+        configId: tileConfig.id,
         representation,
         coordinates,
         chanceToMutate: tileConfig.chanceToMutate,
@@ -86,7 +86,7 @@ const iterateCoordinates = (coordinates: Tile['coordinates'], world: World, conf
          * Tile config would pass check if there are no failed constraints.
          */
         return !tileConfig.neighbors.some(constraint => {
-            const {neighborId, minAmount, maxAmount, minimumDistance, maximumDistance} = constraint;
+            const {neighborConfigId, minAmount, maxAmount, minimumDistance, maximumDistance} = constraint;
             if (!minimumDistance && !maximumDistance) return true; // should not happen, but theoretically possible.
             if (!minAmount && !maxAmount) return true; // should not happen, but theoretically possible.
             /**
@@ -94,13 +94,13 @@ const iterateCoordinates = (coordinates: Tile['coordinates'], world: World, conf
              */
             if (minimumDistance) {
                 const allNeighbors = getNeighbors(coordinates, world, minimumDistance);
-                const configNeighbors = filterTiles(allNeighbors, neighborId);
+                const configNeighbors = filterTiles(allNeighbors, neighborConfigId);
                 if (configNeighbors.size > 0) {
                     return true;
                 }
             }
             const allNeighbors = getNeighbors(coordinates, world, maximumDistance, minimumDistance);
-            const configNeighbors = filterTiles(allNeighbors, neighborId);
+            const configNeighbors = filterTiles(allNeighbors, neighborConfigId);
             const neighborsAmount = configNeighbors.size;
             return maxAmount && neighborsAmount > maxAmount
                 || minAmount && neighborsAmount < minAmount;

@@ -19,7 +19,7 @@ interface NeighborsEditorProps {
     /**
      * Origin tile ID that has neighbors.
      */
-    originId?: NeighborConstraint['id'];
+    originId?: NeighborConstraint['configId'];
 }
 
 export const NeighborsEditor = ({
@@ -29,9 +29,9 @@ export const NeighborsEditor = ({
 }: NeighborsEditorProps) => {
     const onAddNeighbor = () => {
         if (neighbors) {
-            setNeighbors([{id: originId}, ...neighbors]);
+            setNeighbors([{configId: originId}, ...neighbors]);
         } else {
-            setNeighbors([{id: originId}]);
+            setNeighbors([{configId: originId}]);
         }
     };
 

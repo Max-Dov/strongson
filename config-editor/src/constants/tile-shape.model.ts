@@ -1,7 +1,7 @@
 /**
- * List of supported world geometries. "Geometry" stands for tile shape.
+ * List of supported tile shapes.
  */
-export enum WorldGeometry {
+export enum TileShape {
     HEXAGONAL = 'HEXAGONAL',
     TETRAGONAL = 'TETRAGONAL',
     /**

@@ -1,12 +1,12 @@
 import {WorldConfig} from './world-config.model';
 import {Tile} from './tile.model';
 import {TileHash} from './tile-hash.model';
-import {WorldGeometry} from '../constants/world-geometry.model';
+import {TileShape} from '../constants/tile-shape.model';
 
 /**
  * Actual world.
  */
-export interface World<Geometry extends WorldGeometry = WorldGeometry.UNKNOWN> {
+export interface World<Shape extends TileShape = TileShape.UNKNOWN> {
     /**
      * Config world is based on.
      */
@@ -22,14 +22,14 @@ export interface World<Geometry extends WorldGeometry = WorldGeometry.UNKNOWN> {
     /**
      * World geometry. Geometry stands for tile shape. Display format is dependent on geometry.
      */
-    geometry: Geometry;
+    tileShape: Shape;
     /**
      * World dimensions.
      * Starting point is [0, 0, ...], then dimensions can be represented as point with maximum values for every dimension.
      */
-    dimensions: Tile<Geometry>['coordinates'];
+    dimensions: Tile<Shape>['coordinates'];
     /**
      * World tiles.
      */
-    tiles: Map<TileHash, Tile<Geometry>>;
+    tiles: Map<TileHash, Tile<Shape>>;
 }
