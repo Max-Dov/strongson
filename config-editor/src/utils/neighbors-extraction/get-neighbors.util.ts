@@ -1,6 +1,6 @@
 import {World} from '../../models/world.model';
 import {Tile} from '../../models/tile.model';
-import {WorldGeometry} from '../../constants/world-geometry.model';
+import {TileShape} from '../../constants/tile-shape.model';
 import {getDistancedNeighbors} from './get-distanced-neighbors.util';
 
 /**
@@ -10,7 +10,7 @@ import {getDistancedNeighbors} from './get-distanced-neighbors.util';
  * @param distanceMax - maximum distance to a neighbor
  * @param distanceMin - minimum distance to a neighbor
  */
-export const getNeighbors = <T extends WorldGeometry = WorldGeometry.UNKNOWN>(
+export const getNeighbors = <T extends TileShape = TileShape.UNKNOWN>(
     coordinates: Tile<T>['coordinates'],
     world: World<T>,
     distanceMax: number = 1,

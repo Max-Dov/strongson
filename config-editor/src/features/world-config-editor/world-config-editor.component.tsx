@@ -2,7 +2,7 @@ import {WorldConfig} from '../../models/world-config.model';
 import {Input} from '../../shared/input/input.component';
 import {Searchable} from '../searchable/searchable.component';
 import {createContext, useState} from 'react';
-import {WorldGeometry} from '../../constants/world-geometry.model';
+import {TileShape} from '../../constants/tile-shape.model';
 import {TilesEditor} from '../tiles-editor/tiles-editor.component';
 import {TileConfig} from '../../models/tile-config.model';
 import './world-config-editor.styles.scss'
@@ -26,7 +26,7 @@ export const WorldConfigEditor = ({
     const onConfigIdChange = (id: string): void => setWorldConfig({...worldConfig, id});
     const onConfigGeometryChange = (geometry: string): void => setWorldConfig({
         ...worldConfig,
-        geometry: geometry as WorldGeometry,
+        tileShape: geometry as TileShape,
     });
     const onConfigTilesChange = (newTiles: Array<Partial<TileConfig>>): void => {
         // TODO consider providing valid "deep partial" type for WorldConfig
@@ -48,10 +48,10 @@ export const WorldConfigEditor = ({
                     type="radio"
                     name="world-geometry-input"
                     radioOptions={[
-                        {value: WorldGeometry.HEXAGONAL, displayLabel: 'Hexagonal Tiles (honeycombs)'},
-                        {value: WorldGeometry.TETRAGONAL, displayLabel: 'Tetragonal Tiles (squares)'},
+                        {value: TileShape.HEXAGONAL, displayLabel: 'Hexagonal Tiles (honeycombs)'},
+                        {value: TileShape.TETRAGONAL, displayLabel: 'Tetragonal Tiles (squares)'},
                     ]}
-                    value={worldConfig.geometry}
+                    value={worldConfig.tileShape}
                     onChange={onConfigGeometryChange}
                 />
             </Searchable>

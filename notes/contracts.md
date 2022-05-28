@@ -19,7 +19,7 @@ export interface WorldConfig {
     /**
      * World tile geometry.
      */
-    geometry: WorldGeometry;
+    tileShape: TileShape;
 }
 ```
 
@@ -27,7 +27,7 @@ export interface WorldConfig {
 /**
  * Actual world.
  */
-export interface World<Geometry extends WorldGeometry = WorldGeometry.UNKNOWN> {
+export interface World<Shape extends TileShape = TileShape.UNKNOWN> {
     /**
      * Config world is based on.
      */
@@ -43,24 +43,24 @@ export interface World<Geometry extends WorldGeometry = WorldGeometry.UNKNOWN> {
     /**
      * World geometry. Geometry stands for tile shape. Display format is dependent on geometry.
      */
-    geometry: Geometry;
+    tileShape: Shape;
     /**
      * World dimensions.
      * Starting point is [0, 0, ...], then dimensions can be represented as point with maximum values for every dimension.
      */
-    dimensions: Tile<Geometry>['coordinates'];
+    dimensions: Tile<Shape>['coordinates'];
     /**
      * World tiles.
      */
-    tiles: Map<TileHash, Tile<Geometry>>;
+    tiles: Map<TileHash, Tile<Shape>>;
 }
 ```
 
 ```typescript
 /**
- * List of supported world geometries. "Geometry" stands for tile shape.
+ * List of supported tile shapes.
  */
-export enum WorldGeometry {
+export enum TileShape {
     HEXAGONAL = 'HEXAGONAL',
     TETRAGONAL = 'TETRAGONAL',
     /**
@@ -72,12 +72,13 @@ export enum WorldGeometry {
 
 ```typescript
 /**
- * Relation of WorldGeometry to its dimensions (set of coordinates)
+ * Relation of TileShape to its dimensions (set of coordinates).
+ * Order of dimensions: X, Y, Z. Orientation of axes is counterclock-wise.
  */
-export interface GeometryDimensions {
-    [WorldGeometry.HEXAGONAL]: [number, number, number]
-    [WorldGeometry.TETRAGONAL]: [number, number]
-    [WorldGeometry.UNKNOWN]: []
+export interface ShapeDimensions {
+    [TileShape.HEXAGONAL]: [number, number, number]
+    [TileShape.TETRAGONAL]: [number, number]
+    [TileShape.UNKNOWN]: []
 }
 ```
 
@@ -104,36 +105,36 @@ export interface TileConfig {
      */
     mutationWeight: number;
     /**
+     * Base chance to mutate into another tile. Dimension is %. E.g. "15" stands for "15%".
+     */
+    mutationChance: number;
+    /**
      * Factor to count when tile needs to mutate into another tile.
      *
      * For example, when tile must mutate, it will roll a random number and then pick new tile.
      * New tiles with greater number around current coordinate will have greater change to be mutated into.
      */
-    crowdWeightMultiplier: number;
+    crowdWeightMultiplier?: number;
     /**
      * Radius of crowd weight multiplier effect.
      */
-    crowdWeightMultiplierRadius: number;
-    /**
-     * Base chance to mutate into another tile. Dimension is %. E.g. "15" stands for "15%".
-     */
-    mutationChance: number;
+    crowdWeightMultiplierRadius?: number;
     /**
      * Minimum amount of epoch cycles when tile may exist.
      */
-    minAge: number;
+    minAge?: number;
     /**
      * Maximum amount of epoch cycles when tile may exist.
      */
-    maxAge: number;
+    maxAge?: number;
     /**
      * Multiplier on neighbor tiles that affects their mutationChance.
      */
-    neighborsMutationMultiplier: number;
+    neighborsMutationMultiplier?: number;
     /**
      * Radius of multiplier on neighbor tiles that affects their mutationChance.
      */
-    neighborsMutationMultiplierRadius: number;
+    neighborsMutationMultiplierRadius?: number;
 }
 ```
 
@@ -146,11 +147,11 @@ export interface NeighborConstraint {
     /**
      * Tile ID that has neighbors; e.g. "land-grass"
      */
-    id: TileConfig['id'];
+    configId: TileConfig['id'];
     /**
      * Reference to tile by ID; e.g. "castle-lvl1"
      */
-    neighborId: TileConfig['id'];
+    neighborConfigId: TileConfig['id'];
     /**
      * Minimum amount of neighbor tiles.
      */
@@ -162,11 +163,11 @@ export interface NeighborConstraint {
     /**
      * Minimum distance to a neighbor tiles.
      */
-    minimumDistance?: number;
+    minDistance?: number;
     /**
      * Maximum distance to a neighbor tiles.
      */
-    maximumDistance?: number;
+    maxDistance?: number;
 }
 ```
 
@@ -178,7 +179,7 @@ export interface TileRepresentation {
     /**
      * Tile ID, e.g. "castle-lvl1"
      */
-    id: TileConfig['id'];
+    configId: TileConfig['id'];
     /**
      * Name to represent to player; e.g. "Castle lvl 1"
      */
@@ -199,28 +200,28 @@ export interface TileRepresentation {
 /**
  * Actual tile in world.
  */
-export interface Tile<Geometry extends WorldGeometry = WorldGeometry.UNKNOWN> {
+export interface Tile<Shape extends TileShape = TileShape.UNKNOWN> {
     /**
      * Tile Config ID.
      */
-    id: TileConfig['id'];
+    configId: TileConfig['id'];
     /**
      * Variant of representation.
      */
-    representation: TileRepresentation['representation'][number]
+    representation: TileRepresentation['representation'][number];
     /**
      * Tuple of tile coordinates.
-     * Dependent on WorldGeometry.
+     * Dependent on Shape.
      */
-    coordinates: GeometryDimensions[Geometry]
+    coordinates: ShapeDimensions[Shape];
     /**
      * Actual chance to mutate based on neighbor mutationMagnitude and base chanceToMutate.
      */
     chanceToMutate: number;
     /**
-     * Number of epoch cycles lived though.
+     * World['epoch'] when tile started existing.
      */
-    age: number;
+    birthEpoch: number;
 }
 ```
 

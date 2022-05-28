@@ -1,5 +1,5 @@
 import {Tile} from '../../models/tile.model';
-import {WorldGeometry} from '../../constants/world-geometry.model';
+import {TileShape} from '../../constants/tile-shape.model';
 import {World} from '../../models/world.model';
 import {TileHash} from '../../models/tile-hash.model';
 import {getTileHash} from '../get-tile-hash.util';
@@ -11,12 +11,12 @@ import {getTileHash} from '../get-tile-hash.util';
  * @param distance - distance to a neighbor.
  */
 export const getHexagonalDistancedNeighbors = (
-    coordinates: Tile<WorldGeometry.HEXAGONAL>['coordinates'],
-    world: World<WorldGeometry.HEXAGONAL>,
+    coordinates: Tile<TileShape.HEXAGONAL>['coordinates'],
+    world: World<TileShape.HEXAGONAL>,
     distance: number,
-): World<WorldGeometry.HEXAGONAL>['tiles'] => {
+): World<TileShape.HEXAGONAL>['tiles'] => {
     const [originX, originY, originZ] = coordinates;
-    const neighborsCoordinates = new Array<Tile<WorldGeometry.HEXAGONAL>['coordinates']>();
+    const neighborsCoordinates = new Array<Tile<TileShape.HEXAGONAL>['coordinates']>();
     for (let shift = 0; shift < distance; shift++) {
         neighborsCoordinates.push([originX + distance, originY, originZ + shift]);
         neighborsCoordinates.push([originX - distance, originY, originZ - shift]);
@@ -25,7 +25,7 @@ export const getHexagonalDistancedNeighbors = (
         neighborsCoordinates.push([originX, originY + shift, originZ + distance]);
         neighborsCoordinates.push([originX, originY - shift, originZ - distance]);
     }
-    const neighborTiles = new Map<TileHash, Tile<WorldGeometry.HEXAGONAL>>();
+    const neighborTiles = new Map<TileHash, Tile<TileShape.HEXAGONAL>>();
     neighborsCoordinates.forEach(coordinates => {
         const neighborTileHash = getTileHash(coordinates);
         const neighborTile = world.tiles.get(neighborTileHash);

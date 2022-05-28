@@ -7,7 +7,7 @@ export interface TileRepresentation {
     /**
      * Tile ID, e.g. "castle-lvl1"
      */
-    id: TileConfig['id'];
+    configId: TileConfig['id'];
     /**
      * Name to represent to player; e.g. "Castle lvl 1"
      */

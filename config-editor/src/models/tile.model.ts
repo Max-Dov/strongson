@@ -1,31 +1,31 @@
 import {TileConfig} from './tile-config.model';
-import {WorldGeometry} from '../constants/world-geometry.model';
-import {GeometryDimensions} from './geometry-dimensions.model';
+import {TileShape} from '../constants/tile-shape.model';
+import {ShapeDimensions} from './shape-dimensions.model';
 import {TileRepresentation} from './tile-representation.model';
 
 /**
  * Actual tile in world.
  */
-export interface Tile<Geometry extends WorldGeometry = WorldGeometry.UNKNOWN> {
+export interface Tile<Shape extends TileShape = TileShape.UNKNOWN> {
     /**
      * Tile Config ID.
      */
-    id: TileConfig['id'];
+    configId: TileConfig['id'];
     /**
      * Variant of representation.
      */
-    representation: TileRepresentation['representation'][number]
+    representation: TileRepresentation['representation'][number];
     /**
      * Tuple of tile coordinates.
-     * Dependent on WorldGeometry.
+     * Dependent on Shape.
      */
-    coordinates: GeometryDimensions[Geometry]
+    coordinates: ShapeDimensions[Shape];
     /**
      * Actual chance to mutate based on neighbor mutationMagnitude and base chanceToMutate.
      */
     chanceToMutate: number;
     /**
-     * Number of epoch cycles lived though.
+     * World['epoch'] when tile started existing.
      */
-    age: number;
+    birthEpoch: number;
 }

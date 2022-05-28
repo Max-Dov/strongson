@@ -8,11 +8,11 @@ export interface NeighborConstraint {
     /**
      * Tile ID that has neighbors; e.g. "land-grass"
      */
-    id: TileConfig['id'];
+    configId: TileConfig['id'];
     /**
      * Reference to tile by ID; e.g. "castle-lvl1"
      */
-    neighborId: TileConfig['id'];
+    neighborConfigId: TileConfig['id'];
     /**
      * Minimum amount of neighbor tiles.
      */

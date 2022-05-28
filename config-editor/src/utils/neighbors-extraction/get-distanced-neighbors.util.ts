@@ -1,4 +1,4 @@
-import {WorldGeometry} from '../../constants/world-geometry.model';
+import {TileShape} from '../../constants/tile-shape.model';
 import {Tile} from '../../models/tile.model';
 import {World} from '../../models/world.model';
 import {TileHash} from '../../models/tile-hash.model';
@@ -11,7 +11,7 @@ import {getHexagonalDistancedNeighbors} from './get-hexagonal-distanced-neighbor
  * @param world - world with all the tiles.
  * @param distance - distance to a neighbor.
  */
-export const getDistancedNeighbors = <T extends WorldGeometry = WorldGeometry.UNKNOWN>(
+export const getDistancedNeighbors = <T extends TileShape = TileShape.UNKNOWN>(
     coordinates: Tile<T>['coordinates'],
     world: World<T>,
     distance: number,
@@ -25,15 +25,15 @@ export const getDistancedNeighbors = <T extends WorldGeometry = WorldGeometry.UN
         }
         return result;
     }
-    switch (world.geometry) {
-        case WorldGeometry.HEXAGONAL:
+    switch (world.tileShape) {
+        case TileShape.HEXAGONAL:
             return getHexagonalDistancedNeighbors(
-                coordinates as Tile<WorldGeometry.HEXAGONAL>['coordinates'],
-                world as World<WorldGeometry.HEXAGONAL>,
+                coordinates as Tile<TileShape.HEXAGONAL>['coordinates'],
+                world as World<TileShape.HEXAGONAL>,
                 distance,
             ) as World<T>['tiles'];
-        case WorldGeometry.TETRAGONAL:
-        case WorldGeometry.UNKNOWN:
+        case TileShape.TETRAGONAL:
+        case TileShape.UNKNOWN:
         default:
             return new Map<TileHash, Tile<T>>();
     }

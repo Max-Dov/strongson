@@ -15,7 +15,7 @@ export const NeighborConstraintEditor = ({
     setNeighborConstraint,
     onRemove,
 }: NeighborConstraintEditorProps) => {
-    const neighborId = neighborConstraint.neighborId;
+    const neighborId = neighborConstraint.neighborConfigId;
     return <section className="neighbor-constraint-editor">
         <h4>
             {neighborId ? `Constraint to ${neighborId}` : 'New Neighbor Constraint'}
@@ -23,13 +23,13 @@ export const NeighborConstraintEditor = ({
         </h4>
         <Searchable searchList={['neighborconstraint', 'id']}>
             <div className="constraint-id-label">ID</div>
-            <div>{neighborConstraint.id}</div>
+            <div>{neighborConstraint.configId}</div>
         </Searchable>
         <Searchable searchList={['neighborconstraint', 'neighborId']}>
             <Input label="Neighbor ID"
-                   value={neighborConstraint.neighborId}
+                   value={neighborConstraint.neighborConfigId}
                    className="full-width"
-                   onChange={neighborId => setNeighborConstraint({...neighborConstraint, neighborId})}/>
+                   onChange={neighborId => setNeighborConstraint({...neighborConstraint, neighborConfigId: neighborId})}/>
         </Searchable>
         <Searchable searchList={['neighborconstraint', 'minimumamount']}>
             <Input label={<span className="constraint-label">Minimum Amount</span>}

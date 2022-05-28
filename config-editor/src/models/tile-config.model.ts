@@ -20,34 +20,34 @@ export interface TileConfig {
      */
     mutationWeight: number;
     /**
+     * Base chance to mutate into another tile. Dimension is %. E.g. "15" stands for "15%".
+     */
+    mutationChance: number;
+    /**
      * Factor to count when tile needs to mutate into another tile.
      *
      * For example, when tile must mutate, it will roll a random number and then pick new tile.
      * New tiles with greater number around current coordinate will have greater change to be mutated into.
      */
-    crowdWeightMultiplier: number;
+    crowdWeightMultiplier?: number;
     /**
      * Radius of crowd weight multiplier effect.
      */
-    crowdWeightMultiplierRadius: number;
-    /**
-     * Base chance to mutate into another tile. Dimension is %. E.g. "15" stands for "15%".
-     */
-    mutationChance: number;
+    crowdWeightMultiplierRadius?: number;
     /**
      * Minimum amount of epoch cycles when tile may exist.
      */
-    minAge: number;
+    minAge?: number;
     /**
      * Maximum amount of epoch cycles when tile may exist.
      */
-    maxAge: number;
+    maxAge?: number;
     /**
      * Multiplier on neighbor tiles that affects their mutationChance.
      */
-    neighborsMutationMultiplier: number;
+    neighborsMutationMultiplier?: number;
     /**
      * Radius of multiplier on neighbor tiles that affects their mutationChance.
      */
-    neighborsMutationMultiplierRadius: number;
+    neighborsMutationMultiplierRadius?: number;
 }
