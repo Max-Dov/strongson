@@ -29,7 +29,7 @@ export const TileConfigEditor = ({
     setTileConfig,
     onRemove,
 }: TileConfigEditorProps) => {
-    const tileId = tileConfig.id
+    const tileId = tileConfig.id;
     const onNewNeighbors = (neighbors: Array<Partial<NeighborConstraint>>) => setTileConfig({
         ...tileConfig,
         neighbors: neighbors as Array<NeighborConstraint>,
@@ -39,7 +39,7 @@ export const TileConfigEditor = ({
         setTileConfig({
             ...tileConfig,
             id,
-            neighbors: tileConfig.neighbors?.map(neighbor => ({...neighbor, id})),
+            neighbors: tileConfig.neighbors?.map(neighbor => ({...neighbor, configId: id})),
         });
     };
 
@@ -49,48 +49,115 @@ export const TileConfigEditor = ({
             <RemoveCircleButton className="remove-button" onClick={onRemove}/>
         </h4>
         <Searchable searchList={['tileconfig', 'id']}>
-            <Input label="ID" value={tileConfig.id} onChange={onNewId} className="full-width"/>
+            <Input
+                label="ID"
+                placeholder="e.g. forest-tile"
+                tooltip='Unique tile ID; e.g. "castle-lvl1".'
+                className="full-width"
+                value={tileConfig.id}
+                onChange={onNewId}
+            />
         </Searchable>
         <Searchable searchList={['tileconfig', 'mutationchance']}>
-            <Input label={<span className="numeric-field-label">Mutation chance (%)</span>}
-                   value={tileConfig.mutationChance} type="number"
-                   className="numeric-field"
-                   onChange={mutationChance => setTileConfig({...tileConfig, mutationChance})}/>
-        </Searchable>
-        <Searchable searchList={['tileconfig', 'crowdWeightMultiplier']}>
-            <Input label={<span className="numeric-field-label">Crowd weight multiplier</span>}
-                   value={tileConfig.crowdWeightMultiplier}
+            <Input label="Mutation chance"
+                   labelClassName="numeric-field-label"
+                   placeholder="0-100"
+                   tooltip='Base chance to mutate into another tile. Dimension is %. E.g. "15" stands for "15%".'
                    type="number"
                    className="numeric-field"
+                   value={tileConfig.mutationChance}
+                   onChange={mutationChance => setTileConfig({...tileConfig, mutationChance})}/>
+        </Searchable>
+        <Searchable searchList={['tileconfig', 'minAge']}>
+            <Input label="Minimum Age"
+                   labelClassName="numeric-field-label"
+                   placeholder="e.g. 1"
+                   tooltip={<span>Minimum amount of <strong>epoch cycles</strong> for tile to exist.</span>}
+                   type="number"
+                   className="numeric-field"
+                   value={tileConfig.minAge}
+                   onChange={minAge => setTileConfig({...tileConfig, minAge})}/>
+        </Searchable>
+        <Searchable searchList={['tileconfig', 'maxAge']}>
+            <Input label="Maximum Age"
+                   labelClassName="numeric-field-label"
+                   tooltip={<span>Maximum amount of <strong>epoch cycles</strong> when tile may exist. Tile may mutate earlier than value specified.</span>}
+                   placeholder="e.g. 10"
+                   type="number"
+                   className="numeric-field"
+                   value={tileConfig.maxAge}
+                   onChange={maxAge => setTileConfig({...tileConfig, maxAge})}/>
+        </Searchable>
+        <Searchable searchList={['tileconfig', 'mutationWeight']}>
+            <Input label="Mutation weight"
+                   labelClassName="numeric-field-label"
+                   tooltip={<span>
+                        Factor to count when tile needs to mutate into another tile.<br/>
+                        For example, when tile must mutate, it will roll a random number and then pick new tile.<br/>
+                        Possible tiles with <strong>greater mutationWeight</strong> will have greater chance to be mutated into.
+                   </span>}
+                   placeholder="e.g. 10"
+                   type="number"
+                   className="numeric-field"
+                   value={tileConfig.mutationWeight}
+                   onChange={mutationWeight => setTileConfig({...tileConfig, mutationWeight})}/>
+        </Searchable>
+        <Searchable searchList={['tileconfig', 'crowdWeightMultiplier']}>
+            <Input label="Crowd weight multiplier"
+                   labelClassName="numeric-field-label"
+                   tooltip={<span>
+                        Factor to count when tile needs to mutate into another tile.<br/>
+                        Useful when tiles need to be grouped up or loosely spread across map.<br/>
+                        For example, when tile must mutate, it will roll a random number and then pick new tile.<br/>
+                        Possible tiles that have <strong>greater number around current coordinate</strong> will have greater chance to be mutated into.
+                   </span>}
+                   placeholder="e.g. 1,5"
+                   type="number"
+                   className="numeric-field"
+                   value={tileConfig.crowdWeightMultiplier}
                    onChange={crowdWeightMultiplier => setTileConfig({...tileConfig, crowdWeightMultiplier})}/>
         </Searchable>
         <Searchable searchList={['tileconfig', 'crowdWeightMultiplierRadius']}>
-            <Input label={<span className="numeric-field-label">Crowd weight multiplier radius</span>}
+            <Input label="Crowd weight multiplier radius"
+                   labelClassName="numeric-field-label"
+                   tooltip={<span>Radius of <strong>crowd weight multiplier</strong> effect.</span>}
+                   placeholder="e.g. 2"
+                   type="number"
+                   className="numeric-field"
                    value={tileConfig.crowdWeightMultiplierRadius}
-                   type="number"
-                   className="numeric-field"
-                   onChange={crowdWeightMultiplierRadius => setTileConfig({...tileConfig, crowdWeightMultiplierRadius})}/>
-        </Searchable>
-        <Searchable searchList={['tileconfig', 'mutationWeight']}>
-            <Input label={<span className="numeric-field-label">Mutation weight</span>}
-                   value={tileConfig.mutationWeight}
-                   type="number"
-                   className="numeric-field"
-                   onChange={mutationWeight => setTileConfig({...tileConfig, mutationWeight})}/>
+                   onChange={crowdWeightMultiplierRadius => setTileConfig({
+                       ...tileConfig,
+                       crowdWeightMultiplierRadius,
+                   })}/>
         </Searchable>
         <Searchable searchList={['tileconfig', 'neighborsMutationMultiplier']}>
-            <Input label={<span className="numeric-field-label">Neighbors mutation multiplier</span>}
-                   value={tileConfig.neighborsMutationMultiplier}
+            <Input label="Neighbors mutation multiplier"
+                   labelClassName="numeric-field-label"
+                   tooltip={<span>
+                       Multiplier on neighbor tiles that multiplies their mutationChance.<br/>
+                       Useful when neighbor tiles need to be forced to mutate.
+                   </span>}
+                   placeholder="e.g. 1,5"
                    type="number"
                    className="numeric-field"
-                   onChange={neighborsMutationMultiplier => setTileConfig({...tileConfig, neighborsMutationMultiplier})}/>
+                   value={tileConfig.neighborsMutationMultiplier}
+                   onChange={neighborsMutationMultiplier => setTileConfig({
+                       ...tileConfig,
+                       neighborsMutationMultiplier,
+                   })}/>
         </Searchable>
         <Searchable searchList={['tileconfig', 'neighborsMutationMultiplierRadius']}>
-            <Input label={<span className="numeric-field-label">Neighbors mutation multiplier radius</span>}
-                   value={tileConfig.neighborsMutationMultiplierRadius}
+            <Input label="Neighbors mutation multiplier radius"
+                   labelClassName="numeric-field-label"
+                   tooltip={<span>Radius of <strong>neighbors mutation multiplier</strong> effect.</span>}
+                   placeholder="e.g. 2"
                    type="number"
                    className="numeric-field"
-                   onChange={neighborsMutationMultiplierRadius => setTileConfig({...tileConfig, neighborsMutationMultiplierRadius})}/>
+                   value={tileConfig.neighborsMutationMultiplierRadius}
+                   onChange={neighborsMutationMultiplierRadius => setTileConfig({
+                       ...tileConfig,
+                       neighborsMutationMultiplierRadius,
+                   })}/>
         </Searchable>
         <NeighborsEditor neighbors={tileConfig.neighbors} setNeighbors={onNewNeighbors} originId={tileConfig.id}/>
     </section>;

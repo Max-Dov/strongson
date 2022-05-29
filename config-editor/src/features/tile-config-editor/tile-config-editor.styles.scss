@@ -7,8 +7,7 @@
   padding: 0.5rem;
   margin: 0.5rem;
   width: 21rem;
-  resize: horizontal;
-  overflow: auto;
+  overflow: visible; // in order to see tooltips
   background-color: rgba(blue, 0.05);
 
   h4 {
@@ -16,7 +15,7 @@
   }
 
   .numeric-field-label {
-    width: 17em;
+    width: 17.75em; // hardcoded to look nicely
     display: inline-block;
   }
 

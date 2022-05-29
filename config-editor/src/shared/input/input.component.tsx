@@ -1,7 +1,8 @@
 import {ChangeEvent, InputHTMLAttributes, ReactNode} from 'react';
 import {RadioInput} from './radio-input.component';
 import {ArrayInput} from './array-input.component';
-import './input.styles.scss'
+import './input.styles.scss';
+import {Tooltip} from '../tooltip/tooltip.component';
 
 type RadioOptions = Array<{ value: string, displayLabel: string }>
 
@@ -10,6 +11,10 @@ interface InputProps<ValueType extends (string | Array<string> | number) = strin
      * Label to display for input.
      */
     label?: ReactNode;
+    /**
+     * Label className. Label contains both label text and tooltip.
+     */
+    labelClassName?: string;
     /**
      * List of options to display if input type is "radio".
      */
@@ -27,9 +32,13 @@ interface InputProps<ValueType extends (string | Array<string> | number) = strin
      */
     value?: ValueType;
     /**
-     * Display property of Input container. 'block' by default
+     * Display property of Input container. 'block' by default.
      */
     display?: 'block' | 'inline-block';
+    /**
+     * Tooltip to display for input near label.
+     */
+    tooltip?: ReactNode;
 }
 
 /**
@@ -37,15 +46,20 @@ interface InputProps<ValueType extends (string | Array<string> | number) = strin
  */
 export const Input = <ValueType extends (string | Array<string> | number) = string, >({
     label,
+    labelClassName,
     type,
     value,
     onChange,
     display = 'block',
+    tooltip,
     ...htmlInputProps
 }: InputProps<ValueType>) => {
     const defaultOnChange = (e: ChangeEvent<HTMLInputElement>) => onChange?.(e.target.value as ValueType);
     const arrayOnChange = (newValues: Array<string>) => onChange?.(newValues as ValueType);
-    const numberOnChange = (e: ChangeEvent<HTMLInputElement>) => onChange?.((e.target.valueAsNumber || 0) as ValueType);
+    const numberOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.valueAsNumber;
+        onChange?.((isNaN(value) ? undefined : value) as ValueType);
+    };
     let inputElement = <input {...htmlInputProps} value={value || ''} onChange={defaultOnChange}/>;
     switch (type) {
         case 'radio':
@@ -55,12 +69,15 @@ export const Input = <ValueType extends (string | Array<string> | number) = stri
             inputElement = <ArrayInput {...htmlInputProps} type="text" value={value} onChange={arrayOnChange}/>;
             break;
         case 'number':
-            inputElement = <input {...htmlInputProps} type="number" value={value} onChange={numberOnChange}/>
+            inputElement = <input {...htmlInputProps} type="number" value={value} onChange={numberOnChange}/>;
             break;
     }
     return <div className={`input ${display}`}>
-        {label && <label htmlFor={htmlInputProps.id}>
-            {label}
+        {label && <label htmlFor={htmlInputProps.id} className={labelClassName || ''}>
+            <span className="input-label-content">
+                {label}
+                {tooltip && <Tooltip>{tooltip}</Tooltip>}
+            </span>
         </label>}
         {inputElement}
     </div>;

@@ -34,15 +34,21 @@ export const WorldConfigEditor = ({
         </h2>
             <div className="id-and-config-row">
                 <Searchable searchList={['worldconfig', 'id']}>
-                    <Input label="ID"
-                           id="world-config-id-input"
-                           value={worldConfig.id}
-                           onChange={onConfigIdChange}
-                           display="inline-block"/>
+                    <div className="world-config-id-input">
+                        <Input label="ID"
+                               tooltip='Unique world ID; e.g. "land-world", "cloud-world".'
+                               id="world-config-id-input"
+                               className="full-width"
+                               placeholder="e.g. Coolest Config Imaginable v1"
+                               value={worldConfig.id}
+                               onChange={onConfigIdChange}
+                               display="block"/>
+                    </div>
                 </Searchable>
                 <Searchable searchList={['worldconfig', 'geometry']}>
                     <Input
                         label="Tile Shape"
+                        tooltip="Shape of every tile in world."
                         type="radio"
                         name="world-geometry-input"
                         radioOptions={[

@@ -23,7 +23,7 @@ export const NeighborConstraintEditor = ({
         </h4>
         <Searchable searchList={['neighborconstraint', 'id']}>
             <div className="constraint-id-label">ID</div>
-            <div>{neighborConstraint.configId}</div>
+            <div>{neighborConstraint.configId || 'No ID for origin tile specified yet.'}</div>
         </Searchable>
         <Searchable searchList={['neighborconstraint', 'neighborId']}>
             <Input label="Neighbor ID"
