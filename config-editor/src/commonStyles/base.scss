@@ -54,3 +54,22 @@ button {
 svg {
   display: inherit;
 }
+
+body {
+  &::-webkit-scrollbar {
+    background-color: rgba(black, 0.1);
+    width: 1rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($accent-color, 0.4);
+    &:hover {
+      background-color: rgba($accent-color, 0.8);
+    }
+  }
+  &::-webkit-scrollbar-button {
+    background-color: rgba(black, 0.15);
+    height: 1rem;
+    width: 1rem;
+  }
+}

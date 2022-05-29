@@ -9,10 +9,15 @@
     display: inline-block;
   }
 
-  .label {
+  label {
     display: inline-block;
     font-size: 0.9em;
     color: $accent-color;
+    .input-label-content {
+      display: flex;
+      gap: 0.2em;
+      align-items: center;
+    }
   }
 
   input {
@@ -38,6 +43,10 @@
     &::placeholder {
       color: rgba($font-color, 0.5)
     }
+  }
+
+  .radio-label {
+    color: $font-color;
   }
 
   input[type="radio"] {

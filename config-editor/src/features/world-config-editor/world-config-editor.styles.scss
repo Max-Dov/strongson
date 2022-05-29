@@ -1,19 +1,23 @@
 @import "commonStyles/constants.scss";
 
 section.world-config {
-  .search-bar {
-    font-size: 1rem;
-    float: right;
-    display: inline-block;
-    box-shadow: $shadow-medium;
-    padding: 0 0.5em;
-  }
-
   h2 {
     margin-top: 0;
   }
 
   .input {
     margin: 0.5em 0
+  }
+
+  .id-and-config-row {
+    display: flex;
+    gap: 1rem;
+    @media (max-width: 900px) {
+      flex-direction: column;
+      gap: 0;
+    }
+    .world-config-id-input {
+      flex: 1;
+    }
   }
 }

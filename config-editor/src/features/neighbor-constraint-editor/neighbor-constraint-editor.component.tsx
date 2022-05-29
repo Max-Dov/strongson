@@ -23,7 +23,7 @@ export const NeighborConstraintEditor = ({
         </h4>
         <Searchable searchList={['neighborconstraint', 'id']}>
             <div className="constraint-id-label">ID</div>
-            <div>{neighborConstraint.configId}</div>
+            <div>{neighborConstraint.configId || 'No ID for origin tile specified yet.'}</div>
         </Searchable>
         <Searchable searchList={['neighborconstraint', 'neighborId']}>
             <Input label="Neighbor ID"
@@ -31,33 +31,33 @@ export const NeighborConstraintEditor = ({
                    className="full-width"
                    onChange={neighborId => setNeighborConstraint({...neighborConstraint, neighborConfigId: neighborId})}/>
         </Searchable>
-        <Searchable searchList={['neighborconstraint', 'minimumamount']}>
+        <Searchable searchList={['neighborconstraint', 'minamount']}>
             <Input label={<span className="constraint-label">Minimum Amount</span>}
                    className="constraint-input"
                    value={neighborConstraint.minAmount}
                    type="number"
                    onChange={minAmount => setNeighborConstraint({...neighborConstraint, minAmount})}/>
         </Searchable>
-        <Searchable searchList={['neighborconstraint', 'maximumamount']}>
+        <Searchable searchList={['neighborconstraint', 'maxamount']}>
             <Input label={<span className="constraint-label">Maximum Amount</span>}
                    className="constraint-input"
                    value={neighborConstraint.maxAmount}
                    type="number"
                    onChange={maxAmount => setNeighborConstraint({...neighborConstraint, maxAmount})}/>
         </Searchable>
-        <Searchable searchList={['neighborconstraint', 'minimumdistance']}>
+        <Searchable searchList={['neighborconstraint', 'mindistance']}>
             <Input label={<span className="constraint-label">Minimum Distance</span>}
                    className="constraint-input"
-                   value={neighborConstraint.minimumDistance}
+                   value={neighborConstraint.minDistance}
                    type="number"
-                   onChange={minimumDistance => setNeighborConstraint({...neighborConstraint, minimumDistance})}/>
+                   onChange={minDistance => setNeighborConstraint({...neighborConstraint, minDistance})}/>
         </Searchable>
-        <Searchable searchList={['neighborconstraint', 'minimumamount']}>
+        <Searchable searchList={['neighborconstraint', 'minamount']}>
             <Input label={<span className="constraint-label">Maximum Distance</span>}
                    className="constraint-input"
-                   value={neighborConstraint.maximumDistance}
+                   value={neighborConstraint.maxDistance}
                    type="number"
-                   onChange={maximumDistance => setNeighborConstraint({...neighborConstraint, maximumDistance})}/>
+                   onChange={maxDistance => setNeighborConstraint({...neighborConstraint, maxDistance})}/>
         </Searchable>
     </section>;
 };

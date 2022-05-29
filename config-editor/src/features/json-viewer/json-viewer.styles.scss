@@ -9,7 +9,7 @@
     width: 100%;
     height: 30rem;
     padding: 0.5rem;
-    display: inline-block;
+    display: block;
     background: transparent;
     color: $accent-color;
     resize: vertical;
@@ -34,5 +34,9 @@
     font-size: 0.6em;
     font-weight: $font-thin;
     color: rgba($font-color, 0.5);
+  }
+
+  .error-message strong {
+    color: $error-color;
   }
 }

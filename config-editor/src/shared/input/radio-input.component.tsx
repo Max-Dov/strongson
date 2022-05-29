@@ -16,6 +16,6 @@ export const RadioInput = ({radioOptions, value: inputValue, ...htmlInputProps}:
     <>{radioOptions?.map(({value, displayLabel}) =>
         <div key={value}>
             <input {...htmlInputProps} id={value} value={value} checked={value === inputValue}/>
-            <label htmlFor={value}>{displayLabel}</label>
+            <label htmlFor={value} className="radio-label">{displayLabel}</label>
         </div>,
     )}</>;

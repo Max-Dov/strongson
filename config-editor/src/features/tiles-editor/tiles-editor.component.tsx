@@ -4,6 +4,7 @@ import {TileConfigEditor} from '../tile-config-editor/tile-config-editor.compone
 import {TileConfig} from '../../models/tile-config.model';
 import {AddHexagonButton} from '../../svgs/add-hexagon-button.svg';
 import './tiles-editor.styles.scss';
+import {Tooltip} from '../../shared/tooltip/tooltip.component';
 
 type Tile = Partial<WorldConfig['tiles'][number]>
 type Tiles = Array<Tile>
@@ -60,6 +61,7 @@ export const TilesEditor = ({
     return <section className="tiles-editor">
         <h3>
             <strong>World Tiles</strong>
+            <Tooltip>Tiles that can exist in World.</Tooltip>
             <AddHexagonButton onClick={onAddTileToWorld}/>
         </h3>
         <div className="tiles-container">

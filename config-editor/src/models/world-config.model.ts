@@ -14,7 +14,7 @@ export interface WorldConfig {
      */
     tiles: Array<TileConfig>;
     /**
-     * World tile geometry.
+     * Shape of every tile in world.
      */
     tileShape: TileShape;
 }

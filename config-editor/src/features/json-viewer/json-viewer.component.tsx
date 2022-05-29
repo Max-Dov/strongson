@@ -2,8 +2,6 @@ import {ChangeEvent, useEffect, useRef, useState} from 'react';
 import './json-viewer.styles.scss';
 import {Button} from '../../shared/button/button.component';
 
-// TODO fix cursor position even on rerender.
-
 interface JsonViewerProps<ObjectToDisplay extends object> {
     objectToDisplay: ObjectToDisplay;
     onObjectToDisplayUpdate: (object: ObjectToDisplay) => void;
@@ -18,30 +16,30 @@ export const JsonViewer = <ObjectToDisplay extends object>({
 }: JsonViewerProps<ObjectToDisplay>) => {
     const [stringifiedObject, setStringifiedObject] = useState<string>();
     const [isObjectInvalid, setIsObjectInvalid] = useState<boolean>(false);
-    const inputRef = useRef<HTMLTextAreaElement>(null)
-    const [cursorPosition, setCursorPosition] = useState(0)
+    const inputRef = useRef<HTMLTextAreaElement>(null);
+    const [cursorPosition, setCursorPosition] = useState(0);
 
     /**
      * Restore cursor position on every rerender.
      */
     useEffect(() => {
-        const inputEl = inputRef.current
+        const inputEl = inputRef.current;
         if (inputEl) {
-            inputEl.selectionStart = cursorPosition
-            inputEl.selectionEnd = cursorPosition
+            inputEl.selectionStart = cursorPosition;
+            inputEl.selectionEnd = cursorPosition;
         }
-    })
+    });
 
     /**
      * Try parsing input and either update object via callback or display error message.
      */
     const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setCursorPosition(inputRef?.current?.selectionStart || 0)
+        setCursorPosition(inputRef?.current?.selectionStart || 0);
         const newStringifiedObject = e.target.value;
         if (newStringifiedObject === '') {
             setIsObjectInvalid(false);
             onObjectToDisplayUpdate({} as ObjectToDisplay);
-            return
+            return;
         }
         const parsedObject = parseJsonObject(newStringifiedObject);
         if (parsedObject) {
@@ -54,15 +52,15 @@ export const JsonViewer = <ObjectToDisplay extends object>({
     };
 
     const onCopy = () => {
-        navigator.clipboard.writeText(stringifiedObject || '')
-    }
+        navigator.clipboard.writeText(stringifiedObject || '');
+    };
 
     /**
      * Subscription to new object outside of component.
      * These changes have greater priority, so they overwrite what is in input field currently.
      */
     useEffect(() => {
-        const newStringifiedObject = JSON.stringify(objectToDisplay, null, 2);
+        const newStringifiedObject = JSON.stringify(objectToDisplay, null, 1);
         setStringifiedObject(newStringifiedObject);
     }, [objectToDisplay]);
 
@@ -77,8 +75,10 @@ export const JsonViewer = <ObjectToDisplay extends object>({
             placeholder="Paste World Config JSON there.."
             onChange={onChange}
         />
-        {isObjectInvalid && <p className={'error-message'}>
-            Above object is not valid JSON.
+        {isObjectInvalid && <p className="error-message">
+            <strong>
+                Above object is not valid JSON.
+            </strong>
         </p>}
         <Button onClick={onCopy}>
             Copy to clipboard

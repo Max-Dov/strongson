@@ -4,6 +4,7 @@ import {NeighborConstraintEditor} from '../neighbor-constraint-editor/neighbor-c
 import {NeighborConstraint} from '../../models/neighbor-constraint.model';
 import {AddHexagonButton} from '../../svgs/add-hexagon-button.svg';
 import './neighbors-editor.styles.scss';
+import {Tooltip} from '../../shared/tooltip/tooltip.component';
 
 type Neighbor = Partial<TileConfig['neighbors'][number]>
 
@@ -62,7 +63,8 @@ export const NeighborsEditor = ({
 
     return <section className="neighbors-editor">
         <h4>
-            <strong>Tile Constraints</strong>
+            <strong>Neighbors</strong>
+            <Tooltip>Constraints that must all be true for every tile in world.</Tooltip>
             <AddHexagonButton onClick={onAddNeighbor}/>
         </h4>
         {neighbors?.map(renderNeighborConstraintEditor)}
