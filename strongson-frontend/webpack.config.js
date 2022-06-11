@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -34,10 +35,10 @@ module.exports = {
                     options: {
                         presets: [
                             ['@babel/preset-typescript'],
-                            ["@babel/preset-env"],
-                            ["@babel/preset-react"]
+                            ['@babel/preset-env'],
+                            ['@babel/preset-react']
                         ],
-                        plugins: ["@babel/plugin-proposal-class-properties"],
+                        plugins: ['@babel/plugin-proposal-class-properties'],
                     }
                 }
             },
@@ -53,19 +54,16 @@ module.exports = {
                 test: /\.woff2?$/,
                 type: 'asset/resource'
             },
-            { // gltf models
-                test: /\.(png|bin|gltf)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]',
-                    esModule: false,
-                }
-            },
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: 'public/index.html'
+        }),
+        new CopyPlugin({
+            patterns: [
+                {from: path.join('public', 'favicon.ico')},
+            ],
         }),
     ],
     output: {
