@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -11,11 +12,10 @@ module.exports = {
             '@commonStyles': path.resolve(__dirname, 'src', 'commonStyles'),
             '@components': path.resolve(__dirname, 'src', 'components'),
             '@models': path.resolve(__dirname, 'src', 'models'),
+            '@constants': path.resolve(__dirname, 'src', 'constants'),
             '@services': path.resolve(__dirname, 'src', 'services'),
             '@utils': path.resolve(__dirname, 'src', 'utils'),
-            '@assets': path.resolve(__dirname, 'src', 'assets'),
             '@redux': path.resolve(__dirname, 'src', 'redux'),
-            '@ammojs': path.resolve(__dirname, 'src', 'ammojs'),
         }
     },
     devtool: 'inline-source-map',
@@ -34,10 +34,10 @@ module.exports = {
                     options: {
                         presets: [
                             ['@babel/preset-typescript'],
-                            ["@babel/preset-env"],
-                            ["@babel/preset-react"]
+                            ['@babel/preset-env'],
+                            ['@babel/preset-react']
                         ],
-                        plugins: ["@babel/plugin-proposal-class-properties"],
+                        plugins: ['@babel/plugin-proposal-class-properties'],
                     }
                 }
             },
@@ -53,19 +53,17 @@ module.exports = {
                 test: /\.woff2?$/,
                 type: 'asset/resource'
             },
-            { // gltf models
-                test: /\.(png|bin|gltf)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]',
-                    esModule: false,
-                }
-            },
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: 'public/index.html'
+        }),
+        new CopyPlugin({
+            patterns: [
+                {from: path.join('public', 'favicon.ico')},
+                {from: path.join('public', 'assets')},
+            ],
         }),
     ],
     output: {
@@ -74,7 +72,7 @@ module.exports = {
         publicPath: '/',
     },
     devServer: {
-        port: 3000,
+        port: 3002,
         contentBase: path.join(__dirname, 'build'),
         publicPath: '/',
         hot: true,

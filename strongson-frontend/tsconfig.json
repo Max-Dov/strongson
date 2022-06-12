@@ -14,11 +14,10 @@
       "@commonStyles/*": ["src/commonStyles/*"],
       "@components/*": ["src/components/*"],
       "@models/*": ["src/models/*"],
+      "@constants/*": ["src/constants/*"],
       "@services/*": ["src/services/*"],
       "@utils/*": ["src/utils/*"],
-      "@assets/*": ["src/assets/*"],
       "@redux/*": ["src/redux/*"],
-      "@ammojs/*": ["src/ammojs/*"]
     }
   },
   "include": [
