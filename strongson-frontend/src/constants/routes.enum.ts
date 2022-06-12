@@ -1,3 +1,4 @@
 export enum Routes {
-    LANDING = '/'
+    LANDING = '/',
+    TILES = '/tiles',
 }
