@@ -3,7 +3,7 @@ import {NearestFilter, TextureLoader} from 'three';
 import {Canvas, useLoader} from '@react-three/fiber';
 import {MapControls} from '@react-three/drei';
 import {Vector3Tuple} from 'three';
-import './landing.styles.scss';
+import './landing-page.styles.scss';
 
 export const LandingPage = () => {
 
