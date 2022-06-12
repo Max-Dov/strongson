@@ -12,11 +12,10 @@ module.exports = {
             '@commonStyles': path.resolve(__dirname, 'src', 'commonStyles'),
             '@components': path.resolve(__dirname, 'src', 'components'),
             '@models': path.resolve(__dirname, 'src', 'models'),
+            '@constants': path.resolve(__dirname, 'src', 'constants'),
             '@services': path.resolve(__dirname, 'src', 'services'),
             '@utils': path.resolve(__dirname, 'src', 'utils'),
-            '@assets': path.resolve(__dirname, 'src', 'assets'),
             '@redux': path.resolve(__dirname, 'src', 'redux'),
-            '@ammojs': path.resolve(__dirname, 'src', 'ammojs'),
         }
     },
     devtool: 'inline-source-map',
@@ -63,6 +62,7 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 {from: path.join('public', 'favicon.ico')},
+                {from: path.join('public', 'assets')},
             ],
         }),
     ],
@@ -72,7 +72,7 @@ module.exports = {
         publicPath: '/',
     },
     devServer: {
-        port: 3000,
+        port: 3002,
         contentBase: path.join(__dirname, 'build'),
         publicPath: '/',
         hot: true,
