@@ -1,9 +1,9 @@
 import React, {Suspense} from 'react';
-import {TextureLoader} from 'three';
+import {NearestFilter, TextureLoader} from 'three';
 import {Canvas, useLoader} from '@react-three/fiber';
 import {MapControls} from '@react-three/drei';
-import './landing.styles.scss';
 import {Vector3Tuple} from 'three';
+import './landing.styles.scss';
 
 export const LandingPage = () => {
 
@@ -11,9 +11,9 @@ export const LandingPage = () => {
         Landing
         <Canvas orthographic camera={{position: [0, 0, 10], zoom: 100, up: [0, 0, 1], far: 10000}}>
             <Suspense fallback={null}>
-                <Image url="city-lvl-1-0.png" scale={2} ratio={1.295}/>
-                <Image url="city-lvl-1-0.png" position={[1, 1, 0]} ratio={1.295}/>
-                <Image url="city-lvl-1-0.png" position={[-1, 1, 0]} ratio={1.295}/>
+                <Image url="city-lvl-1-0.png" scale={2}/>
+                <Image url="city-lvl-1-0.png" position={[1, 1, 0]}/>
+                <Image url="city-lvl-1-0.png" position={[-1, 1, 0]}/>
             </Suspense>
             <MapControls/>
         </Canvas>
@@ -27,16 +27,20 @@ interface ImageProps {
      * Scale of X and Y dimensions.
      */
     scale?: number;
-    /**
-     * Height to width relation.
-     */
-    ratio?: number;
 }
 
-export const Image = ({url, position, scale = 1, ratio = 1}: ImageProps) => {
-    const texture = useLoader(TextureLoader, url)
+export const Image = ({url, position, scale = 1}: ImageProps) => {
+    const texture = useLoader(TextureLoader, url);
+    const image = texture!.image;
+    const ratio = image.width / image.height;
     return <mesh position={position || [0, 0, 0]} scale={scale}>
-        <planeGeometry args={[1 / ratio, 1]}/>
-        <meshBasicMaterial transparent map={texture} toneMapped={false}/>
-    </mesh>
+        <planeGeometry args={[ratio, 1]}/>
+        <meshBasicMaterial
+            transparent
+            map={texture}
+            toneMapped={false}
+            map-minFilter={NearestFilter}
+            map-magFilter={NearestFilter}
+        />
+    </mesh>;
 };
