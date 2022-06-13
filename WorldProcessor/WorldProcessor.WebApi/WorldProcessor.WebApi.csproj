@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WorldIterator.Application\WorldProcessor.Application.csproj" />
+    <ProjectReference Include="..\WorldProcessor.Application\WorldProcessor.Application.csproj" />
   </ItemGroup>
 
 </Project>
