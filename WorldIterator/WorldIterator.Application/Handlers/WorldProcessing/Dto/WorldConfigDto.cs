@@ -1,4 +1,4 @@
-﻿namespace WorldProcessor.Application.Handlers.WorldIteration.Dto
+﻿namespace WorldProcessor.Application.Handlers.WorldProcessing.Dto
 {
     public class WorldConfigDto
     {
@@ -6,6 +6,6 @@
 
         public TileConfigDto[] Tiles { get; set; }
 
-        public string Geometry { get; set; }
+        public string TileShape { get; set; }
     }
 }

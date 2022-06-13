@@ -3,9 +3,9 @@
 using WorldProcessor.Core.Entities;
 using WorldProcessor.Core.Interfaces;
 using WorldProcessor.Core.ValueTypes;
-using WorldProcessor.Application.Handlers.WorldIteration.Dto;
+using WorldProcessor.Application.Handlers.WorldProcessing.Dto;
 
-namespace WorldProcessor.Application.Handlers.WorldIteration.Mapping
+namespace WorldProcessor.Application.Handlers.WorldProcessing.Mapping
 {
     public class WorldIterationAutoMapperProfile : Profile
     {
@@ -16,6 +16,18 @@ namespace WorldProcessor.Application.Handlers.WorldIteration.Mapping
 
             CreateMap<IPosition, IEnumerable<int>>()
                 .ConvertUsing<Position2IEnumerableConverter>();
+
+            CreateMap<TileConfigDto, TileConfig>()
+                .ForMember(
+                    tileConfig => tileConfig.Neighbors,
+                    options => options.NullSubstitute(new NeighborConstraintDto[0]));
+
+            CreateMap<WorldConfigDto, WorldConfig>()
+                .ConvertUsing<WorldConfigDto2WorldConfigConverter>();
+
+            CreateMap<NeighborConstraintDto, NeighborConstraint>();
+
+            CreateMap<TileDto, Tile>();
 
             CreateMap<WorldDto, World>()
                 .ConvertUsing<WorldDto2WorldConverter>();
@@ -70,6 +82,22 @@ namespace WorldProcessor.Application.Handlers.WorldIteration.Mapping
             => source.GetCoordinatesList();
     }
 
+    public class WorldConfigDto2WorldConfigConverter
+        : ITypeConverter<WorldConfigDto, WorldConfig>
+    {
+        public WorldConfig Convert(WorldConfigDto source, WorldConfig destination, ResolutionContext context)
+        {
+            return new WorldConfig()
+            {
+                Id = source.Id,
+                TileShape = source.TileShape,
+                Tiles = source.Tiles
+                    .Select(dto => context.Mapper.Map<TileConfigDto, TileConfig>(dto))
+                    .ToList()
+            };
+        }
+    }
+
     public class WorldDto2WorldConverter
         : ITypeConverter<WorldDto, World>
     {
@@ -83,7 +111,7 @@ namespace WorldProcessor.Application.Handlers.WorldIteration.Mapping
                 ConfigId = source.ConfigId,
                 Seed = source.Seed,
                 Epoch = source.Epoch,
-                Geometry = source.Geometry
+                TileShape = source.TileShape
             };
 
             result.Dimensions = context.Mapper
@@ -124,14 +152,15 @@ namespace WorldProcessor.Application.Handlers.WorldIteration.Mapping
                 ConfigId = source.ConfigId,
                 Seed = source.Seed,
                 Epoch = source.Epoch,
+                TileShape = source.TileShape,
                 Dimensions = context.Mapper.Map<IPosition, IEnumerable<int>>(source.Dimensions).ToArray(),
                 Tiles = source.Tiles
                     .ToDictionary(
                     kvp => kvp.Key.GetStringHashCode(),
                     kvp => new TileDto()
                     {
-                        Id = kvp.Value.ConfigId,
-                        Representation = kvp.Value.Representation.ToArray(),
+                        ConfigId = kvp.Value.ConfigId,
+                        Representation = kvp.Value.Representation,
                         ChanceToMutate = kvp.Value.MutationChance,
                         Coordinates = kvp.Key.GetCoordinatesList().ToArray()
                     })

@@ -6,24 +6,15 @@ namespace WorldProcessor.Core.ValueTypes
 {
     public struct Position2 : IPosition
     {
-        public int X
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int X { get; set; }
 
-        public int Y
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int Y { get; set; }
 
         public Position2()
-        { }
+        {
+            X = 0;
+            Y = 0;
+        }
 
         public Position2(int x, int y)
         {

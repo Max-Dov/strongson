@@ -6,32 +6,18 @@ namespace WorldProcessor.Core.ValueTypes
 {
     public struct Position3 : IPosition
     {
-        public int X
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int X { get; set; }
 
-        public int Y
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int Y { get; set; }
 
-        public int Z
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int Z { get; set; }
 
         public Position3()
-        { }
+        {
+            X = 0;
+            Y = 0;
+            Z = 0;
+        }
 
         public Position3(int x, int y, int z)
         {
@@ -63,11 +49,11 @@ namespace WorldProcessor.Core.ValueTypes
                 switch (direction)
                 {
                     case HexagonalDirection.ZPlus: return NormalizePosition(X, Y, Z + 1);
-                    case HexagonalDirection.YMinus: return NormalizePosition(X, Y - 1, Z);
-                    case HexagonalDirection.XPlus: return NormalizePosition(X + 1, Y, Z);
-                    case HexagonalDirection.ZMinus: return NormalizePosition(X, Y, Z - 1);
-                    case HexagonalDirection.YPlus: return NormalizePosition(X, Y + 1, Z);
                     case HexagonalDirection.XMinus: return NormalizePosition(X - 1, Y, Z);
+                    case HexagonalDirection.YPlus: return NormalizePosition(X, Y + 1, Z);
+                    case HexagonalDirection.ZMinus: return NormalizePosition(X, Y, Z - 1);
+                    case HexagonalDirection.XPlus: return NormalizePosition(X + 1, Y, Z);
+                    case HexagonalDirection.YMinus: return NormalizePosition(X, Y - 1, Z);
                     default: return new Position3(X, Y, Z); // impossible, but necessary
                 }
             }
@@ -138,8 +124,7 @@ namespace WorldProcessor.Core.ValueTypes
 
             var result = new List<IPosition>();
 
-            var position = center.Add(new Position3(0, 0, radius));
-
+            var position = center.Add(new Position3(radius, 0, 0));
             for (int i = 1; i <= 6; i++)
             {
                 for (int j = 0; j < radius; j++)

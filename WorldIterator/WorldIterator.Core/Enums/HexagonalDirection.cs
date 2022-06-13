@@ -3,10 +3,10 @@
     public enum HexagonalDirection
     {
         ZPlus = 1,
-        YMinus = 2,
-        XPlus = 3,
+        XMinus = 2,
+        YPlus = 3,
         ZMinus = 4,
-        YPlus = 5,
-        XMinus = 6,
+        XPlus = 5,
+        YMinus = 6,
     }
 }

@@ -1,10 +1,10 @@
-﻿namespace WorldProcessor.Core.Entities
+﻿namespace WorldProcessor.Application.Handlers.WorldProcessing.Dto
 {
-    public class TileConfig
+    public class TileConfigDto
     {
         public string Id { get; set; }
 
-        public IEnumerable<NeighborConstraint> Neighbors { get; set; }
+        public NeighborConstraintDto[]? Neighbors { get; set; }
 
         public int MutationWeight { get; set; }
 

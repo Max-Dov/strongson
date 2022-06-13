@@ -3,9 +3,10 @@ using AutoMapper;
 
 using WorldProcessor.Core.Entities;
 using WorldProcessor.Core.Interfaces.Services;
-using WorldProcessor.Application.Handlers.WorldIteration.Dto;
+using WorldProcessor.Core.Services;
+using WorldProcessor.Application.Handlers.WorldProcessing.Dto;
 
-namespace WorldProcessor.Application.Handlers.WorldIteration.Queries
+namespace WorldProcessor.Application.Handlers.WorldProcessing.Queries
 {
     public class GenerateNextWorldIterationQueryHandler 
         : IRequestHandler<GenerateNextWorldIterationQuery, WorldDto>
@@ -15,11 +16,10 @@ namespace WorldProcessor.Application.Handlers.WorldIteration.Queries
         private readonly IWorldIterationService _worldIterationService;
 
         public GenerateNextWorldIterationQueryHandler(
-            IMapper mapper,
-            IWorldIterationService worldIterationService)
+            IMapper mapper)
         {
             _mapper = mapper;
-            _worldIterationService = worldIterationService;
+            _worldIterationService = new WorldIterationService();
         }
 
         public async Task<WorldDto> Handle(
@@ -27,14 +27,12 @@ namespace WorldProcessor.Application.Handlers.WorldIteration.Queries
             CancellationToken cancellationToken)
         {
             var world = _mapper.Map<WorldDto, World>(request.World);
-
-            var tileConfigs = 
-                _mapper.Map<TileConfigDto[], IEnumerable<TileConfig>> (request.WorldConfig.Tiles);
+            var worldConfig = _mapper.Map<WorldConfigDto, WorldConfig>(request.WorldConfig);
 
             var result = await _worldIterationService
                 .GenerateNextWorldIterationAsync(
                     world,
-                    tileConfigs,
+                    worldConfig.Tiles,
                     cancellationToken);
 
             return _mapper.Map<WorldDto>(result);
