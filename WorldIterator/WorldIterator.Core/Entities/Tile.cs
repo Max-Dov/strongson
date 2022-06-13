@@ -4,16 +4,19 @@
     {
         public string ConfigId { get; set; }
 
-        public IEnumerable<string> Representation { get; set; }
+        public string Representation { get; set; }
 
-        public double MutationChance { get; set; }
+        public int MutationChance { get; set; }
+
+        public int BirthEpoch { get; set; }
 
         public object Clone()
             => new Tile
             {
                 ConfigId = ConfigId,
                 Representation = Representation,
-                MutationChance = MutationChance
+                MutationChance = MutationChance,
+                BirthEpoch = BirthEpoch
             };
     }
 }

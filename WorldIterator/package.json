@@ -1,0 +1,10 @@
+{
+	"name": "WorldProcessor",
+	"version": "1.0.0",
+	"scripts": {
+		"start-dev": "dotnet run WorldIterator.WebApi --project WorldIterator.WebApi -c Debug",
+		"start-release": "dotnet run WorldIterator.WebApi --project WorldIterator.WebApi -c Release",
+		"build-dev": "dotnet build WorldIterator.WebApi -c Debug",
+		"build-release": "dotnet build WorldIterator.WebApi -c Release"
+	}
+}

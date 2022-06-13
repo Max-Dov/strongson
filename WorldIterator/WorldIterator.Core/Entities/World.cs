@@ -10,7 +10,7 @@ namespace WorldProcessor.Core.Entities
 
         public int Epoch { get; set; }
 
-        public string Geometry { get; set; }
+        public string TileShape { get; set; }
 
         public IPosition Dimensions { get; set; }
 

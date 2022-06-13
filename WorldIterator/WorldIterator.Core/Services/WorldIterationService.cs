@@ -8,15 +8,11 @@ namespace WorldProcessor.Core.Services
 {
     public class WorldIterationService : IWorldIterationService
     {
-        private readonly ILogger _logger;
-        private readonly IRandomValueGenerationService _randomValueGenerationService;
+        private readonly RandomValueGenerationService _randomValueGenerationService;
 
-        public WorldIterationService(
-            ILogger<WorldIterationService> logger,
-            IRandomValueGenerationService randomValueGenerationService)
+        public WorldIterationService()
         {
-            _logger = logger;
-            _randomValueGenerationService = randomValueGenerationService;
+            _randomValueGenerationService = new RandomValueGenerationService();
         }
 
         public async Task<World> GenerateNextWorldIterationAsync(
@@ -28,40 +24,25 @@ namespace WorldProcessor.Core.Services
             {
                 ConfigId = world.ConfigId,
                 Dimensions = world.Dimensions,
+                TileShape = world.TileShape,
                 Epoch = world.Epoch + 1,
-                Seed = world.Seed
+                Seed = world.Seed,
+                Tiles = world.Tiles.ToDictionary(
+                    entry => entry.Key,
+                    entry => (Tile)entry.Value.Clone()),
             };
 
-            try
-            {
-                _logger.LogInformation($"World {result.ConfigId}. Generation of next world iteration begins.");
 
-                _logger.LogInformation($"World {result.ConfigId}. Iteration with mutation check begins.");
+            result.Tiles = await IterateWithMutationCheckAsync(
+                result,
+                tileConfigs,
+                cancellationToken);
 
-                result.Tiles = await IterateWithMutationCheckAsync(
-                    world,
-                    tileConfigs,
-                    cancellationToken);
+            result.Tiles = await IterateWithMutationMagnitudeRecalculationAsync(
+                result,
+                tileConfigs,
+                cancellationToken);
 
-                _logger.LogInformation($"World {result.ConfigId}. Iteration with mutation check ends.");
-
-                _logger.LogInformation($"World {result.ConfigId}. Iteration with mutation magnitude recalculation begins.");
-
-                result.Tiles = await IterateWithMutationMagnitudeRecalculationAsync(
-                    result,
-                    tileConfigs,
-                    cancellationToken);
-
-                _logger.LogInformation($"World {result.ConfigId}. Iteration with mutation magnitude recalculation ends.");
-
-                _logger.LogInformation($"World {result.ConfigId}. Generation of next world iteration ends.");
-            }
-            catch (OperationCanceledException ex)
-            {
-                _logger.LogWarning(
-                    $"World {world.ConfigId}. Next iteration generation was canceled. " +
-                    $"Details: {ex.Message}");
-            }
 
             return result;
         }
@@ -79,7 +60,9 @@ namespace WorldProcessor.Core.Services
                     maximalWorldDimensionValue)
                 .ToList();
 
-            var result = new Dictionary<IPosition, Tile>();
+            var result = world.Tiles.ToDictionary(
+                entry => entry.Key,
+                entry => (Tile)entry.Value.Clone());
 
             for (int i = 0; i < worldOrderedIterationPath.Count; i++)
             {
@@ -92,25 +75,16 @@ namespace WorldProcessor.Core.Services
                     continue;
                 }
 
-                var mutationCheckRandomValue = _randomValueGenerationService
-                    .Generate(
-                        world.Seed,
-                        world.Epoch + 1,
-                        currentPosition, 0
-                        );
+                var tileConfig = tileConfigs.First(config => currentTile.ConfigId == config.Id);
 
-                if (mutationCheckRandomValue > currentTile.MutationChance)
-                {
-                    result[currentPosition] = currentTile;
-                }
-                else
+                if(IsTileNeedToMutate(currentTile, currentPosition, tileConfig, world))
                 {
                     var possibleMutationWays =
                         GetPossibleTilesToMutateIn(
                             currentTile,
                             currentPosition,
                             tileConfigs,
-                            world.Tiles);
+                            result);
 
                     result[currentPosition] =
                         GetMutationResult(
@@ -158,7 +132,7 @@ namespace WorldProcessor.Core.Services
 
                 var currentTileConfig = tileConfigs.First(tileConfig => tileConfig.Id == currentTile.ConfigId);
 
-                var orderedRingOfTiles = Enumerable.Range(1, currentTileConfig.MutationMagnitudeRadius)
+                var orderedRingOfTiles = Enumerable.Range(1, currentTileConfig.CrowdWeightMultiplierRadius)
                     .SelectMany(radius => world.Dimensions
                         .GenerateOrderedRingPath(currentPosition, radius))
                     .ToList();
@@ -167,11 +141,43 @@ namespace WorldProcessor.Core.Services
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    result[orderedRingOfTiles[j]].MutationChance *= currentTileConfig.MutationMagnitude;
+                    if (!result.ContainsKey(orderedRingOfTiles[j]))
+                    {
+                        continue;
+                    }
+
+                    var oldMutationChance = result[orderedRingOfTiles[j]].MutationChance;
+
+                    result[orderedRingOfTiles[j]].MutationChance = 
+                        (int)(oldMutationChance * currentTileConfig.CrowdWeightMultiplier);
                 }
             }
 
             return result;
+        }
+
+        private bool IsTileNeedToMutate(Tile tile, IPosition position, TileConfig config, World world)
+        {
+            if (config.MinAge == 0 ||
+                tile.BirthEpoch + config.MinAge >= world.Epoch)
+            {
+                return true;
+            }
+
+            if (config.MaxAge != 0 &&
+                tile.BirthEpoch + config.MaxAge <= world.Epoch)
+            {
+                return true;
+            }
+
+            var mutationCheckRandomValue = _randomValueGenerationService
+                .Generate(
+                    world.Seed,
+                    world.Epoch + 1,
+                    position, 0
+                    );
+
+            return tile.MutationChance >= mutationCheckRandomValue;
         }
 
         private Tile GetMutationResult(
@@ -196,23 +202,29 @@ namespace WorldProcessor.Core.Services
 
             for (int i = 1; i < tileConfigsSortedList.Count; i++)
             {
-                cumulative.Add(tileConfigsSortedList[i].MutationWeight + tileConfigsSortedList[i - 1].MutationWeight);
+                cumulative.Add(cumulative.Last() + tileConfigsSortedList[i].MutationWeight);
             }
 
             var randomValue = _randomValueGenerationService
                 .Generate(world.Seed, world.Epoch, currentPosition, 1);
 
-            var mutationResultValue = randomValue * cumulative.Last();
+            var mutationResultValue = (int)(randomValue * cumulative.Last());
 
-            int index = Array.BinarySearch(cumulative.ToArray(), randomValue);
+            int index = Array.BinarySearch(cumulative.ToArray(), mutationResultValue);
+
+            if(index < 0)
+            {
+                index = ~index;
+            }
 
             var mutationResultTileConfig = tileConfigsSortedList[index];
 
             return new Tile
             {
                 ConfigId = mutationResultTileConfig.Id,
-                Representation = mutationResultTileConfig.Representation,
-                MutationChance = mutationResultTileConfig.ChanceToMutate
+                Representation = currentTile.Representation,
+                MutationChance = mutationResultTileConfig.MutationChance,
+                BirthEpoch = world.Epoch
             };
         }
 
@@ -234,11 +246,12 @@ namespace WorldProcessor.Core.Services
                     return tileConfig.Neighbors.All(constraint =>
                     {
                         var exactTileAmountInRing = Enumerable
-                            .Range(constraint.MinimumDistance, constraint.MaximumDistance - constraint.MinimumDistance)
+                            .Range(constraint.MinDistance, constraint.MaxDistance - constraint.MinDistance)
                             .SelectMany(radius => tilePosition
                                 .GenerateOrderedRingPath(tilePosition, radius))
+                            .Where(position => map.ContainsKey(position))
                             .Select(position => map[position])
-                            .Where(tile => tile.ConfigId == constraint.NeighborId)
+                            .Where(tile => tile.ConfigId == constraint.NeighborConfigId)
                             .Count();
 
                         return exactTileAmountInRing <= constraint.MaxAmount &&

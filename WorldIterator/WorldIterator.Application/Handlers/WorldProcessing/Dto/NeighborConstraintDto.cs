@@ -1,6 +1,6 @@
-﻿namespace WorldProcessor.Core.Entities
+﻿namespace WorldProcessor.Application.Handlers.WorldProcessing.Dto
 {
-    public class NeighborConstraint
+    public class NeighborConstraintDto
     {
         public string ConfigId { get; set; }
 

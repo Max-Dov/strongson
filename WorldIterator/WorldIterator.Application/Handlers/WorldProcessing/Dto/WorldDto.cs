@@ -1,4 +1,4 @@
-﻿namespace WorldProcessor.Application.Handlers.WorldIteration.Dto
+﻿namespace WorldProcessor.Application.Handlers.WorldProcessing.Dto
 {
     public class WorldDto
     {
@@ -8,7 +8,7 @@
 
         public int Epoch { get; set; }
 
-        public string Geometry { get; set; }
+        public string TileShape { get; set; }
 
         public int[] Dimensions { get; set; }
 

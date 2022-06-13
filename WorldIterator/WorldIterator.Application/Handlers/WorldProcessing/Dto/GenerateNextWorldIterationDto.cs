@@ -1,4 +1,4 @@
-﻿namespace WorldProcessor.Application.Handlers.WorldIteration.Dto
+﻿namespace WorldProcessor.Application.Handlers.WorldProcessing.Dto
 {
     public class GenerateNextWorldIterationDto
     {
