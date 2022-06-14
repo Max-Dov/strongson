@@ -193,7 +193,7 @@ export interface TileRepresentation {
     /**
      * Name to represent to player; e.g. "Castle lvl 1"
      */
-    displayName: string;
+    displayName: ReactNode;
     /**
      * Picture address URL; e.g. "land_grass_tile.png".
      */
@@ -201,7 +201,7 @@ export interface TileRepresentation {
     /**
      * Tile description.
      */
-    description: string;
+    description: ReactNode;
 }
 ```
 
