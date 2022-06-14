@@ -33,7 +33,6 @@ $bg-secondary: #EED7C5;
     top: calc(-25rem + 50%);
     left: calc(-25rem + 50%);
     content: '';
-    transform: rotate(30deg);
     z-index: -1;
     background-repeat: repeat;
     animation-duration: 240s;
@@ -54,7 +53,6 @@ $bg-secondary: #EED7C5;
   }
 
   &.hills::before {
-    transform: scale(50);
     background-image: url('hills-bg.svg');
   }
 

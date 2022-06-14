@@ -9,10 +9,10 @@ const cityLvl1Default = {
     pictureUrl: 'city-lvl-1-0.png',
     description:
         <p>
-            Small town. Provides <strong>workers</strong>. Workers can do gathering,
+            Small but sturdy town full of <strong>workers</strong> which can do gathering,
             crop farming, scouting. Workers want to eat and don't like being eaten (by wolves).
             <br/>---<br/>
-            <i>"I better be living in Towntown than dying in woods from wolves aight?"</i>
+            <i>"I better be living in Towntown than being eaten by wolves in forest aight?"</i>
         </p>,
 };
 
@@ -23,10 +23,10 @@ const forestDefault = {
     pictureUrl: 'forest-0.png',
     description:
         <p>
-            Forest full of life and <strong>wood</strong>.
-            Some of it is friendly, like squirrels, some of it is not - wolves, for example.
+            Forest full of fauna and flora (<strong>wood</strong>).
+            Some of its fauna is friendly, like squirrels, some of it likes to eat meat - wolves, for example.
             <br/>---<br/>
-            <i>"If I would choose between dying from squirrel or wolf - I would choose living in a Towntown
+            <i>"If I would choose between dying from a squirrel or wolf - I would choose living in a Towntown
                 instead."</i>
         </p>,
 };
@@ -38,8 +38,8 @@ const grasslandDefault = {
     pictureUrl: 'grassland-0.png',
     description:
         <p>
-            Plains with grass. Maybe tomorrow there would be forest or hills or even castle, who knows. So check
-            tomorrow.
+            Plains with grass. Maybe tomorrow there would be forest or hills or even a castle, who knows.. So check back
+            tomorrow!
             <br/>---<br/>
             <i>"That is very little grass for something called "Grassland"."</i>
         </p>,
