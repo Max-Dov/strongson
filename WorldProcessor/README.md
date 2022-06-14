@@ -1,38 +1,51 @@
-# 🏭 World Iterator
-WebApi service that provide functionality to generate and iterate world.
+# 🏭 World Processor
+Web Api service that provides functionality to generate and iterate world.
 
-## Usage
-WorldProcessor have 2 endpoints:
-1) **url:port/WorldProcessing/Generate** - action for generation initial world.
-	It accepts only POST request.
-	request description:
-	```
-	{
-		"seed": => number,
-		"dimensions" => Array<number>?
-		"worldConfig": WorldConfig
-	}
-	```
-2) **url:port/WorldProcessing/Iterate** - action for generating next world iteration
-it accepts only POST request.
-Request body description:
-	```
-	{
-		"world": => World,
-		"worldConfig": => WorldConfig
-	}
-	```
+## API
+
+World Processor has 2 endpoints:
+
+### Generate World
+
+`POST https://localhost:5001/WorldProcessing/Generate`
+
+Request body:
+
+```typescript
+{
+	"seed": => Number,
+	"dimensions" => Array<number>?
+	"worldConfig": WorldConfig
+}
+```
+
+### Iterate World
+
+`POST https://localohost:5001/WorldProcessing/Iterate`
+
+Request body:
+
+```typescript
+{
+	"world": => World,
+	"worldConfig": => WorldConfig
+}
+```
 
 
-##  Compiled application
-Latest compiled application is located in `Release build` directory.
+##  Latest applicaiton build
+It's located [here](../blob/master/WorldProcessor/build).
+
 To use it, just run `WorldProcessor.WebApi.exe` executable file and find application address and port in console.
-![CLI Preview](./readme-preview-editor.png "CLI Preview")
+
+*Note: by default, application listens 2 ports: 5000 for http and 5001 for https*
+
+![CLI Preview](./readme-preview-cli.png "CLI Preview")
 
 ## Development
 For development install .NET SDK - https://dotnet.microsoft.com/en-us/download.
-Use IDE that support development on .NET like [Visual Studio](https://visualstudio.microsoft.com/ru/) or [Intellij Rider](https://www.jetbrains.com/ru-ru/rider/).
+Use IDE that support development on .NET like [Visual Studio](https://visualstudio.microsoft.com/) or [Intellij Rider](https://www.jetbrains.com/rider/).
 
 ### Swagger
-To use Swagger functionality, get on `url:port/Swagger`.
+To use Swagger functionality, get on `http://localohost:5000/Swagger` or `https://localohost:5001/Swagger`.
 Swagger is enabled only in **Debug** configuration.
