@@ -1,5 +1,6 @@
-# Contracts between application modules
-Contracts are written in TypeScript.
+# Contracts <sup>v3</sup>
+
+Contracts between Strongson modules. Contracts are written in TypeScript.
 
 World contracts
 =====
@@ -98,6 +99,10 @@ export interface TileConfig {
      */
     neighbors: Array<NeighborConstraint>;
     /**
+     * List of possible tile representations ids.
+     */
+    representationsIds: Array<TileRepresentation['id']>
+    /**
      * Factor to count when tile needs to mutate into another tile.
      *
      * For example, when tile must mutate, it will roll a random number and then pick new tile.
@@ -177,6 +182,11 @@ export interface NeighborConstraint {
  */
 export interface TileRepresentation {
     /**
+     * Representation ID; e.g. "castle-lvl1-variant-1"
+     * Same tile config may have different representation variants for entertainment purposes.
+     */
+    id: string;
+    /**
      * Tile ID, e.g. "castle-lvl1"
      */
     configId: TileConfig['id'];
@@ -185,10 +195,9 @@ export interface TileRepresentation {
      */
     displayName: string;
     /**
-     * Representation dependent on game implementation.
-     * Values can be picture address e.g. "land_grass_tile.png" or ID for picture from DB "land_grass_tile".
+     * Picture address URL; e.g. "land_grass_tile.png".
      */
-    representation: Array<string>;
+    pictureUrl: string;
     /**
      * Tile description.
      */
@@ -208,7 +217,7 @@ export interface Tile<Shape extends TileShape = TileShape.UNKNOWN> {
     /**
      * Variant of representation.
      */
-    representation: TileRepresentation['representation'][number];
+    representationId: TileRepresentation['id'];
     /**
      * Tuple of tile coordinates.
      * Dependent on Shape.
