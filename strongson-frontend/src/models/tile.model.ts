@@ -14,7 +14,7 @@ export interface Tile<Shape extends TileShape = TileShape.UNKNOWN> {
     /**
      * Variant of representation.
      */
-    representation: TileRepresentation['representation'][number];
+    representationId: TileRepresentation['id'];
     /**
      * Tuple of tile coordinates.
      * Dependent on Shape.

@@ -3,28 +3,25 @@ import {TileRepresentation} from '@models/tile-representation.model';
 import './tile-preview.styles.scss';
 
 interface TilePreviewProps {
-    tileRepresentation: TileRepresentation;
+    tileRepresentations: Array<TileRepresentation>;
 }
-
-// V todo rotating bg
-// V todo header bigger
-// V todo dropshadow on tile
-// todo game font
-// todo gallery of other tile variations
 
 /**
  * Previews all tile info in card container.
  */
-export const TilePreview = ({tileRepresentation}: TilePreviewProps) => {
-    const {displayName, description, representation} = tileRepresentation;
-    return <div className="tile-preview">
+export const TilePreview = ({tileRepresentations}: TilePreviewProps) => {
+    // TODO change text for every representation
+    const {displayName, description, configId} = tileRepresentations[0]
+    const imageUrls = tileRepresentations.map(representation => representation.pictureUrl)
+
+    return <div className={`tile-preview ${configId}`}>
         <div className="header-container">
             <span className="tile-name">
                 {displayName}
             </span>
         </div>
-        <div className="tile-representation">
-            {representation.map(imageUrl => <img alt="Card Preview" src={imageUrl} key={imageUrl}/>)}
+        <div className="tile-images">
+            {imageUrls.map(imageUrl => <img alt="Card Preview" src={imageUrl} key={imageUrl}/>)}
         </div>
         <div className="tile-description">
             {description}

@@ -1,3 +1,5 @@
+@import '@commonStyles/fonts.scss';
+
 // A settings stylesheet that collects all variables.
 
 $primary-color: #313D5A;
@@ -8,6 +10,9 @@ $font-color: #FFF;
 $font-thin: 100;
 $font-regular: 400;
 $font-bold: 700;
+$font-aclonica: 'Aclonica', sans-serif;
+$font-reggae-one: 'Reggae One', cursive;
+$font-eagle-lake: 'Eagle Lake', cursive;
 
 $transition-normal: 100ms;
 $transition-slow: 200ms;

@@ -67,7 +67,10 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 {from: path.join('public', 'favicon.ico')},
-                {from: path.join('public', 'assets')},
+                {from: path.join('public', 'assets', 'city-lvl-1')},
+                {from: path.join('public', 'assets', 'forest')},
+                {from: path.join('public', 'assets', 'hills')},
+                {from: path.join('public', 'assets', 'grassland')},
             ],
         }),
     ],

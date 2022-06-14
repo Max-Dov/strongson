@@ -6,6 +6,11 @@ import {ReactNode} from 'react';
  */
 export interface TileRepresentation {
     /**
+     * Representation ID; e.g. "castle-lvl1-variant-1"
+     * Same tile config may have different representation variants for entertainment purposes.
+     */
+    id: string;
+    /**
      * Tile ID, e.g. "castle-lvl1"
      */
     configId: TileConfig['id'];
@@ -14,10 +19,9 @@ export interface TileRepresentation {
      */
     displayName: ReactNode;
     /**
-     * Representation dependent on game implementation.
-     * Values can be picture address e.g. "land_grass_tile.png" or ID for picture from DB "land_grass_tile".
+     * Picture address URL; e.g. "land_grass_tile.png".
      */
-    representation: Array<string>;
+    pictureUrl: string;
     /**
      * Tile description.
      */

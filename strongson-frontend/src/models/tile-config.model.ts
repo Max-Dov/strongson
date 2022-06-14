@@ -1,4 +1,5 @@
 import {NeighborConstraint} from '@models/neighbor-constraint.model';
+import {TileRepresentation} from '@models/tile-representation.model';
 
 /**
  * Single tile config.
@@ -12,6 +13,10 @@ export interface TileConfig {
      * List of neighbor constraints.
      */
     neighbors: Array<NeighborConstraint>;
+    /**
+     * List of possible tile representations ids.
+     */
+    representationsIds: Array<TileRepresentation['id']>
     /**
      * Factor to count when tile needs to mutate into another tile.
      *
