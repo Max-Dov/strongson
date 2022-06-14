@@ -1,0 +1,14 @@
+section#tiles-page {
+  max-width: 90rem;
+  margin: auto;
+  padding: 0 1rem;
+
+  .tile-preview-container {
+    display: inline-block;
+    margin: 1rem;
+  }
+
+  .list-of-tiles {
+    text-align: center;
+  }
+}

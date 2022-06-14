@@ -1,0 +1,56 @@
+@import '@commonStyles/constants.scss';
+@import '@commonStyles/layout.scss';
+
+// A base stylesheet describing base rules for all elements on page.
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: $primary-color;
+  color: $font-color;
+}
+
+::selection {
+  background-color: rgba($accent-color, 0.4);
+}
+
+strong {
+  color: $accent-color;
+  font-weight: $font-bold;
+}
+
+span, p {
+  font-weight: $font-regular;
+}
+
+button {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  color: $font-color;
+  font-size: 1em;
+}
+
+svg {
+  display: inherit;
+}
+
+body {
+  &::-webkit-scrollbar {
+    background-color: rgba(black, 0.1);
+    width: 1rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($accent-color, 0.4);
+    &:hover {
+      background-color: rgba($accent-color, 0.8);
+    }
+  }
+  &::-webkit-scrollbar-button {
+    background-color: rgba(black, 0.15);
+    height: 1rem;
+    width: 1rem;
+  }
+}
