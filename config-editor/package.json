@@ -1,6 +1,6 @@
 {
   "name": "config-editor",
-  "version": "0.1.0",
+  "version": "1.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -18,9 +18,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "deploy": "cd build && surge --domain strongson-config-editor.surge.sh"
+    "start config editor": "react-scripts start",
+    "build config editor": "react-scripts build",
+    "deploy config editor": "cd build && surge --domain strongson-config-editor.surge.sh"
   },
   "eslintConfig": {
     "extends": [

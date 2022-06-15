@@ -33,7 +33,7 @@ export const WorldConfigEditor = ({
             World Config
         </h2>
             <div className="id-and-config-row">
-                <Searchable searchList={['worldconfig', 'id']}>
+                <Searchable keywords={['worldconfig', 'id']}>
                     <div className="world-config-id-input">
                         <Input label="ID"
                                tooltip='Unique world ID; e.g. "land-world", "cloud-world".'
@@ -45,7 +45,7 @@ export const WorldConfigEditor = ({
                                display="block"/>
                     </div>
                 </Searchable>
-                <Searchable searchList={['worldconfig', 'geometry']}>
+                <Searchable keywords={['worldconfig', 'geometry']}>
                     <Input
                         label="Tile Shape"
                         tooltip="Shape of every tile in world."

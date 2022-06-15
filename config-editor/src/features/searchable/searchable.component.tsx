@@ -3,9 +3,9 @@ import {SearchContext} from '../app/app.component';
 
 interface SearchProps extends HTMLAttributes<HTMLDivElement> {
     /**
-     * List that contains items that are searched by.
+     * List that contains keywords that can be searched by.
      */
-    searchList: string[];
+    keywords: string[];
 }
 
 /**
@@ -13,7 +13,7 @@ interface SearchProps extends HTMLAttributes<HTMLDivElement> {
  * Searched string is extracted from WorldConfig SearchContext.
  */
 export const Searchable = ({
-    searchList,
+    keywords,
     children,
 }: SearchProps) => {
     const [lookupString, setLookupString] = useState<string>('');
@@ -21,8 +21,8 @@ export const Searchable = ({
     const shouldDisplay = !searchValue || lookupString.includes(searchValue.toLowerCase());
 
     useEffect(() => {
-        setLookupString(searchList.join('').toLowerCase());
-    }, [searchList]);
+        setLookupString(keywords.join('').toLowerCase());
+    }, [keywords]);
 
     return <>
         {shouldDisplay && children}

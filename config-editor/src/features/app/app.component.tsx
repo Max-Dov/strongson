@@ -5,8 +5,6 @@ import {JsonViewer} from '../json-viewer/json-viewer.component';
 import {WorldConfigEditor} from '../world-config-editor/world-config-editor.component';
 import {SearchBar} from '../search-bar/search-bar.component';
 
-// TODO create tooltips for fields
-
 export const SearchContext = createContext<{
     searchValue?: string,
     setSearchValue?: (newSearchValue: string) => void
@@ -21,7 +19,7 @@ export const App = () => {
 
     return (
         <div className="app">
-            <h1><strong>Strongson</strong> World Config Editor <sup>v0.1</sup></h1>
+            <h1><strong>Strongson</strong> World Config Editor <sup>v1</sup></h1>
             <p><strong>Paste</strong> and <strong>edit</strong> world config or <strong>create</strong> it from scratch.</p>
             <SearchContext.Provider value={{searchValue, setSearchValue: onSearchValueUpdate}}>
                 <div className="editor-and-json-sections">

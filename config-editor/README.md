@@ -1,4 +1,4 @@
-# 🧱 Strongson World Config Editor
+# 🧱 Strongson Config Editor
 
 Utility to configure worlds (represented as JSON files) for Strongson via UI.
 
