@@ -48,7 +48,7 @@ export const TileConfigEditor = ({
             {tileId ? `"${tileId}" tile` : 'New Tile'}
             <RemoveCircleButton className="remove-button" onClick={onRemove}/>
         </h4>
-        <Searchable searchList={['tileconfig', 'id']}>
+        <Searchable keywords={['tileconfig', 'id']}>
             <Input
                 label="ID"
                 placeholder="e.g. forest-tile"
@@ -58,7 +58,18 @@ export const TileConfigEditor = ({
                 onChange={onNewId}
             />
         </Searchable>
-        <Searchable searchList={['tileconfig', 'mutationchance']}>
+        <Searchable keywords={['tileconfig', 'representationsids']}>
+            <Input
+                label="Representations IDs"
+                type="array"
+                placeholder="e.g. forest-representation-3"
+                tooltip='List of possible tile representations ids, e.g. "forest-representation-3"'
+                className="full-width"
+                value={tileConfig.representationsIds}
+                onChange={representationsIds => setTileConfig({...tileConfig, representationsIds})}
+            />
+        </Searchable>
+        <Searchable keywords={['tileconfig', 'mutationchance']}>
             <Input label="Mutation chance"
                    labelClassName="numeric-field-label"
                    placeholder="0-100"
@@ -68,8 +79,8 @@ export const TileConfigEditor = ({
                    value={tileConfig.mutationChance}
                    onChange={mutationChance => setTileConfig({...tileConfig, mutationChance})}/>
         </Searchable>
-        <Searchable searchList={['tileconfig', 'minAge']}>
-            <Input label="Minimum Age"
+        <Searchable keywords={['tileconfig', 'minAge']}>
+            <Input label="Minimum age"
                    labelClassName="numeric-field-label"
                    placeholder="e.g. 1"
                    tooltip={<span>Minimum amount of <strong>epoch cycles</strong> for tile to exist.</span>}
@@ -78,8 +89,8 @@ export const TileConfigEditor = ({
                    value={tileConfig.minAge}
                    onChange={minAge => setTileConfig({...tileConfig, minAge})}/>
         </Searchable>
-        <Searchable searchList={['tileconfig', 'maxAge']}>
-            <Input label="Maximum Age"
+        <Searchable keywords={['tileconfig', 'maxAge']}>
+            <Input label="Maximum age"
                    labelClassName="numeric-field-label"
                    tooltip={<span>Maximum amount of <strong>epoch cycles</strong> when tile may exist. Tile may mutate earlier than value specified.</span>}
                    placeholder="e.g. 10"
@@ -88,7 +99,7 @@ export const TileConfigEditor = ({
                    value={tileConfig.maxAge}
                    onChange={maxAge => setTileConfig({...tileConfig, maxAge})}/>
         </Searchable>
-        <Searchable searchList={['tileconfig', 'mutationWeight']}>
+        <Searchable keywords={['tileconfig', 'mutationWeight']}>
             <Input label="Mutation weight"
                    labelClassName="numeric-field-label"
                    tooltip={<span>
@@ -102,7 +113,7 @@ export const TileConfigEditor = ({
                    value={tileConfig.mutationWeight}
                    onChange={mutationWeight => setTileConfig({...tileConfig, mutationWeight})}/>
         </Searchable>
-        <Searchable searchList={['tileconfig', 'crowdWeightMultiplier']}>
+        <Searchable keywords={['tileconfig', 'crowdWeightMultiplier']}>
             <Input label="Crowd weight multiplier"
                    labelClassName="numeric-field-label"
                    tooltip={<span>
@@ -117,7 +128,7 @@ export const TileConfigEditor = ({
                    value={tileConfig.crowdWeightMultiplier}
                    onChange={crowdWeightMultiplier => setTileConfig({...tileConfig, crowdWeightMultiplier})}/>
         </Searchable>
-        <Searchable searchList={['tileconfig', 'crowdWeightMultiplierRadius']}>
+        <Searchable keywords={['tileconfig', 'crowdWeightMultiplierRadius']}>
             <Input label="Crowd weight multiplier radius"
                    labelClassName="numeric-field-label"
                    tooltip={<span>Radius of <strong>crowd weight multiplier</strong> effect.</span>}
@@ -130,7 +141,7 @@ export const TileConfigEditor = ({
                        crowdWeightMultiplierRadius,
                    })}/>
         </Searchable>
-        <Searchable searchList={['tileconfig', 'neighborsMutationMultiplier']}>
+        <Searchable keywords={['tileconfig', 'neighborsMutationMultiplier']}>
             <Input label="Neighbors mutation multiplier"
                    labelClassName="numeric-field-label"
                    tooltip={<span>
@@ -146,7 +157,7 @@ export const TileConfigEditor = ({
                        neighborsMutationMultiplier,
                    })}/>
         </Searchable>
-        <Searchable searchList={['tileconfig', 'neighborsMutationMultiplierRadius']}>
+        <Searchable keywords={['tileconfig', 'neighborsMutationMultiplierRadius']}>
             <Input label="Neighbors mutation multiplier radius"
                    labelClassName="numeric-field-label"
                    tooltip={<span>Radius of <strong>neighbors mutation multiplier</strong> effect.</span>}

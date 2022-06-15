@@ -13,6 +13,10 @@ export interface TileConfig {
      */
     neighbors: Array<NeighborConstraint>;
     /**
+     * List of possible tile representations ids.
+     */
+    representationsIds: Array<string>
+    /**
      * Factor to count when tile needs to mutate into another tile.
      *
      * For example, when tile must mutate, it will roll a random number and then pick new tile.
