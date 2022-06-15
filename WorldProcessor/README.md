@@ -6,8 +6,10 @@ Web Api service that provides functionality to generate and iterate world.
 World Processor has 2 endpoints:
 
 ### Generate World
-
-`POST https://localhost:5001/WorldProcessing/Generate`
+Protocol | Url
+--- | ---
+Https | `POST https://localhost:5001/WorldProcessing/Generate`
+Http | `POST http://localhost:5000/WorldProcessing/Generate`
 
 Request body:
 
@@ -20,8 +22,10 @@ Request body:
 ```
 
 ### Iterate World
-
-`POST https://localohost:5001/WorldProcessing/Iterate`
+Protocol | Url
+--- | ---
+Https | `POST https://localohost:5001/WorldProcessing/Iterate`
+Http | `POST http://localohost:5000/WorldProcessing/Iterate`
 
 Request body:
 
@@ -34,18 +38,20 @@ Request body:
 
 
 ##  Latest applicaiton build
-It's located [here](../blob/master/WorldProcessor/build).
+Application could be found [here](../blob/master/WorldProcessor/build/WorldProcessor.WebApi.exe).
 
-To use it, just run `WorldProcessor.WebApi.exe` executable file and find application address and port in console.
-
-*Note: by default, application listens 2 ports: 5000 for http and 5001 for https*
-
-![CLI Preview](./readme-preview-cli.png "CLI Preview")
+To use it, just run `WorldProcessor.WebApi.exe` executable file.
+By default, application listens 2 ports: 5000 for http and 5001 for https requests.
 
 ## Development
 For development install .NET SDK - https://dotnet.microsoft.com/en-us/download.
 Use IDE that support development on .NET like [Visual Studio](https://visualstudio.microsoft.com/) or [Intellij Rider](https://www.jetbrains.com/rider/).
 
 ### Swagger
-To use Swagger functionality, get on `http://localohost:5000/Swagger` or `https://localohost:5001/Swagger`.
-Swagger is enabled only in **Debug** configuration.
+*Note: Swagger is enabled only in **Debug** configuration*
+
+Swagger functionality is availabile on
+Protocol | Url
+--- | ---
+Https | `https://localohost:5001/Swagger`
+Http | `https://localohost:5001/Swagger`
