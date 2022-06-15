@@ -8,7 +8,7 @@
 
         public int[] Coordinates { get; set; }
 
-        public double ChanceToMutate { get; set; }
+        public double MutationChance { get; set; }
 
         public int BirthEpoch { get; set; }
     }
