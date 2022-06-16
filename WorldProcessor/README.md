@@ -16,6 +16,7 @@ Request body:
 ```typescript
 {
 	"seed": => Number,
+	"epoch": => Number?,
 	"dimensions" => Array<number>?
 	"worldConfig": WorldConfig
 }
