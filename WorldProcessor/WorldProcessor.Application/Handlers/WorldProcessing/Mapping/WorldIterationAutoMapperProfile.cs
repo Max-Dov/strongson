@@ -130,7 +130,7 @@ namespace WorldProcessor.Application.Handlers.WorldProcessing.Mapping
                 if(tilePosition.GetType() != result.Dimensions.GetType())
                 {
                     throw new Exception(
-                        "Tile position type is not similar to world dimensions type - " +
+                        "Tile position type is not equal to world dimensions type - " +
                         $"({kvp.Key})");
                 }
 
