@@ -1,24 +1,12 @@
 import React from 'react';
 import {Tile as TileModel} from '@models/tile.model';
-import {TILE_REPRESENTATIONS} from '@constants/tile-representations.const';
 import {Image} from '@components/shared/image.component';
 import {TileShape} from '@constants/tile-shape.model';
+import {transformTileCoordsToPlaneCoords} from '@utils/transformTileCoordsToPlaneCoords';
+import {getTileRepresentation} from '@utils/getTileRepresentation.util';
 
 interface TileProps {
     tile: TileModel<TileShape.HEXAGONAL>;
-}
-
-const sin30 = Math.sin(Math.PI / 6)
-const cos30 = Math.cos(Math.PI / 6)
-
-const transformTileCoordsToPlaneCoords = (tileCoordinates: TileModel<TileShape.HEXAGONAL>['coordinates']): [number, number, number] => {
-    const [x, y, z] = tileCoordinates;
-
-    return [
-        x - (y + z) * sin30,
-        (z - y) * cos30,
-        0
-    ]
 }
 
 /**
@@ -26,16 +14,13 @@ const transformTileCoordsToPlaneCoords = (tileCoordinates: TileModel<TileShape.H
  */
 export const Tile = ({tile}: TileProps) => {
     const {representationId, configId, coordinates} = tile;
-    const representations = TILE_REPRESENTATIONS.get(configId);
-    let representation = representations?.find(representation => representation.id === representationId);
-    if (!representation && representations) {
-        representation = representations[Math.trunc(Math.random() * representations.length)]
-    }
+
+    const representation = getTileRepresentation(configId, representationId);
     if (!representation) {
         return null;
     }
 
-    const decardCoords = transformTileCoordsToPlaneCoords(coordinates)
+    const planeCoords = transformTileCoordsToPlaneCoords(coordinates);
 
-    return <Image url={representation.pictureUrl} position={decardCoords}/>
+    return <Image url={representation.pictureUrl} coordinates={planeCoords} scale={0.5}/>;
 };
