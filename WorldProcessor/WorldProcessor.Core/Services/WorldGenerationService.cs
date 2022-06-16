@@ -98,13 +98,35 @@ namespace WorldProcessor.Core.Services
 
             var tileConfig = availableTilesForPosition.ElementAt(resultTileConfigIndex);
 
+            var representationId = GenerateTileRepresentation(
+                seed,
+                epoch,
+                position,
+                tileConfig.RepresentationsIds);
+
             return new Tile()
             {
                 ConfigId = tileConfig.Id,
                 BirthEpoch = 0,
-                Representation = "",
+                RepresentationId = representationId,
                 MutationChance = tileConfig.MutationChance
             };
+        }
+
+        private string GenerateTileRepresentation(
+            int seed,
+            int epoch,
+            IPosition position,
+            IEnumerable<string> representationIds)
+        {
+            var randomValue = _randomValueGenerationService.Generate(
+                seed,
+                epoch,
+                position,
+                2);
+
+            return representationIds.ElementAt(
+                (int)(randomValue * representationIds.Count()));
         }
 
         private IEnumerable<TileConfig> GetAvailableTilesForPosition(

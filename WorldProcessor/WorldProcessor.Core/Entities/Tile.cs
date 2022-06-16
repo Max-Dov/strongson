@@ -4,7 +4,7 @@
     {
         public string ConfigId { get; set; }
 
-        public string Representation { get; set; }
+        public string RepresentationId { get; set; }
 
         public double MutationChance { get; set; }
 
@@ -14,7 +14,7 @@
             => new Tile
             {
                 ConfigId = ConfigId,
-                Representation = Representation,
+                RepresentationId = RepresentationId,
                 MutationChance = MutationChance,
                 BirthEpoch = BirthEpoch
             };

@@ -4,7 +4,7 @@
     {
         public string ConfigId { get; set; }
 
-        public string Representation { get; set; }
+        public string RepresentationId { get; set; }
 
         public int[] Coordinates { get; set; }
 

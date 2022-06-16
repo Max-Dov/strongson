@@ -160,8 +160,8 @@ namespace WorldProcessor.Application.Handlers.WorldProcessing.Mapping
                     kvp => new TileDto()
                     {
                         ConfigId = kvp.Value.ConfigId,
-                        Representation = kvp.Value.Representation,
-                        ChanceToMutate = kvp.Value.MutationChance,
+                        RepresentationId = kvp.Value.RepresentationId,
+                        MutationChance = kvp.Value.MutationChance,
                         Coordinates = kvp.Key.GetCoordinatesList().ToArray()
                     })
             };

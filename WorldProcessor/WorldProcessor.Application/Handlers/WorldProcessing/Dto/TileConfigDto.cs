@@ -6,6 +6,8 @@
 
         public NeighborConstraintDto[]? Neighbors { get; set; }
 
+        public string[] RepresentationsIds { get; set; }
+
         public int MutationWeight { get; set; }
 
         public double MutationChance { get; set; }

@@ -217,13 +217,35 @@ namespace WorldProcessor.Core.Services
 
             var mutationResultTileConfig = tileConfigsSortedList[index];
 
+            var representationId = GenerateTileRepresentation(
+                world.Seed,
+                world.Epoch,
+                currentPosition,
+                mutationResultTileConfig.RepresentationsIds);
+
             return new Tile
             {
                 ConfigId = mutationResultTileConfig.Id,
-                Representation = currentTile.Representation,
+                RepresentationId = representationId,
                 MutationChance = mutationResultTileConfig.MutationChance,
                 BirthEpoch = world.Epoch
             };
+        }
+
+        private string GenerateTileRepresentation(
+            int seed,
+            int epoch,
+            IPosition position,
+            IEnumerable<string> representationIds)
+        {
+            var randomValue = _randomValueGenerationService.Generate(
+                seed,
+                epoch,
+                position,
+                2);
+
+            return representationIds.ElementAt(
+                (int)(randomValue * representationIds.Count()));
         }
 
         private IEnumerable<TileConfig> GetPossibleTilesToMutateIn(
