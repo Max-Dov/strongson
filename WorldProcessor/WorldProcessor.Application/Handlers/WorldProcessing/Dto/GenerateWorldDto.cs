@@ -10,6 +10,8 @@ namespace WorldProcessor.Application.Handlers.WorldProcessing.Dto
     {
         public int Seed { get; set; }
 
+        public int? Epoch { get; set; }
+
         public IEnumerable<int>? Dimensions { get; set; }
 
         public WorldConfigDto WorldConfig { get; set; }

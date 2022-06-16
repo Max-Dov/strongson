@@ -14,7 +14,7 @@ namespace WorldProcessor.Core.Services
             _randomValueGenerationService = new RandomValueGenerationService();
         }
 
-        public World Generate(int seed, WorldConfig worldConfig)
+        public World Generate(int seed, int epoch, WorldConfig worldConfig)
         {
             IPosition dimensions;
             if(worldConfig.TileShape.Equals("HEXAGONAL", StringComparison.OrdinalIgnoreCase))
@@ -30,14 +30,15 @@ namespace WorldProcessor.Core.Services
                 throw new ArgumentException($"Invalid tile shape: {worldConfig.TileShape}", nameof(worldConfig.TileShape));
             }
 
-            return Generate(dimensions, seed, worldConfig);
+            return Generate(seed, epoch, dimensions, worldConfig);
         }
 
-        public World Generate(IPosition dimensions, int seed, WorldConfig worldConfig)
+        public World Generate(int seed, int epoch, IPosition dimensions, WorldConfig worldConfig)
         {
             var world = new World()
             {
                 ConfigId = worldConfig.Id,
+                Epoch = epoch,
                 TileShape = worldConfig.TileShape,
                 Dimensions = dimensions,
                 Seed = seed
@@ -59,6 +60,7 @@ namespace WorldProcessor.Core.Services
 
                 var tile = GenerateTile(
                         seed,
+                        epoch,
                         currentPosition,
                         worldConfig.Tiles,
                         tiles);
@@ -77,6 +79,7 @@ namespace WorldProcessor.Core.Services
 
         private Tile GenerateTile(
             int seed,
+            int epoch,
             IPosition position,
             IEnumerable<TileConfig> tileConfigs,
             IReadOnlyDictionary<IPosition, Tile> map)
@@ -88,7 +91,7 @@ namespace WorldProcessor.Core.Services
 
             var tileChoiseRollResult = _randomValueGenerationService.Generate(
                 seed,
-                0,
+                epoch,
                 position);
 
             var resultTileConfigIndex = (int)(tileChoiseRollResult * availableTilesForPosition.Count());
@@ -160,7 +163,7 @@ namespace WorldProcessor.Core.Services
                     var oldMutationChance = map[tilePosition].MutationChance;
 
                     result[tilePosition].MutationChance =
-                        (int)(oldMutationChance * currentTileConfig.CrowdWeightMultiplier);
+                        (oldMutationChance * currentTileConfig.CrowdWeightMultiplier);
                 }
             }
 

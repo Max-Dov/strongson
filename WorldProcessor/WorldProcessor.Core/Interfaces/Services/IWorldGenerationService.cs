@@ -6,11 +6,13 @@ namespace WorldProcessor.Core.Interfaces.Services
     {
         public World Generate(
             int seed,
+            int epoch,
             WorldConfig worldConfig);
 
         public World Generate(
-            IPosition dimensions,
             int seed,
+            int epoch,
+            IPosition dimensions,
             WorldConfig worldConfig);
     }
 }

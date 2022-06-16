@@ -27,6 +27,11 @@ namespace WorldProcessor.Application.Handlers.WorldProcessing.Queries
             GenerateWorldQuery request,
             CancellationToken cancellationToken)
         {
+            if(request.Epoch is not null && request.Epoch < 0)
+            {
+                throw new ArgumentException("Epoch must be positive value.", nameof(request.Epoch));
+            }
+
             var worldConfig = _mapper.Map<WorldConfigDto, WorldConfig>(request.WorldConfig);
 
             var result = new World();
@@ -36,14 +41,16 @@ namespace WorldProcessor.Application.Handlers.WorldProcessing.Queries
                 result = _worldGenerationService
                 .Generate(
                     request.Seed,
+                    request.Epoch ?? 0,
                     worldConfig);
             }
             else
             {
                 result = _worldGenerationService
                 .Generate(
-                    _mapper.Map<IPosition>(request.Dimensions),
                     request.Seed,
+                    request.Epoch ?? 0,
+                    _mapper.Map<IPosition>(request.Dimensions),
                     worldConfig);
             }
 

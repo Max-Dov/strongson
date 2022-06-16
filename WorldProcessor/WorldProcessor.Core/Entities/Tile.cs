@@ -6,7 +6,7 @@
 
         public string Representation { get; set; }
 
-        public int MutationChance { get; set; }
+        public double MutationChance { get; set; }
 
         public int BirthEpoch { get; set; }
 

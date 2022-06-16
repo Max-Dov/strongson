@@ -149,7 +149,7 @@ namespace WorldProcessor.Core.Services
                     var oldMutationChance = result[orderedRingOfTiles[j]].MutationChance;
 
                     result[orderedRingOfTiles[j]].MutationChance = 
-                        (int)(oldMutationChance * currentTileConfig.CrowdWeightMultiplier);
+                        (oldMutationChance * currentTileConfig.CrowdWeightMultiplier);
                 }
             }
 
@@ -158,26 +158,24 @@ namespace WorldProcessor.Core.Services
 
         private bool IsTileNeedToMutate(Tile tile, IPosition position, TileConfig config, World world)
         {
-            if (config.MinAge == 0 ||
-                tile.BirthEpoch + config.MinAge >= world.Epoch)
+            if(tile.BirthEpoch + config.MinAge < world.Epoch)
+            {
+                return false;
+            }
+
+            if(tile.BirthEpoch + config.MaxAge >= world.Epoch)
             {
                 return true;
             }
 
-            if (config.MaxAge != 0 &&
-                tile.BirthEpoch + config.MaxAge <= world.Epoch)
-            {
-                return true;
-            }
-
-            var mutationCheckRandomValue = _randomValueGenerationService
+            var randomValue = _randomValueGenerationService
                 .Generate(
                     world.Seed,
                     world.Epoch + 1,
                     position, 0
                     );
 
-            return tile.MutationChance >= mutationCheckRandomValue;
+            return tile.MutationChance >= randomValue * 100;
         }
 
         private Tile GetMutationResult(

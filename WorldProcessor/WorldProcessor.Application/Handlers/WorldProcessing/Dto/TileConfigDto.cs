@@ -8,7 +8,7 @@
 
         public int MutationWeight { get; set; }
 
-        public int MutationChance { get; set; }
+        public double MutationChance { get; set; }
 
         public double CrowdWeightMultiplier { get; set; }
 
