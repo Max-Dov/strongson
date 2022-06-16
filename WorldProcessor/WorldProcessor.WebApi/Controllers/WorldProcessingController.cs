@@ -27,13 +27,20 @@ namespace WorldProcessor.WebApi.Controllers
             GenerateNextWorldIterationDto request,
             CancellationToken cancellationToken)
         {
-            return await _mediator.Send(
-                new GenerateNextWorldIterationQuery()
-                {
-                    World = request.World,
-                    WorldConfig = request.WorldConfig
-                },
-                cancellationToken);
+            try
+            {
+                return await _mediator.Send(
+                    new GenerateNextWorldIterationQuery()
+                    {
+                        World = request.World,
+                        WorldConfig = request.WorldConfig
+                    },
+                    cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("Generate")]
@@ -41,14 +48,22 @@ namespace WorldProcessor.WebApi.Controllers
             GenerateWorldDto request,
             CancellationToken cancelToken)
         {
-            return await _mediator.Send(
-                new GenerateWorldQuery()
-                {
-                    Seed = request.Seed,
-                    Dimensions = request.Dimensions,
-                    WorldConfig = request.WorldConfig
-                },
-                cancelToken);
+            try
+            {
+                return await _mediator.Send(
+                    new GenerateWorldQuery()
+                    {
+                        Seed = request.Seed,
+                        Epoch = request.Epoch,
+                        Dimensions = request.Dimensions,
+                        WorldConfig = request.WorldConfig
+                    },
+                    cancelToken);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
