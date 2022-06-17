@@ -3,11 +3,10 @@
     "noImplicitAny": true,
     "target": "ES2021",
     "strict": true,
-    "module": "esnext",
+    "module": "commonjs",
     "resolveJsonModule": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {

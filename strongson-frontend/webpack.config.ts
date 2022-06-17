@@ -1,8 +1,10 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const path = require('path');
+import * as path from 'path';
+import * as webpack from 'webpack';
+import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import * as CopyPlugin from 'copy-webpack-plugin';
+import 'webpack-dev-server';
 
-module.exports = {
+const config: webpack.Configuration = {
     mode: 'development',
     entry: './src/main.tsx',
     target: 'web',
@@ -81,9 +83,9 @@ module.exports = {
     },
     devServer: {
         port: 3002,
-        contentBase: path.join(__dirname, 'build'),
-        publicPath: '/',
         hot: true,
         historyApiFallback: true,
     }
 }
+
+export default config;

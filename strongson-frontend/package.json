@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "description": "https://github.com/Max-Dov/strongson/tree/main/strongson-frontend",
   "scripts": {
-    "build frontend": "webpack --config ./webpack.config.js",
-    "start frontend": "webpack serve --config ./webpack.config.js --open"
+    "build frontend": "webpack --config webpack.config.ts",
+    "start frontend": "webpack serve --config webpack.config.ts --open"
   },
   "author": "",
   "license": "MIT",
@@ -14,12 +14,14 @@
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.15.0",
-    "@types/react": "^17.0.33",
-    "@types/react-dom": "^17.0.10",
+    "@types/node": "^18.0.0",
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
     "@types/react-redux": "^7.1.20",
     "@types/react-router": "^5.1.17",
     "@types/react-router-dom": "^5.3.2",
-    "@types/three": "^0.133.1",
+    "@types/three": "^0.141.0",
+    "@types/webpack": "^5.28.0",
     "babel-loader": "^8.2.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "copy-webpack-plugin": "^11.0.0",
@@ -29,21 +31,22 @@
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
     "style-loader": "^3.3.1",
-    "typescript": "^4.4.4",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3",
     "webpack": "^5.61.0",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^4.9.2"
   },
   "dependencies": {
-    "@react-three/drei": "^7.19.2",
-    "@react-three/fiber": "^7.0.17",
+    "@react-three/drei": "^9.13.2",
+    "@react-three/fiber": "^8.0.26",
     "@reduxjs/toolkit": "^1.6.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-redux": "^7.2.6",
     "react-router": "^5.2.1",
     "react-router-dom": "^5.3.0",
-    "socket.io-client": "^4.3.2",
-    "three": "^0.134.0"
+    "socket.io-client": "^4.5.1",
+    "three": "^0.141.0"
   }
 }
