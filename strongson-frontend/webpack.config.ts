@@ -73,6 +73,8 @@ const config: webpack.Configuration = {
                 {from: path.join('public', 'assets', 'forest')},
                 {from: path.join('public', 'assets', 'hills')},
                 {from: path.join('public', 'assets', 'grassland')},
+                {from: path.join('public', 'assets', 'shore-water')},
+                {from: path.join('public', 'assets', 'mountains')},
             ],
         }),
     ],

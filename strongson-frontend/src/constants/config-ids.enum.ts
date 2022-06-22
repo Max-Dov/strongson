@@ -6,4 +6,6 @@ export enum ConfigIds {
     FOREST = 'forest',
     HILLS = 'hills',
     GRASSLAND = 'grassland',
+    SHORE_WATER = 'shore-water',
+    MOUNTAINS = 'mountains',
 }
