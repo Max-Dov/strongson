@@ -56,6 +56,14 @@ $bg-secondary: #EED7C5;
     background-image: url('hills-bg.svg');
   }
 
+  &.mountains::before {
+    background-image: url('mountains-bg.svg');
+  }
+
+  &.shore-water::before {
+    background-image: url('shore-water-bg.svg');
+  }
+
   .header-container {
     font-weight: bold;
     font-size: 2em;

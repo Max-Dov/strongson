@@ -58,6 +58,32 @@ const hillsDefault = {
         </p>,
 };
 
+const shoreWaterDefault = {
+    id: '0',
+    configId: ConfigIds.SHORE_WATER,
+    displayName: 'Water',
+    pictureUrl: 'shore-water-0.png',
+    description:
+        <p>
+            Low tide water. Stuff like water mills and sea ports may be built there!
+            <br/>---<br/>
+            <i>"If boat is heavier than water, then how it floats?"</i>
+        </p>,
+};
+
+const mountainsDefault = {
+    id: '0',
+    configId: ConfigIds.MOUNTAINS,
+    displayName: 'Mountains',
+    pictureUrl: 'mountains-0.png',
+    description:
+        <p>
+            Immovable mountains raising up the sky. Epic.
+            <br/>---<br/>
+            <i>"Taller the mountain, shorter the dwarf that lives in it."</i>
+        </p>,
+};
+
 /**
  * Map of every TileConfig to its possible TileRepresentations via <configId, Array<TileRepresentation>> map.
  */
@@ -96,5 +122,21 @@ export const TILE_REPRESENTATIONS: Map<TileRepresentation['configId'], Array<Til
             {...hillsDefault, id: '3', pictureUrl: 'hills-3.png'},
             {...hillsDefault, id: '4', pictureUrl: 'hills-4.png'},
             {...hillsDefault, id: '5', pictureUrl: 'hills-5.png'},
+        ]],
+        [ConfigIds.SHORE_WATER, [
+            {...shoreWaterDefault},
+            {...shoreWaterDefault, id: '1', pictureUrl: 'shore-water-1.png'},
+            {...shoreWaterDefault, id: '2', pictureUrl: 'shore-water-2.png'},
+            {...shoreWaterDefault, id: '3', pictureUrl: 'shore-water-3.png'},
+            {...shoreWaterDefault, id: '4', pictureUrl: 'shore-water-4.png'},
+            {...shoreWaterDefault, id: '5', pictureUrl: 'shore-water-5.png'},
+        ]],
+        [ConfigIds.MOUNTAINS, [
+            {...mountainsDefault},
+            {...mountainsDefault, id: '1', pictureUrl: 'mountains-1.png'},
+            {...mountainsDefault, id: '2', pictureUrl: 'mountains-2.png'},
+            {...mountainsDefault, id: '3', pictureUrl: 'mountains-3.png'},
+            {...mountainsDefault, id: '4', pictureUrl: 'mountains-4.png'},
+            {...mountainsDefault, id: '5', pictureUrl: 'mountains-5.png'},
         ]],
     ]);
