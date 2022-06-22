@@ -17,10 +17,20 @@ namespace WorldProcessor.Core.Services
             double iterationMix = Math.Abs(Math.Sin(iteration));
             var shaking = seedMix + epochMix + coordinatesMix + iterationMix;
 
-            var stringResult = "0," + new string(shaking.ToString().Reverse().Take(..^2).ToArray());
+            var shakingStr = shaking.ToString();
+
+            var result = new char[shakingStr.Length];
+            result[0] = '0';
+            result[1] = ',';
 
 
-            return double.Parse(stringResult);
+            for (int i = shakingStr.Length - 1, j = 2; i > 1; i--, j++)
+            {
+                result[j] = shakingStr[i];
+            }
+
+
+            return double.Parse(new String(result));
         }
     }
 }
