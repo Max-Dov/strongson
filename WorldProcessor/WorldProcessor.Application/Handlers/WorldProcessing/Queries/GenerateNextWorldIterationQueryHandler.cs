@@ -29,11 +29,10 @@ namespace WorldProcessor.Application.Handlers.WorldProcessing.Queries
             var world = _mapper.Map<WorldDto, World>(request.World);
             var worldConfig = _mapper.Map<WorldConfigDto, WorldConfig>(request.WorldConfig);
 
-            var result = await _worldIterationService
-                .GenerateNextWorldIterationAsync(
+            var result = _worldIterationService
+                .GenerateNextWorldIteration(
                     world,
-                    worldConfig.Tiles,
-                    cancellationToken);
+                    worldConfig.Tiles);
 
             return _mapper.Map<WorldDto>(result);
         }

@@ -4,9 +4,8 @@ namespace WorldProcessor.Core.Interfaces.Services
 {
     public interface IWorldIterationService
     {
-        public Task<World> GenerateNextWorldIterationAsync(
+        public World GenerateNextWorldIteration(
             World world,
-            IEnumerable<TileConfig> tileConfigs,
-            CancellationToken cancellationToken);
+            IEnumerable<TileConfig> tileConfigs);
     }
 }

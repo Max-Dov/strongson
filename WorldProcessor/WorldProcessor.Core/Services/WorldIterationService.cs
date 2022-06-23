@@ -15,10 +15,9 @@ namespace WorldProcessor.Core.Services
             _randomValueGenerationService = new RandomValueGenerationService();
         }
 
-        public async Task<World> GenerateNextWorldIterationAsync(
+        public World GenerateNextWorldIteration(
             World world,
-            IEnumerable<TileConfig> tileConfigs,
-            CancellationToken cancellationToken)
+            IEnumerable<TileConfig> tileConfigs)
         {
             World result = new()
             {
@@ -33,24 +32,21 @@ namespace WorldProcessor.Core.Services
             };
 
 
-            result.Tiles = await IterateWithMutationCheckAsync(
+            result.Tiles = IterateWithMutationCheck(
                 result,
-                tileConfigs,
-                cancellationToken);
+                tileConfigs);
 
-            result.Tiles = await IterateWithMutationMagnitudeRecalculationAsync(
+            result.Tiles = IterateWithMutationMagnitudeRecalculation(
                 result,
-                tileConfigs,
-                cancellationToken);
+                tileConfigs);
 
 
             return result;
         }
 
-        private async Task<Dictionary<IPosition, Tile>> IterateWithMutationCheckAsync(
+        private Dictionary<IPosition, Tile> IterateWithMutationCheck(
             World world,
-            IEnumerable<TileConfig> tileConfigs,
-            CancellationToken cancellationToken)
+            IEnumerable<TileConfig> tileConfigs)
         {
             var maximalWorldDimensionValue = world.Dimensions.GetMaximalCoordinate();
 
@@ -66,8 +62,6 @@ namespace WorldProcessor.Core.Services
 
             for (int i = 0; i < worldOrderedIterationPath.Count; i++)
             {
-                cancellationToken.ThrowIfCancellationRequested();
-
                 var currentPosition = worldOrderedIterationPath[i];
 
                 if (!world.Tiles.TryGetValue(currentPosition, out var currentTile))
@@ -98,10 +92,9 @@ namespace WorldProcessor.Core.Services
             return result;
         }
 
-        private async Task<Dictionary<IPosition, Tile>> IterateWithMutationMagnitudeRecalculationAsync(
+        private Dictionary<IPosition, Tile> IterateWithMutationMagnitudeRecalculation(
             World world,
-            IEnumerable<TileConfig> tileConfigs,
-            CancellationToken cancellationToken)
+            IEnumerable<TileConfig> tileConfigs)
         {
             var maximalWorldDimensionValue = world.Dimensions.GetMaximalCoordinate();
 
@@ -114,15 +107,11 @@ namespace WorldProcessor.Core.Services
             var result = new Dictionary<IPosition, Tile>();
             foreach(var key in world.Tiles.Keys)
             {
-                cancellationToken.ThrowIfCancellationRequested();
-
                 result[key] = world.Tiles[key];
             }
 
             for (int i = 0; i < worldOrderedIterationPath.Count; i++)
             {
-                cancellationToken.ThrowIfCancellationRequested();
-
                 var currentPosition = worldOrderedIterationPath[i];
 
                 if (!world.Tiles.TryGetValue(currentPosition, out var currentTile))
@@ -139,8 +128,6 @@ namespace WorldProcessor.Core.Services
 
                 for (int j = 0; j < orderedRingOfTiles.Count; j++)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-
                     if (!result.ContainsKey(orderedRingOfTiles[j]))
                     {
                         continue;
