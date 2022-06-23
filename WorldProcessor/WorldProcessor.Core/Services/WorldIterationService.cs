@@ -158,14 +158,16 @@ namespace WorldProcessor.Core.Services
 
         private bool IsTileNeedToMutate(Tile tile, IPosition position, TileConfig config, World world)
         {
-            if(tile.BirthEpoch + config.MinAge < world.Epoch)
-            {
-                return false;
-            }
+            var tileAge = world.Epoch - tile.BirthEpoch;
 
-            if(tile.BirthEpoch + config.MaxAge >= world.Epoch)
+            if(tileAge > config.MaxAge)
             {
                 return true;
+            }
+
+            if(tileAge < config.MinAge)
+            {
+                return false;
             }
 
             var randomValue = _randomValueGenerationService
