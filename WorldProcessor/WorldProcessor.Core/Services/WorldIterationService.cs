@@ -173,7 +173,7 @@ namespace WorldProcessor.Core.Services
             var randomValue = _randomValueGenerationService
                 .Generate(
                     world.Seed,
-                    world.Epoch + 1,
+                    world.Epoch,
                     position, 0
                     );
 
