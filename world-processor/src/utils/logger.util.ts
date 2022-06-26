@@ -52,8 +52,8 @@ export class Logger {
         ...messages,
     );
 
-    static command = (...messages: any[]) => console.log(
-        chalk.bold.bgBlue(LogTypes.COMMAND),
+    static action = (...messages: any[]) => console.log(
+        chalk.bold.bgBlue(LogTypes.ACTION),
         chalk.bgGray(Logger.timeNow()),
         ...messages,
     );
@@ -63,5 +63,5 @@ enum LogTypes {
     INFO = 'INFO',
     ERROR = 'ERROR',
     WARNING = 'WARNING',
-    COMMAND = 'COMMAND'
+    ACTION = 'ACTION'
 }
