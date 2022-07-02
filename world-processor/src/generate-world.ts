@@ -6,6 +6,7 @@ import {Tile} from '@models/tile.model';
 import {Logger} from '@utils/logger.util';
 import {getTileHash} from '@utils/get-tile-hash.util';
 import {generateRandomTile} from '@utils/generate-random-tile.util';
+import {applyTileMultipliers} from '@utils/apply-tile-multipliers.util';
 
 export const generateWorld = <Shape extends TileShape>(
     epoch: World['epoch'],
@@ -23,9 +24,7 @@ export const generateWorld = <Shape extends TileShape>(
         configId,
         tiles: new Map<TileHash, Tile<Shape>>(),
     };
-
-    Logger.info('Starting tiles generation for:', {configId, tileShape, dimensions, seed, epoch});
-
+    Logger.info('Generating world', {configId, tileShape, dimensions, seed, epoch})
     if (tileShape === TileShape.HEXAGONAL) {
         world.tiles = generateHexagonalTiles(
             worldConfig,
@@ -34,12 +33,12 @@ export const generateWorld = <Shape extends TileShape>(
             seed,
             dimensions as World<TileShape.HEXAGONAL>['dimensions'],
         ) as World<Shape>['tiles'];
+        Logger.goodInfo('Tiles successfully generated', {configId, seed, epoch});
     } else {
         Logger.warning('Can not generate tiles for world with any tile shape but HEXAGONAL.');
+        return world;
     }
-
-    Logger.info('Tiles generation finished', {configId});
-
+    Logger.goodInfo('World successfully generated', {configId, seed, epoch});
     return world;
 };
 
@@ -51,6 +50,7 @@ const generateHexagonalTiles = (
     dimensions: World<TileShape.HEXAGONAL>['dimensions'],
 ): World<TileShape.HEXAGONAL>['tiles'] => {
     const tiles = new Map<TileHash, Tile<TileShape.HEXAGONAL>>();
+    const tileShape = world.tileShape;
     const [xMax, yMax, zMax] = dimensions;
     for (let x = 0; x < xMax; x++)
         for (let y = 0; y < yMax; y++)
@@ -60,7 +60,8 @@ const generateHexagonalTiles = (
                     worldConfig.tiles,
                     world,
                 );
-                tiles.set(getTileHash(newTile.coordinates), newTile);
+                applyTileMultipliers(newTile, world, worldConfig);
+                tiles.set(getTileHash(newTile.coordinates, tileShape), newTile);
             }
     return tiles;
 };

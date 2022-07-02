@@ -5,7 +5,7 @@ import {TileShape} from '@constants/tile-shape.enum';
 /**
  * Filters tiles by tileId.
  */
-export const filterTiles = <Shape extends TileShape>(
+export const filterTilesByConfigId = <Shape extends TileShape>(
     tiles: World<Shape>['tiles'],
     tileId: Tile['configId'],
 ): World<Shape>['tiles'] => {

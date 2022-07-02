@@ -32,7 +32,7 @@ export class Logger {
 
     /**
      * Prints info message in green for morale boost.
-     * Expected use case is "success checkpoints", like processing split cash command.
+     * Expected use case is "success checkpoints", like passing model validation.
      */
     static goodInfo = (...messages: any[]) => console.info(
         chalk.bold.bgGreen(LogTypes.INFO),

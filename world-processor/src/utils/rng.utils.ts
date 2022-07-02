@@ -1,10 +1,10 @@
-/**
- * Relation of [seed, epoch, coordinates] tuples to its number of iterations.
- */
 import {World} from '@models/world.model';
 import {Tile} from '@models/tile.model';
 import {TileShape} from '@constants/tile-shape.enum';
 
+/**
+ * Relation of [seed, epoch, coordinates] tuples to its number of iterations.
+ */
 const iterationsMap = new Map<string, number>();
 
 /**
@@ -45,4 +45,21 @@ const rngAlgorithm = (seed: World['seed'], epoch: World['epoch'], coordinates: T
  * @returns random integer less than @param multiplier.
  */
 export const rngNumber = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile<TileShape>['coordinates'], multiplier: number) =>
-    Math.trunc(multiplier * rng(seed, epoch, coordinates))
+    Math.trunc(multiplier * rng(seed, epoch, coordinates));
+
+/**
+ * Generates random segment based on world seed, world epoch and tile coordinates.
+ * Segment length (value) multiplies its chance to be picked.
+ * @returns random segment index.
+ */
+export const rngSegmentIndex = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile<TileShape>['coordinates'], segments: number[]) => {
+    const segmentsSum = segments.reduce((sum, segment) => sum + segment, 0);
+    const randomValueWithinSum = rngNumber(seed, epoch, coordinates, segmentsSum);
+    let floorSum = 0;
+    let randomSegmentIndex = 0;
+    while (floorSum < randomValueWithinSum) {
+        floorSum += segments[randomSegmentIndex];
+        randomSegmentIndex++;
+    }
+    return randomSegmentIndex;
+};
