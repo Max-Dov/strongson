@@ -13,6 +13,7 @@
       "@constants/*": ["src/constants/*"],
       "@models/*": ["src/models/*"],
       "@utils/*": ["src/utils/*"],
+      "@validators/*": ["src/validators/*"],
     }
   },
   "include": [

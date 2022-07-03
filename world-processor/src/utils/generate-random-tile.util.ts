@@ -2,9 +2,10 @@ import {TileShape} from '@constants/tile-shape.enum';
 import {TileConfig} from '@models/tile-config.model';
 import {Tile} from '@models/tile.model';
 import {World} from '@models/world.model';
-import {rngNumber, rngSegmentIndex} from '@utils/rng.utils';
+import {rngInteger, rngSegmentIndex} from '@utils/rng.utils';
 import {checkIfTileConfigIsAllowed} from '@utils/check-if-tile-config-is-allowed.util';
 import {getTileHash} from '@utils/get-tile-hash.util';
+import {Logger} from '@utils/logger.util';
 
 // TODO info about neighboring tiles should be shared with other constraint checks as otherwise it takes time to do same search operation for every constraint.
 // TODO number of "all tiles" in world should be shared with constraint checks to allow "maxDistance" constraint to be optional.
@@ -41,7 +42,10 @@ export const generateRandomTile = <Shape extends TileShape>(
         tileConfig = availableTileConfigs[tileConfigIndex];
     } else {
         const crowdWeightMultipliers = worldTile.crowdWeightMultipliers;
-        const tileSegments = availableTileConfigs.map(tileConfig => tileConfig.mutationWeight * crowdWeightMultipliers[tileConfig.id]);
+        const tileSegments = availableTileConfigs.map(tileConfig => {
+            const crowdWeightMultiplier = crowdWeightMultipliers[tileConfig.id] || 1;
+            return tileConfig.mutationWeight * crowdWeightMultiplier;
+        });
         const tileConfigIndex = rngSegmentIndex(seed, epoch, coordinates, tileSegments);
         tileConfig = availableTileConfigs[tileConfigIndex];
     }
@@ -50,7 +54,7 @@ export const generateRandomTile = <Shape extends TileShape>(
      * Figure out tile representation.
      */
     const availableRepresentations = tileConfig.representationsIds;
-    const rngRepresentationIdIndex = rngNumber(world.seed, world.epoch, coordinates, availableRepresentations.length);
+    const rngRepresentationIdIndex = rngInteger(world.seed, world.epoch, coordinates, availableRepresentations.length);
     const representationId = availableRepresentations[rngRepresentationIdIndex];
 
     const {chanceToMutate, crowdWeightMultipliers} = worldTile || {};

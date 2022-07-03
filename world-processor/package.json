@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build world-processor": "webpack --config ./webpack.config.ts",
-    "start world-processor": "node ./build/bundle.js --watch",
-    "restart world-processor": "npm run build && npm run start"
+    "build-world-processor": "webpack --config ./webpack.config.ts",
+    "start-world-processor": "node ./build/bundle.js",
+    "restart-world-processor": "npm run build-world-processor && npm run start-world-processor"
   },
   "author": "https://github.com/Max-Dov",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.0",
     "dotenv": "^16.0.0",

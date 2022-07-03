@@ -12,4 +12,4 @@ export const checkIfTileConfigIsAllowed = <Shape extends TileShape>(
     coordinates: Tile<Shape>['coordinates'],
     world: World<Shape>,
 ): boolean =>
-    !config.neighbors.some(constraint => !checkIfConstraintIsSatisfied(constraint, coordinates, world));
+    !config.neighbors?.some(constraint => !checkIfConstraintIsSatisfied(constraint, coordinates, world));

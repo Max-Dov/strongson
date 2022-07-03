@@ -17,7 +17,7 @@ export const getDistancedNeighbors = <T extends TileShape = TileShape.UNKNOWN>(
 ): World<T>['tiles'] => {
     if (distance === 0) {
         const result = new Map<TileHash, Tile<T>>();
-        const originTileHash = getTileHash(coordinates);
+        const originTileHash = getTileHash(coordinates, world.tileShape);
         const originTile = world.tiles.get(originTileHash);
         if (originTile) {
             result.set(originTileHash, originTile);
@@ -61,7 +61,7 @@ export const getHexagonalDistancedNeighbors = (
     }
     const neighborTiles = new Map<TileHash, Tile<TileShape.HEXAGONAL>>();
     neighborsCoordinates.forEach(coordinates => {
-        const neighborTileHash = getTileHash(coordinates);
+        const neighborTileHash = getTileHash(coordinates, world.tileShape);
         const neighborTile = world.tiles.get(neighborTileHash);
         if (neighborTile) {
             neighborTiles.set(neighborTileHash, neighborTile);

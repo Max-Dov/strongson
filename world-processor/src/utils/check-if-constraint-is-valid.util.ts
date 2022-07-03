@@ -22,7 +22,7 @@ export const checkIfConstraintIsValid = (constraint: NeighborConstraint): boolea
     /**
      * If both of these fields are empty, then constraint should not exist, yet there it is.
      */
-    if (!maxAmount && !minAmount) return false;
+    if (!maxAmount && maxAmount !== 0 && !minAmount && minAmount !== 0) return false;
 
     /**
      * If both of these fields are empty, then constraint should not exist, yet there it is.

@@ -5,7 +5,12 @@ import {TileShape} from '@constants/tile-shape.enum';
 /**
  * Relation of [seed, epoch, coordinates] tuples to its number of iterations.
  */
-const iterationsMap = new Map<string, number>();
+let iterationsMap: Map<string, number> = new Map();
+
+/**
+ * Resets "iteration" on rng algorithm. Should be used after every world generation/iteration.
+ */
+export const resetRng = () => iterationsMap = new Map();
 
 /**
  * Generates random number based on world seed, world epoch and tile coordinates.
@@ -44,7 +49,7 @@ const rngAlgorithm = (seed: World['seed'], epoch: World['epoch'], coordinates: T
  * Generates random integer based on world seed, world epoch and tile coordinates.
  * @returns random integer less than @param multiplier.
  */
-export const rngNumber = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile<TileShape>['coordinates'], multiplier: number) =>
+export const rngInteger = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile<TileShape>['coordinates'], multiplier: number) =>
     Math.trunc(multiplier * rng(seed, epoch, coordinates));
 
 /**
@@ -54,12 +59,12 @@ export const rngNumber = (seed: World['seed'], epoch: World['epoch'], coordinate
  */
 export const rngSegmentIndex = (seed: World['seed'], epoch: World['epoch'], coordinates: Tile<TileShape>['coordinates'], segments: number[]) => {
     const segmentsSum = segments.reduce((sum, segment) => sum + segment, 0);
-    const randomValueWithinSum = rngNumber(seed, epoch, coordinates, segmentsSum);
-    let floorSum = 0;
+    const randomValueWithinSum = rng(seed, epoch, coordinates) * segmentsSum;
     let randomSegmentIndex = 0;
-    while (floorSum < randomValueWithinSum) {
-        floorSum += segments[randomSegmentIndex];
+    let floorSum = segments[randomSegmentIndex];
+    while (floorSum <= randomValueWithinSum) {
         randomSegmentIndex++;
+        floorSum += segments[randomSegmentIndex];
     }
     return randomSegmentIndex;
 };

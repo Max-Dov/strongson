@@ -15,6 +15,8 @@ export const checkIfConstraintIsSatisfied = <Shape extends TileShape>(
     world: World<Shape>,
 ): boolean => {
     const {neighborConfigId, minAmount, maxAmount, minDistance, maxDistance} = constraint;
+
+    // TODO move that to validators.
     if (!checkIfConstraintIsValid(constraint)) return false;
 
     /**
@@ -30,7 +32,8 @@ export const checkIfConstraintIsSatisfied = <Shape extends TileShape>(
     const allNeighbors = getNeighbors(coordinates, world, maxDistance, minDistance);
     const constraintNeighbors = filterTilesByConfigId(allNeighbors, neighborConfigId);
     const neighborsAmount = constraintNeighbors.size;
-    // reversed fail conditions; if any of them succeed, returns false
-    return !(neighborsAmount < (maxAmount as number)
-        || minAmount && neighborsAmount < minAmount);
+    const isSatisfied =
+        neighborsAmount <= (maxAmount as number)
+        && (!minAmount || neighborsAmount <= minAmount);
+    return isSatisfied;
 };

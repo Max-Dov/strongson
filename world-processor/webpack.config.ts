@@ -5,13 +5,13 @@ const config: webpack.Configuration = {
     mode: 'development',
     target: 'node',
     entry: './src/main.ts',
-    watch: true,
     resolve: {
         extensions: ['.ts', '.js'],
         alias: {
             '@constants': path.resolve(__dirname, 'src', 'constants'),
             '@models': path.resolve(__dirname, 'src', 'models'),
             '@utils': path.resolve(__dirname, 'src', 'utils'),
+            '@validators': path.resolve(__dirname, 'src', 'validators'),
         }
     },
     devtool: 'inline-source-map',
