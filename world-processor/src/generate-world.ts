@@ -9,6 +9,8 @@ import {generateRandomTile} from '@utils/generate-random-tile.util';
 import {applyTileMultipliers} from '@utils/apply-tile-multipliers.util';
 import {resetRng, rngInteger} from '@utils/rng.utils';
 
+// TODO store tiles in object not map to omit serialization step.
+
 export const generateWorld = <Shape extends TileShape>(
     epoch: World['epoch'],
     seed: World['seed'],
@@ -68,6 +70,7 @@ const generateHexagonalTiles = (
             worldConfig.tiles,
             world,
         );
+        // TODO fix multipliers
         applyTileMultipliers(newTile, world, worldConfig);
         tiles.set(getTileHash(newTile.coordinates, tileShape), newTile);
 

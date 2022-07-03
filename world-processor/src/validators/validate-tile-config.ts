@@ -44,6 +44,7 @@ export const validateTileConfig = (tileConfig: unknown): null | never => {
      * Array checks.
      */
     neighbors.forEach(validateNeighborConstraint);
+    if (representationsIds.length === 0) throw new Error('TileConfig.representationsIds should have at least one representation.')
     representationsIds.forEach((representationId: unknown) => {
         if (typeof representationId !== 'string') throw new Error('TileConfig.representationsIds elements should be strings.');
     });

@@ -9,9 +9,9 @@ import {WorldConfig} from '@models/world-config.model';
 import {TileShape} from '@constants/tile-shape.enum';
 
 export interface GenerateWorldBody {
-    epoch: World['epoch'];
-    seed: World['seed'];
-    dimensions: World['dimensions'];
+    epoch: World<TileShape>['epoch'];
+    seed: World<TileShape>['seed'];
+    dimensions: World<TileShape>['dimensions'];
     worldConfig: WorldConfig;
 }
 

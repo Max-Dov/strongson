@@ -10,10 +10,10 @@ export const validateWorldConfig = (worldConfig: unknown): null | never => {
 
     const {id, tiles, tileShape} = worldConfig as Partial<WorldConfig>;
 
-    if (!id) throw new Error('WorldConfig.id field is required.');
-    if (!tiles) throw new Error('WorldConfig.tiles field is required.');
-    if (!tileShape) throw new Error('WorldConfig.tiles tileShape is required.');
-    if (!TileShape[tileShape]) throw new Error('WorldConfig.tileShape is not valid TileShape.');
+    if (typeof id !== 'string') throw new Error('WorldConfig.id field should be string.');
+    if (!Array.isArray(tiles)) throw new Error('WorldConfig.tiles should be an array.');
+    if (typeof tileShape !== 'string') throw new Error('WorldConfig.tiles tileShape should be string.');
+    if (!TileShape[tileShape]) throw new Error('WorldConfig.tileShape should be valid TileShape.');
 
     tiles.forEach(validateTileConfig);
 

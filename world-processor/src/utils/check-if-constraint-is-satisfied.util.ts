@@ -4,7 +4,6 @@ import {Tile} from '@models/tile.model';
 import {World} from '@models/world.model';
 import {getNeighbors} from '@utils/neighbors-extraction/get-neighbors.util';
 import {filterTilesByConfigId} from '@utils/filter-tiles-by-config-id.util';
-import {checkIfConstraintIsValid} from '@utils/check-if-constraint-is-valid.util';
 
 /**
  * Returns true if neighbor constraint passes check against coordinate.
@@ -15,9 +14,6 @@ export const checkIfConstraintIsSatisfied = <Shape extends TileShape>(
     world: World<Shape>,
 ): boolean => {
     const {neighborConfigId, minAmount, maxAmount, minDistance, maxDistance} = constraint;
-
-    // TODO move that to validators.
-    if (!checkIfConstraintIsValid(constraint)) return false;
 
     /**
      * First, check if there are neighbors closer than allowed.
