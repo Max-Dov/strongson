@@ -17,135 +17,103 @@ namespace WorldProcessor.Core.Services
 
         public World GenerateNextWorldIteration(
             World world,
-            IEnumerable<TileConfig> tileConfigs)
+            List<TileConfig> tileConfigs)
         {
-            World result = new()
+            var epoch = world.Epoch + 1;
+
+            var tilesMap = GetMapWithMutatedTiles(
+                world.Tiles, tileConfigs, epoch, world.Seed);
+
+            tilesMap = GetMapWithRecalculatedMutationChances(tilesMap, tileConfigs);
+
+            return new World()
             {
                 ConfigId = world.ConfigId,
                 Dimensions = world.Dimensions,
                 TileShape = world.TileShape,
-                Epoch = world.Epoch + 1,
+                Epoch = epoch,
                 Seed = world.Seed,
-                Tiles = world.Tiles.ToDictionary(
-                    entry => entry.Key,
-                    entry => (Tile)entry.Value.Clone()),
+                Tiles = tilesMap,
             };
-
-
-            result.Tiles = IterateWithMutationCheck(
-                result,
-                tileConfigs);
-
-            result.Tiles = IterateWithMutationMagnitudeRecalculation(
-                result,
-                tileConfigs);
-
-
-            return result;
         }
 
-        private Dictionary<IPosition, Tile> IterateWithMutationCheck(
-            World world,
-            IEnumerable<TileConfig> tileConfigs)
+
+        private Dictionary<IPosition, Tile> GetMapWithMutatedTiles(
+            IReadOnlyDictionary<IPosition, Tile> map,
+            List<TileConfig> tileConfigs,
+            int epoch,
+            int seed)
         {
-            var maximalWorldDimensionValue = world.Dimensions.GetMaximalCoordinate();
+            var result = new Dictionary<IPosition, Tile>();
 
-            var worldOrderedIterationPath = world.Dimensions
-                .GenerateOrderedSpiralPath(
-                    world.Dimensions.GetZeroPosition(),
-                    maximalWorldDimensionValue)
-                .ToList();
-
-            var result = world.Tiles.ToDictionary(
-                entry => entry.Key,
-                entry => (Tile)entry.Value.Clone());
-
-            for (int i = 0; i < worldOrderedIterationPath.Count; i++)
+            foreach (var position in map.Keys)
             {
-                var currentPosition = worldOrderedIterationPath[i];
+                var tile = map[position];
+                var tileConfig = tileConfigs.First(config => config.Id == tile.ConfigId);
 
-                if (!world.Tiles.TryGetValue(currentPosition, out var currentTile))
+                if (IsTileNeedToMutate(tile, position, tileConfig, epoch, seed))
                 {
-                    continue;
-                }
-
-                var tileConfig = tileConfigs.First(config => currentTile.ConfigId == config.Id);
-
-                if(IsTileNeedToMutate(currentTile, currentPosition, tileConfig, world))
-                {
-                    var possibleMutationWays =
+                    var possibleMutations =
                         GetPossibleTilesToMutateIn(
-                            currentTile,
-                            currentPosition,
+                            tile,
+                            position,
                             tileConfigs,
                             result);
 
-                    result[currentPosition] =
-                        GetMutationResult(
-                            currentTile,
-                            currentPosition,
-                            world,
-                            possibleMutationWays);
+                    var mutatedTile =
+                        GetMutatedTile(
+                            position,
+                            possibleMutations,
+                            epoch,
+                            seed);
+
+                    result.Add(position, mutatedTile);
                 }
             }
 
             return result;
         }
 
-        private Dictionary<IPosition, Tile> IterateWithMutationMagnitudeRecalculation(
-            World world,
-            IEnumerable<TileConfig> tileConfigs)
+        private Dictionary<IPosition, Tile> GetMapWithRecalculatedMutationChances(
+            IReadOnlyDictionary<IPosition, Tile> map,
+            List<TileConfig> tileConfigs)
         {
-            var maximalWorldDimensionValue = world.Dimensions.GetMaximalCoordinate();
-
-            var worldOrderedIterationPath = world.Dimensions
-                .GenerateOrderedSpiralPath(
-                    world.Dimensions.GetZeroPosition(),
-                    maximalWorldDimensionValue)
-                .ToList();
-
             var result = new Dictionary<IPosition, Tile>();
-            foreach(var key in world.Tiles.Keys)
+
+            foreach (var position in map.Keys)
             {
-                result[key] = world.Tiles[key];
-            }
+                var tile = map[position];
+                var tileConfig = tileConfigs.First(config => config.Id == tile.ConfigId);
 
-            for (int i = 0; i < worldOrderedIterationPath.Count; i++)
-            {
-                var currentPosition = worldOrderedIterationPath[i];
-
-                if (!world.Tiles.TryGetValue(currentPosition, out var currentTile))
-                {
-                    continue;
-                }
-
-                var currentTileConfig = tileConfigs.First(tileConfig => tileConfig.Id == currentTile.ConfigId);
-
-                var orderedRingOfTiles = Enumerable.Range(1, currentTileConfig.CrowdWeightMultiplierRadius)
-                    .SelectMany(radius => world.Dimensions
-                        .GenerateOrderedRingPath(currentPosition, radius))
+                var affectedPositionsList = position
+                    .GenerateOrderedSpiralPath(
+                        position,
+                        tileConfig.CrowdWeightMultiplierRadius)
+                    .Where(tilePosition => map.ContainsKey(tilePosition))
                     .ToList();
 
-                for (int j = 0; j < orderedRingOfTiles.Count; j++)
+                foreach(var affectedPosition in affectedPositionsList)
                 {
-                    if (!result.ContainsKey(orderedRingOfTiles[j]))
+                    if (!result.ContainsKey(affectedPosition))
                     {
-                        continue;
+                        result.Add(affectedPosition, (Tile)map[affectedPosition].Clone());
                     }
 
-                    var oldMutationChance = result[orderedRingOfTiles[j]].MutationChance;
-
-                    result[orderedRingOfTiles[j]].MutationChance = 
-                        (oldMutationChance * currentTileConfig.CrowdWeightMultiplier);
+                    result[affectedPosition].MutationChance *= tileConfig.CrowdWeightMultiplier;
                 }
             }
 
             return result;
         }
 
-        private bool IsTileNeedToMutate(Tile tile, IPosition position, TileConfig config, World world)
+        private bool IsTileNeedToMutate(
+            Tile tile,
+            IPosition position,
+            TileConfig config,
+            int epoch,
+            int seed)
         {
-            var tileAge = world.Epoch - tile.BirthEpoch;
+            var tileAge = epoch - tile.BirthEpoch;
 
             if(tileAge > config.MaxAge)
             {
@@ -159,26 +127,92 @@ namespace WorldProcessor.Core.Services
 
             var randomValue = _randomValueGenerationService
                 .Generate(
-                    world.Seed,
-                    world.Epoch,
-                    position, 0
-                    );
+                    seed,
+                    epoch,
+                    position,
+                    0);
 
             return tile.MutationChance >= randomValue * 100;
         }
 
-        private Tile GetMutationResult(
-            Tile currentTile,
-            IPosition currentPosition,
-            World world,
-            IEnumerable<TileConfig> tileConfigs)
+        private List<TileConfig> GetPossibleTilesToMutateIn(
+            Tile tile,
+            IPosition tilePosition,
+            IEnumerable<TileConfig> tileConfigs,
+            IReadOnlyDictionary<IPosition, Tile> map)
         {
-            if(!tileConfigs.Any())
+            var result = new List<TileConfig>();
+
+            result.Add(tileConfigs.First(tileConfig => tileConfig.Id == tile.ConfigId));
+
+            result.AddRange(
+                tileConfigs
+                .Where(tileConfig => tileConfig.Id != tile.ConfigId)
+                .Where(tileConfig => CheckIfTileCanBePlacedAtPosition(
+                    tileConfig,
+                    tilePosition,
+                    map)));
+
+            return result;
+        }
+
+        private bool CheckIfTileCanBePlacedAtPosition(
+            TileConfig tileConfig,
+            IPosition tilePosition,
+            IReadOnlyDictionary<IPosition, Tile> map)
+        {
+            foreach(var constraint in tileConfig.Neighbors)
             {
-                return currentTile.Clone() as Tile;
+                IEnumerable<IPosition> region;
+
+                if(constraint.MaxDistance > 0)
+                {
+                    var spiralPath = tilePosition.GenerateOrderedSpiralPath(
+                        tilePosition,
+                        constraint.MaxDistance);
+
+                    region = map.Keys.Intersect(spiralPath);
+                }
+                else
+                {
+                    region = map.Keys;
+                }
+
+                if(constraint.MinDistance > 0)
+                {
+                    var spiralPath = tilePosition.GenerateOrderedSpiralPath(
+                        tilePosition,
+                        constraint.MinDistance);
+
+                    region = region.Except(spiralPath);
+                }
+
+                var exactTileAmountInRing = 0;
+                foreach(var position in region)
+                {
+                    if(map[position].ConfigId == constraint.NeighborConfigId)
+                    {
+                        exactTileAmountInRing++;
+                    }
+
+                    if (exactTileAmountInRing > constraint.MaxAmount ||
+                        exactTileAmountInRing < constraint.MinAmount)
+                    {
+                        return false;
+                    }
+                }
             }
 
-            var tileConfigsSortedList = tileConfigs
+            return true;
+        }
+
+        private Tile GetMutatedTile(
+            IPosition position,
+            List<TileConfig> possibleMutations,
+            int epoch,
+            int seed)
+        {
+            var tileConfigsSortedList = possibleMutations
                 .OrderBy(tileConfig => tileConfig.Id)
                 .ToList();
 
@@ -193,13 +227,13 @@ namespace WorldProcessor.Core.Services
             }
 
             var randomValue = _randomValueGenerationService
-                .Generate(world.Seed, world.Epoch, currentPosition, 1);
+                .Generate(seed, epoch, position, 1);
 
             var mutationResultValue = (int)(randomValue * cumulative.Last());
 
             int index = Array.BinarySearch(cumulative.ToArray(), mutationResultValue);
 
-            if(index < 0)
+            if (index < 0)
             {
                 index = ~index;
             }
@@ -207,9 +241,9 @@ namespace WorldProcessor.Core.Services
             var mutationResultTileConfig = tileConfigsSortedList[index];
 
             var representationId = GenerateTileRepresentation(
-                world.Seed,
-                world.Epoch,
-                currentPosition,
+                seed,
+                epoch,
+                position,
                 mutationResultTileConfig.RepresentationsIds);
 
             return new Tile
@@ -217,7 +251,7 @@ namespace WorldProcessor.Core.Services
                 ConfigId = mutationResultTileConfig.Id,
                 RepresentationId = representationId,
                 MutationChance = mutationResultTileConfig.MutationChance,
-                BirthEpoch = world.Epoch
+                BirthEpoch = epoch
             };
         }
 
@@ -225,7 +259,7 @@ namespace WorldProcessor.Core.Services
             int seed,
             int epoch,
             IPosition position,
-            IEnumerable<string> representationIds)
+            List<string> representationIds)
         {
             var randomValue = _randomValueGenerationService.Generate(
                 seed,
@@ -235,40 +269,6 @@ namespace WorldProcessor.Core.Services
 
             return representationIds.ElementAt(
                 (int)(randomValue * representationIds.Count()));
-        }
-
-        private IEnumerable<TileConfig> GetPossibleTilesToMutateIn(
-            Tile tile,
-            IPosition tilePosition,
-            IEnumerable<TileConfig> tileConfigs,
-            IReadOnlyDictionary<IPosition, Tile> map)
-        {
-            var result = new List<TileConfig>();
-
-            result.Add(tileConfigs.First(tileConfig => tileConfig.Id == tile.ConfigId));
-
-            result.AddRange(
-                tileConfigs
-                .Where(tileConfig => tileConfig.Id != tile.ConfigId)
-                .Where(tileConfig =>
-                {
-                    return tileConfig.Neighbors.All(constraint =>
-                    {
-                        var exactTileAmountInRing = Enumerable
-                            .Range(constraint.MinDistance, constraint.MaxDistance - constraint.MinDistance)
-                            .SelectMany(radius => tilePosition
-                                .GenerateOrderedRingPath(tilePosition, radius))
-                            .Where(position => map.ContainsKey(position))
-                            .Select(position => map[position])
-                            .Where(tile => tile.ConfigId == constraint.NeighborConfigId)
-                            .Count();
-
-                        return exactTileAmountInRing <= constraint.MaxAmount &&
-                            exactTileAmountInRing >= constraint.MinAmount;
-                    });
-                }));
-
-            return result;
         }
     }
 }

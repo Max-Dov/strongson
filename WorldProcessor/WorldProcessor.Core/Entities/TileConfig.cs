@@ -6,7 +6,7 @@
 
         public IEnumerable<NeighborConstraint> Neighbors { get; set; }
 
-        public IEnumerable<string> RepresentationsIds { get; set; }
+        public List<string> RepresentationsIds { get; set; }
 
         public int MutationWeight { get; set; }
 

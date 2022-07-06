@@ -6,6 +6,6 @@ namespace WorldProcessor.Core.Interfaces.Services
     {
         public World GenerateNextWorldIteration(
             World world,
-            IEnumerable<TileConfig> tileConfigs);
+            List<TileConfig> tileConfigs);
     }
 }

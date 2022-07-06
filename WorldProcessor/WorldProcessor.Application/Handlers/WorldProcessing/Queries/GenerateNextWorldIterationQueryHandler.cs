@@ -32,7 +32,7 @@ namespace WorldProcessor.Application.Handlers.WorldProcessing.Queries
             var result = _worldIterationService
                 .GenerateNextWorldIteration(
                     world,
-                    worldConfig.Tiles);
+                    worldConfig.Tiles.ToList());
 
             return _mapper.Map<WorldDto>(result);
         }
