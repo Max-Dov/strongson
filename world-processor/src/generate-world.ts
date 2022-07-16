@@ -8,6 +8,7 @@ import {getTileHash} from '@utils/get-tile-hash.util';
 import {generateRandomTile} from '@utils/generate-random-tile.util';
 import {applyTileMultipliers} from '@utils/apply-tile-multipliers.util';
 import {resetRng, rngInteger} from '@utils/rng.utils';
+import {ShapeDimensions} from '@models/shape-dimensions.model';
 
 // TODO store tiles in object not map to omit serialization step.
 
@@ -26,7 +27,7 @@ export const generateWorld = <Shape extends TileShape>(
         dimensions,
         tileShape,
         configId,
-        tiles: new Map<TileHash, Tile<Shape>>(),
+        tiles: {},
     };
     Logger.info('Generating world', {configId, tileShape, dimensions, seed, epoch});
     if (tileShape === TileShape.HEXAGONAL) {
@@ -41,8 +42,8 @@ export const generateWorld = <Shape extends TileShape>(
         Logger.warning('Can not generate tiles for world with any tile shape but HEXAGONAL.');
         return world;
     }
-    Logger.info('Tiles in world:', world.tiles.size);
-    Logger.goodInfo('World successfully generated!',);
+    Logger.info('Number of tiles in world:', Object.keys(world.tiles).length);
+    Logger.goodInfo('World successfully generated!');
     return world;
 };
 
@@ -53,16 +54,41 @@ const generateHexagonalTiles = (
     seed: World<TileShape.HEXAGONAL>['seed'],
     dimensions: World<TileShape.HEXAGONAL>['dimensions'],
 ): World<TileShape.HEXAGONAL>['tiles'] => {
-    const tiles = new Map<TileHash, Tile<TileShape.HEXAGONAL>>();
-    const tileShape = world.tileShape;
+    const tiles: {
+        /**
+         * Partial world tiles. "tile.coordinates" field is generated for all tiles,
+         * then actual tiles are generated and merged with coordinates.
+         *
+         * Note: it is done that way so when neighbors are checked there's a distinct difference between coordinates
+         * associated with "tile that is not created yet" and "out of world coordinate". Tiles that are not yet created should have
+         * their crowd/mutation multipliers affected during neighbors creation.
+         */
+        [key in TileHash]: Partial<Tile<TileShape.HEXAGONAL>>
+    } = {};
 
-    Logger.info('Generating coordinates');
-    const coordinates = generateHexagonalCoordinates(dimensions);
+    Logger.info('Generating HEX coordinates', {dimensions});
+    const coordinates = generateHexagonalCoordinates(dimensions) as Array<ShapeDimensions[TileShape.HEXAGONAL]>;
 
+    /**
+     * Shuffled coordinates allow more natural world generation due to iterating over random dots on map.
+     * If tiles are generated via spiral around [0,0,0], then some tiles with high grouping parameters will stretch
+     * across spiral.
+     */
     Logger.info('Shuffling coordinates');
     shuffleArray(coordinates, seed, epoch, [0, 0, 0]);
 
+    Logger.info('Mapping coordinates to tiles');
+    coordinates.forEach(coordinate => tiles[getTileHash(coordinate, TileShape.HEXAGONAL)] = {coordinates: coordinate});
+
+    /**
+     * World tiles would be used for multipliers application and neighbors constraints checks.
+     * So it is safe to set them in world already.
+     * Other fields would be filled by iteration through coordinates down below.
+     */
+    world.tiles = tiles as World<TileShape.HEXAGONAL>['tiles'];
+
     Logger.info('Generating tiles');
+    const tileShape = world.tileShape;
     const tilesAmount: { [key in Tile['configId']]: number } = {};
     coordinates.forEach(coordinate => {
         const newTile = generateRandomTile<TileShape.HEXAGONAL>(
@@ -70,9 +96,8 @@ const generateHexagonalTiles = (
             worldConfig.tiles,
             world,
         );
-        // TODO fix multipliers
         applyTileMultipliers(newTile, world, worldConfig);
-        tiles.set(getTileHash(newTile.coordinates, tileShape), newTile);
+        tiles[getTileHash(newTile.coordinates, tileShape)] = newTile;
 
         // tracking tiles amount
         const configId = newTile.configId;
@@ -80,7 +105,7 @@ const generateHexagonalTiles = (
     });
 
     Logger.goodInfo('Tiles generated:', tilesAmount);
-    return tiles;
+    return tiles as World<TileShape.HEXAGONAL>['tiles'];
 };
 
 const generateHexagonalCoordinates = (dimensions: World<TileShape.HEXAGONAL>['dimensions']): [number, number, number][] => {

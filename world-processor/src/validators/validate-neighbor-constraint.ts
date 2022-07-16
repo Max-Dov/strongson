@@ -22,19 +22,20 @@ export const validateNeighborConstraint = (neighborConstraint: unknown): null | 
      * maxDistance was infinite. That is n^2 (n - amount of tiles in world) checks for every tile against all
      * tiles in world which is very slow and cannot be afforded for now.
      */
-    if (typeof maxAmount !== 'number')
-        throw new Error('NeighborConstraint.maxAmount should be number. (Field is required for now and would become optional later.)');
+    if (typeof maxDistance !== 'number')
+        throw new Error('NeighborConstraint.maxDistance should be number. (Field is required for now and would become optional later.)');
 
     /**
      * Optional fields checks.
      */
     if (typeof minAmount !== 'number' && typeof minAmount !== 'undefined')
         throw new Error('NeighborConstraint.minAmount should be number if provided.');
-    // if (typeof maxAmount !== 'number' && typeof maxAmount !== 'undefined') throw new Error('NeighborConstraint.maxAmount should be number if provided.');
+    if (typeof maxAmount !== 'number' && typeof maxAmount !== 'undefined')
+        throw new Error('NeighborConstraint.maxAmount should be number if provided.');
     if (typeof minDistance !== 'number' && typeof minDistance !== 'undefined')
         throw new Error('NeighborConstraint.minDistance should be number if provided.');
-    if (typeof maxDistance !== 'number' && typeof maxDistance !== 'undefined')
-        throw new Error('NeighborConstraint.maxDistance should be number if provided.');
+    // if (typeof maxDistance !== 'number' && typeof maxDistance !== 'undefined')
+    //     throw new Error('NeighborConstraint.maxDistance should be number if provided.');
 
     /**
      * Common sense checks.

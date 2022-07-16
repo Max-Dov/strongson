@@ -16,11 +16,11 @@ export const getNeighbors = <T extends TileShape = TileShape.UNKNOWN>(
     distanceMax: number = 1,
     distanceMin: number = 1,
 ): World<T>['tiles'] => {
-    const neighbors: World<T>['tiles'] = new Map();
+    const neighbors: World<T>['tiles'] = {};
     for (let distance = distanceMin; distance <= distanceMax; distance++) {
         const distancedNeighbors = getDistancedNeighbors(coordinates, world, distance);
-        for (let [tileHash, neighborTile] of distancedNeighbors) {
-            neighbors.set(tileHash, neighborTile);
+        for (let tileHash in distancedNeighbors) {
+            neighbors[tileHash] = distancedNeighbors[tileHash];
         }
     }
     return neighbors;

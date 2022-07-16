@@ -42,7 +42,7 @@ export interface World<Shape extends TileShape = TileShape.UNKNOWN> {
      */
     epoch: number;
     /**
-     * World geometry. Geometry stands for tile shape. Display format is dependent on geometry.
+     * World tile shape. Distance between tiles and world display is dependent on what shape tiles have.
      */
     tileShape: Shape;
     /**

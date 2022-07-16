@@ -9,10 +9,11 @@ export const filterTilesByConfigId = <Shape extends TileShape>(
     tiles: World<Shape>['tiles'],
     tileId: Tile['configId'],
 ): World<Shape>['tiles'] => {
-    const result: World<Shape>['tiles'] = new Map();
-    for (const [hash, tile] of tiles) {
+    const result: World<Shape>['tiles'] = {};
+    for (const tileHash in tiles) {
+        const tile = tiles[tileHash];
         if (tile.configId === tileId) {
-            result.set(hash, tile);
+            result[tileHash] = tile;
         }
     }
     return result;

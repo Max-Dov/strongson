@@ -18,12 +18,12 @@ export const validateTileConfig = (tileConfig: unknown): null | never => {
     if (typeof id !== 'string') throw new Error('TileConfig.id must be a string.');
     if (typeof mutationWeight !== 'number') throw new Error('TileConfig.mutationWeight must be a number.');
     if (typeof mutationChance !== 'number') throw new Error('TileConfig.mutationChance must be a number.');
-    if (!Array.isArray(neighbors)) throw new Error('TileConfig.neighbors must be an array.');
     if (!Array.isArray(representationsIds)) throw new Error('TileConfig.neighbors must be an array.');
 
     /**
      * Optional params checks.
      */
+    if (typeof neighbors !== 'undefined' && !Array.isArray(neighbors)) throw new Error('TileConfig.neighbors must be an array.');
     if (typeof minAge !== 'number' && typeof minAge !== 'undefined') throw new Error('TileConfig.minAge should be number if provided.');
     if (typeof maxAge !== 'number' && typeof maxAge !== 'undefined') throw new Error('TileConfig.maxAge should be number if provided.');
     if (typeof crowdWeightMultiplier !== 'number' && typeof crowdWeightMultiplier !== 'undefined') throw new Error('TileConfig.crowdWeightMultiplier should be number if provided.');
@@ -43,8 +43,13 @@ export const validateTileConfig = (tileConfig: unknown): null | never => {
     /**
      * Array checks.
      */
-    neighbors.forEach(validateNeighborConstraint);
-    if (representationsIds.length === 0) throw new Error('TileConfig.representationsIds should have at least one representation.')
+    try {
+        neighbors?.forEach(validateNeighborConstraint);
+    } catch (error) {
+        const message = (error as Error).message;
+        throw new Error(`TileConfig: ${id}; ${message}`);
+    }
+    if (representationsIds.length === 0) throw new Error('TileConfig.representationsIds should have at least one representation.');
     representationsIds.forEach((representationId: unknown) => {
         if (typeof representationId !== 'string') throw new Error('TileConfig.representationsIds elements should be strings.');
     });

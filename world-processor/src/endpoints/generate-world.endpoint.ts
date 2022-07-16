@@ -36,12 +36,6 @@ export const generateWorldEndpoint: EndpointInfo = [
 
         result.status(200);
         const world = generateWorld(body.epoch, body.seed, body.dimensions, body.worldConfig);
-        result.send(serializeWorld(world));
+        result.send(world);
     },
 ];
-
-const serializeWorld = (world: World<TileShape>): any =>
-    ({
-        ...world,
-        tiles: [...world.tiles.values()],
-    });

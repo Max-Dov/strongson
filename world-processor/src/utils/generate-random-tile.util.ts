@@ -5,7 +5,6 @@ import {World} from '@models/world.model';
 import {rngInteger, rngSegmentIndex} from '@utils/rng.utils';
 import {checkIfTileConfigIsAllowed} from '@utils/check-if-tile-config-is-allowed.util';
 import {getTileHash} from '@utils/get-tile-hash.util';
-import {Logger} from '@utils/logger.util';
 
 // TODO info about neighboring tiles should be shared with other constraint checks as otherwise it takes time to do same search operation for every constraint.
 // TODO number of "all tiles" in world should be shared with constraint checks to allow "maxDistance" constraint to be optional.
@@ -33,17 +32,17 @@ export const generateRandomTile = <Shape extends TileShape>(
 
     /**
      * Figure out tileConfig.
+     * Make sure to account for tile "crowdWeightMultipliers" and base "mutationWeight" for a tile config.
      */
-    let worldTile = tiles.get(getTileHash(coordinates, tileShape));
     let tileConfig: TileConfig;
-    if (!worldTile) {
-        const tileSegments = availableTileConfigs.map(tileConfig => tileConfig.mutationWeight);
-        const tileConfigIndex = rngSegmentIndex(seed, epoch, coordinates, tileSegments);
-        tileConfig = availableTileConfigs[tileConfigIndex];
-    } else {
-        const crowdWeightMultipliers = worldTile.crowdWeightMultipliers;
+    let worldTile = tiles[getTileHash(coordinates, tileShape)];
+    {
+        if (!worldTile.crowdWeightMultipliers) {
+            worldTile.crowdWeightMultipliers = {};
+        }
+        const worldTileCrowdWeightMultipliers = worldTile.crowdWeightMultipliers;
         const tileSegments = availableTileConfigs.map(tileConfig => {
-            const crowdWeightMultiplier = crowdWeightMultipliers[tileConfig.id] || 1;
+            const crowdWeightMultiplier = worldTileCrowdWeightMultipliers[tileConfig.id] || 1;
             return tileConfig.mutationWeight * crowdWeightMultiplier;
         });
         const tileConfigIndex = rngSegmentIndex(seed, epoch, coordinates, tileSegments);
@@ -57,14 +56,12 @@ export const generateRandomTile = <Shape extends TileShape>(
     const rngRepresentationIdIndex = rngInteger(world.seed, world.epoch, coordinates, availableRepresentations.length);
     const representationId = availableRepresentations[rngRepresentationIdIndex];
 
-    const {chanceToMutate, crowdWeightMultipliers} = worldTile || {};
-
     return {
         configId: tileConfig.id,
         representationId,
         coordinates,
         birthEpoch: world.epoch,
-        chanceToMutate: chanceToMutate ? tileConfig.mutationChance * chanceToMutate : tileConfig.mutationChance,
-        crowdWeightMultipliers: crowdWeightMultipliers || {},
+        chanceToMutate: tileConfig.mutationChance * (worldTile.chanceToMutate || 1),
+        crowdWeightMultipliers: worldTile.crowdWeightMultipliers,
     };
 };

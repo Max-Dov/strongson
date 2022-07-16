@@ -24,12 +24,18 @@ export const applyTileMultipliers = <Shape extends TileShape>(
 
     if (crowdWeightMultiplierRadius && crowdWeightMultiplier) {
         const tileNeighbors = getNeighbors(tile.coordinates, world, crowdWeightMultiplierRadius);
-        [...tileNeighbors.values()].forEach((tile) => tile.crowdWeightMultipliers[tileConfigId] *= crowdWeightMultiplier);
+        for (const tileHash in tileNeighbors) {
+            const tile = tileNeighbors[tileHash];
+            tile.crowdWeightMultipliers[tileConfigId] *= crowdWeightMultiplier;
+        }
     }
 
     if (neighborsMutationMultiplierRadius && neighborsMutationMultiplier) {
         const tileNeighbors = getNeighbors(tile.coordinates, world, neighborsMutationMultiplierRadius);
-        [...tileNeighbors.values()].forEach((tile) => tile.chanceToMutate *= neighborsMutationMultiplier);
+        for (const tileHash in tileNeighbors) {
+            const tile = tileNeighbors[tileHash];
+            tile.chanceToMutate *= neighborsMutationMultiplier;
+        }
     }
 
     return world;
