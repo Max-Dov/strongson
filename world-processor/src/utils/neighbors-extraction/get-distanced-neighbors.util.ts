@@ -38,7 +38,7 @@ export const getDistancedNeighbors = <T extends TileShape = TileShape.UNKNOWN>(
 };
 
 /**
- * Gets distanced neighbors placed on "WorldGeometry.HEXAGONAL" grid.
+ * Gets distanced neighbors placed on HEXAGONAL grid.
  * @param coordinates - coordinates of a tile that needs its neighbors to be found.
  * @param world - world with all the tiles.
  * @param distance - distance to a neighbor.

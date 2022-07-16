@@ -228,6 +228,13 @@ export interface Tile<Shape extends TileShape = TileShape.UNKNOWN> {
      */
     chanceToMutate: number;
     /**
+     * Multipliers for choosing new tile during tile mutation.
+     * Tiles that are more numerous around current coordinate have greater chance to be picked as next tile.
+     */
+    crowdWeightMultipliers: {
+        [key in TileConfig['id']]: number;
+    };
+    /**
      * World['epoch'] when tile started existing.
      */
     birthEpoch: number;

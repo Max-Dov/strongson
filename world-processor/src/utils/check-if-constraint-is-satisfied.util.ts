@@ -21,13 +21,13 @@ export const checkIfConstraintIsSatisfied = <Shape extends TileShape>(
     if (minDistance) {
         const possibleTrespassers = getNeighbors(coordinates, world, minDistance);
         const trespassers = filterTilesByConfigId(possibleTrespassers, neighborConfigId);
-        if (trespassers.size > 0) {
+        if (Object.values(trespassers).length > 0) {
             return false;
         }
     }
     const allNeighbors = getNeighbors(coordinates, world, maxDistance, minDistance);
     const constraintNeighbors = filterTilesByConfigId(allNeighbors, neighborConfigId);
-    const neighborsAmount = constraintNeighbors.size;
+    const neighborsAmount = Object.values(constraintNeighbors).length;
     const isSatisfied =
         neighborsAmount <= (maxAmount as number)
         && (!minAmount || neighborsAmount <= minAmount);

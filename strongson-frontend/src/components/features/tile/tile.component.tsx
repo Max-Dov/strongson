@@ -9,6 +9,9 @@ interface TileProps {
     tile: TileModel<TileShape.HEXAGONAL>;
 }
 
+// TODO tiles with same texture should be matrix instanced instead of re-declaring multiple meshes.
+// https://threejs.org/examples/webgl_instancing_performance.html
+
 /**
  * ThreeJS Tile representation.
  */

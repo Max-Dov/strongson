@@ -13,10 +13,10 @@ export const applyTileMultipliers = <Shape extends TileShape>(
     tile: Tile<Shape>,
     world: World<Shape>,
     worldConfig: WorldConfig,
-): World<Shape> => {
+): void => {
     const tileConfigId = tile.configId;
     const tileConfig = worldConfig.tiles.find(tileConfig => tileConfig.id === tileConfigId);
-    if (!tileConfig) return world; // should not happen, but theoretically can.
+    if (!tileConfig) return; // should not happen, but theoretically can.
     const {
         crowdWeightMultiplier, crowdWeightMultiplierRadius,
         neighborsMutationMultiplier, neighborsMutationMultiplierRadius,
@@ -26,7 +26,10 @@ export const applyTileMultipliers = <Shape extends TileShape>(
         const tileNeighbors = getNeighbors(tile.coordinates, world, crowdWeightMultiplierRadius);
         for (const tileHash in tileNeighbors) {
             const tile = tileNeighbors[tileHash];
-            tile.crowdWeightMultipliers[tileConfigId] *= crowdWeightMultiplier;
+            if (!tile.crowdWeightMultipliers) {
+                tile.crowdWeightMultipliers = {};
+            }
+            tile.crowdWeightMultipliers[tileConfigId] = (tile.crowdWeightMultipliers[tileConfigId] || 1) * crowdWeightMultiplier;
         }
     }
 
@@ -34,9 +37,10 @@ export const applyTileMultipliers = <Shape extends TileShape>(
         const tileNeighbors = getNeighbors(tile.coordinates, world, neighborsMutationMultiplierRadius);
         for (const tileHash in tileNeighbors) {
             const tile = tileNeighbors[tileHash];
-            tile.chanceToMutate *= neighborsMutationMultiplier;
+            if (!tile.chanceToMutate) {
+                tile.chanceToMutate = 1;
+            }
+            tile.chanceToMutate = (tile.chanceToMutate || 1) * neighborsMutationMultiplier;
         }
     }
-
-    return world;
 };

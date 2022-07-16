@@ -34,8 +34,14 @@ export const generateWorldEndpoint: EndpointInfo = [
             return;
         }
 
-        result.status(200);
-        const world = generateWorld(body.epoch, body.seed, body.dimensions, body.worldConfig);
-        result.send(world);
+        try {
+            const world = generateWorld(body.epoch, body.seed, body.dimensions, body.worldConfig);
+            result.status(200);
+            result.send(world);
+        } catch (e) {
+            Logger.error('Runtime error during world generation. That is sad.', (e as Error).stack);
+            result.status(500)
+            result.send('World was not created due to unexpected code error. Try different params.')
+        }
     },
 ];
