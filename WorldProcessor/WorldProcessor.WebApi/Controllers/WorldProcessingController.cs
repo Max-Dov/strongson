@@ -30,11 +30,9 @@ namespace WorldProcessor.WebApi.Controllers
             try
             {
                 return await _mediator.Send(
-                    new GenerateNextWorldIterationQuery()
-                    {
-                        World = request.World,
-                        WorldConfig = request.WorldConfig
-                    },
+                    new GenerateNextWorldIterationQuery(
+                        request.World,
+                        request.WorldConfig),
                     cancellationToken);
             }
             catch (Exception ex)
@@ -51,13 +49,11 @@ namespace WorldProcessor.WebApi.Controllers
             try
             {
                 return await _mediator.Send(
-                    new GenerateWorldQuery()
-                    {
-                        Seed = request.Seed,
-                        Epoch = request.Epoch,
-                        Dimensions = request.Dimensions,
-                        WorldConfig = request.WorldConfig
-                    },
+                    new GenerateWorldQuery(
+                        request.Seed,
+                        request.Epoch,
+                        request.Dimensions,
+                        request.WorldConfig),
                     cancelToken);
             }
             catch (Exception ex)

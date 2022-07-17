@@ -1,5 +1,5 @@
 ﻿using MediatR;
-
+using System.ComponentModel.DataAnnotations;
 using WorldProcessor.Application.Handlers.WorldProcessing.Dto;
 
 namespace WorldProcessor.Application.Handlers.WorldProcessing.Queries
@@ -9,5 +9,38 @@ namespace WorldProcessor.Application.Handlers.WorldProcessing.Queries
         public WorldDto World { get; init; }
 
         public WorldConfigDto WorldConfig { get; init; }
+
+        public GenerateNextWorldIterationQuery(WorldDto world, WorldConfigDto config)
+        {
+            ValidateWorld(world);
+            ValidateWorldConfig(config);
+
+            World = world;
+            WorldConfig = config;
+        }
+
+        private void ValidateWorld(WorldDto world)
+        {
+            foreach(var tile in world.Tiles)
+            {
+                if(tile.Key.Split(',').Count() != 3)
+                {
+                    throw new ValidationException($"Tile on position {tile.Key}. Invalid coordinates amount.");
+                }
+            }
+        }
+
+        private void ValidateWorldConfig(WorldConfigDto config)
+        {
+            foreach(var tileConfig in config.Tiles)
+            {
+                if (tileConfig.MinAge != 0 &&
+                    tileConfig.MaxAge != 0 &&
+                    tileConfig.MaxAge < tileConfig.MinAge)
+                {
+                    throw new ValidationException($"Tile with configId {tileConfig.Id}. MinAge > MaxAge");
+                }
+            }
+        }
     }
 }
