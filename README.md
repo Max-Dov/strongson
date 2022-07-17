@@ -22,10 +22,13 @@ where once there was forest, there is a mountain may appear in a couple of turns
 
 Look into "readme" files in project modules stored in root directory. Currently, there are 4 things:
 
-* 🧱 Config Editor - stateless webapp, world config editor for world generation algorithm.
-* 🏭 World Processor - stateless API service, service that can generate (or iterate) world based on world config (and world for iterations).
-* 🦜 Strongson Frontend - stateless webapp, UI of Strongson game based on exact world config.
-* 🐢 Strongson Backend - stateful API service, backend of Strongson game based on exact world config.
+* [🧱 Config Editor](https://github.com/Max-Dov/strongson/tree/main/config-editor#-strongson-config-editor) - stateless webapp, world config editor for world generation algorithm.
+* [🏭 World Processor](https://github.com/Max-Dov/strongson/tree/main/world-processor#-world-processor) - stateless API service, service that can generate (or iterate) world based on world config (and world for iterations).
+* [🦜 Strongson Frontend](https://github.com/Max-Dov/strongson/tree/main/strongson-frontend#-strongson-frontend) - stateless webapp, UI of Strongson game based on exact world config.
+* 🐢 Strongson Backend (not even started) - stateful API service, backend of Strongson game based on exact world config.
+
+## Credits
+Pictures for tiles were created in [Inkarnate](https://inkarnate.com/)
 
 ## License
 [MIT](https://mit-license.org/)
