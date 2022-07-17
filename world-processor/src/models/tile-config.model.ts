@@ -2,7 +2,11 @@ import {NeighborConstraint} from '@models/neighbor-constraint.model';
 import {TileRepresentation} from '@models/tile-representation.model';
 
 /**
- * Single tile config.
+ * Tile config describing "behavior" properties of Tile in World.
+ *
+ * Notes:
+ * - "Tile mutation" means changing "configId" for Tile in World.
+ * - When tile mutates, when new tile config is selected, multipliers are immediately applied to neighboring tiles.
  */
 export interface TileConfig {
     /**
@@ -54,7 +58,7 @@ export interface TileConfig {
     /**
      * Base mutation weight of tile config among other "competing" tile configs.
      *
-     * May be affected by same tiles in proximity (same in terms of tiles with same tileConfigId).
+     * May be affected by same tiles in proximity (same in terms of tiles with same "configId").
      * When tile rolls "mutationChance" parameter and has to mutate into another tile, it will choose random
      * tile config, yet tile config chance to be picked is proportional to it's "weight" represented by mutationWeight.
      *
@@ -64,7 +68,7 @@ export interface TileConfig {
     /**
      * Mutation weight multiplier to apply to SAME* tiles around current tile.
      *
-     * SAME tiles are tiles with same "tileConfigId".
+     * SAME tiles are tiles with same "configId".
      * That parameter is used for grouping tiles. For example, "Forest" tiles are expected to be grouped, so
      * mutationWeightMultiplier can be adjusted to be number 2, for example. 6 "Forest" tiles on hexagonal grid will
      * increase mutationWeight of tile in between these 6 tiles by 2^6 or 64 times, thus greatly increasing chance to be
@@ -74,7 +78,7 @@ export interface TileConfig {
     /**
      * Radius of mutation weight multiplier.
      *
-     * Tiles with same tileConfigId within multiplier radius will have its mutationWeight multiplied by
+     * Tiles with same "configId" within multiplier radius will have its mutationWeight multiplied by
      * mutationWeightMultiplier.
      *
      * Dimension is "tiles" which represents max amount of tiles between origin tile and target tile.

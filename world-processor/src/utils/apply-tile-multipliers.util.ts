@@ -33,11 +33,11 @@ export const applyTileMultipliers = <Shape extends TileShape>(
         const tileNeighbors = getNeighbors(tile.coordinates, world, mutationWeightMultiplierRadius);
         for (const tileHash in tileNeighbors) {
             const neighbor = tileNeighbors[tileHash];
-            if (!neighbor.crowdWeightMultipliers) {
-                neighbor.crowdWeightMultipliers = {};
+            if (!neighbor.mutationWeightMultipliers) {
+                neighbor.mutationWeightMultipliers = {};
             }
-            const currentCrowdWeightMultiplier = neighbor.crowdWeightMultipliers[tileConfigId] || 1;
-            neighbor.crowdWeightMultipliers[tileConfigId] = currentCrowdWeightMultiplier * mutationWeightMultiplier;
+            const currentCrowdWeightMultiplier = neighbor.mutationWeightMultipliers[tileConfigId] || 1;
+            neighbor.mutationWeightMultipliers[tileConfigId] = currentCrowdWeightMultiplier * mutationWeightMultiplier;
         }
     }
 
@@ -48,11 +48,11 @@ export const applyTileMultipliers = <Shape extends TileShape>(
         const tileNeighbors = getNeighbors(tile.coordinates, world, mutationChanceMultiplierRadius);
         for (const tileHash in tileNeighbors) {
             const neighbor = tileNeighbors[tileHash];
-            if (!neighbor.chanceToMutate) {
-                neighbor.chanceToMutate = 1;
+            if (!neighbor.mutationChance) {
+                neighbor.mutationChance = 1;
             }
-            const currentChanceToMutate = neighbor.chanceToMutate;
-            neighbor.chanceToMutate = currentChanceToMutate * mutationChanceMultiplier;
+            const currentChanceToMutate = neighbor.mutationChance;
+            neighbor.mutationChance = currentChanceToMutate * mutationChanceMultiplier;
         }
     }
 };

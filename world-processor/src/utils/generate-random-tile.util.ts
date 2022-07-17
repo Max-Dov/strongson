@@ -37,7 +37,7 @@ export const generateRandomTile = <Shape extends TileShape>(
     let tileConfig: TileConfig;
     // tile info that already existed on given coordinate
     let placeholderTile = tiles[getTileHash(coordinates, tileShape)];
-    const crowdWeightMultipliers = placeholderTile.crowdWeightMultipliers || {};
+    const crowdWeightMultipliers = placeholderTile.mutationWeightMultipliers || {};
     {
         const tileSegments = availableTileConfigs.map(tileConfig => {
             const crowdWeightMultiplier = crowdWeightMultipliers[tileConfig.id] || 1;
@@ -59,7 +59,7 @@ export const generateRandomTile = <Shape extends TileShape>(
         representationId,
         coordinates,
         birthEpoch: world.epoch,
-        chanceToMutate: tileConfig.mutationChance * (placeholderTile.chanceToMutate || 1),
-        crowdWeightMultipliers,
+        mutationChance: tileConfig.mutationChance * (placeholderTile.mutationChance || 1),
+        mutationWeightMultipliers: crowdWeightMultipliers,
     };
 };
