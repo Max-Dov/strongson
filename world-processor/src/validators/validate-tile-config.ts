@@ -8,8 +8,8 @@ export const validateTileConfig = (tileConfig: unknown): null | never => {
         id, neighbors, representationsIds,
         mutationWeight, mutationChance,
         minAge, maxAge,
-        crowdWeightMultiplier, crowdWeightMultiplierRadius,
-        neighborsMutationMultiplierRadius, neighborsMutationMultiplier,
+        mutationWeightMultiplier, mutationWeightMultiplierRadius,
+        mutationChanceMultiplierRadius, mutationChanceMultiplier,
     } = tileConfig as Partial<TileConfig>;
 
     /**
@@ -26,19 +26,19 @@ export const validateTileConfig = (tileConfig: unknown): null | never => {
     if (typeof neighbors !== 'undefined' && !Array.isArray(neighbors)) throw new Error('TileConfig.neighbors must be an array.');
     if (typeof minAge !== 'number' && typeof minAge !== 'undefined') throw new Error('TileConfig.minAge should be number if provided.');
     if (typeof maxAge !== 'number' && typeof maxAge !== 'undefined') throw new Error('TileConfig.maxAge should be number if provided.');
-    if (typeof crowdWeightMultiplier !== 'number' && typeof crowdWeightMultiplier !== 'undefined') throw new Error('TileConfig.crowdWeightMultiplier should be number if provided.');
-    if (typeof crowdWeightMultiplierRadius !== 'number' && typeof crowdWeightMultiplierRadius !== 'undefined') throw new Error('TileConfig.crowdWeightMultiplierRadius should be number  if provided.');
-    if (typeof neighborsMutationMultiplier !== 'number' && typeof neighborsMutationMultiplier !== 'undefined') throw new Error('TileConfig.neighborsMutationMultiplier should be number if provided.');
-    if (typeof neighborsMutationMultiplierRadius !== 'number' && typeof neighborsMutationMultiplierRadius !== 'undefined') throw new Error('TileConfig.neighborsMutationMultiplierRadius should be number if provided.');
+    if (typeof mutationWeightMultiplier !== 'number' && typeof mutationWeightMultiplier !== 'undefined') throw new Error('TileConfig.crowdWeightMultiplier should be number if provided.');
+    if (typeof mutationWeightMultiplierRadius !== 'number' && typeof mutationWeightMultiplierRadius !== 'undefined') throw new Error('TileConfig.crowdWeightMultiplierRadius should be number  if provided.');
+    if (typeof mutationChanceMultiplier !== 'number' && typeof mutationChanceMultiplier !== 'undefined') throw new Error('TileConfig.neighborsMutationMultiplier should be number if provided.');
+    if (typeof mutationChanceMultiplierRadius !== 'number' && typeof mutationChanceMultiplierRadius !== 'undefined') throw new Error('TileConfig.neighborsMutationMultiplierRadius should be number if provided.');
 
     /**
      * Common sense checks.
      */
     if (minAge && maxAge && minAge > maxAge) throw new Error('TileConfig.minAge should be less than TileConfig.maxAge.');
-    if (neighborsMutationMultiplierRadius && neighborsMutationMultiplierRadius <= 0) throw new Error('TileConfig.neighborsMutationMultiplierRadius should be greater than 0 if provided.');
-    if (crowdWeightMultiplierRadius && crowdWeightMultiplierRadius <= 0) throw new Error('TileConfig.crowdWeightMultiplierRadius should be greater than 0 if provided.');
-    if (neighborsMutationMultiplier && neighborsMutationMultiplier < 0) throw new Error('TileConfig.neighborsMutationMultiplier should be greater than or equal to 0 if provided.');
-    if (crowdWeightMultiplier && crowdWeightMultiplier < 0) throw new Error('TileConfig.crowdWeightMultiplier should be greater than or equal to 0 if provided.');
+    if (mutationChanceMultiplierRadius && mutationChanceMultiplierRadius <= 0) throw new Error('TileConfig.neighborsMutationMultiplierRadius should be greater than 0 if provided.');
+    if (mutationWeightMultiplierRadius && mutationWeightMultiplierRadius <= 0) throw new Error('TileConfig.crowdWeightMultiplierRadius should be greater than 0 if provided.');
+    if (mutationChanceMultiplier && mutationChanceMultiplier < 0) throw new Error('TileConfig.neighborsMutationMultiplier should be greater than or equal to 0 if provided.');
+    if (mutationWeightMultiplier && mutationWeightMultiplier < 0) throw new Error('TileConfig.crowdWeightMultiplier should be greater than or equal to 0 if provided.');
 
     /**
      * Array checks.
