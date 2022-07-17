@@ -39,7 +39,7 @@ Request body:
 
 
 ##  Latest applicaiton build
-Application could be found [here](../blob/master/WorldProcessor/build/WorldProcessor.WebApi.exe).
+Application could be found on dropbox.
 
 To use it, just run `WorldProcessor.WebApi.exe` executable file.
 By default, application listens 2 ports: 5000 for http and 5001 for https requests.
