@@ -138,25 +138,62 @@ namespace WorldProcessor.Core.Services
 
             result.AddRange(
                 tileConfigs
-                .Where(tileConfig =>
-                {
-                    return tileConfig.Neighbors.All(constraint =>
-                    {
-                        var exactTileAmountInRing = Enumerable
-                            .Range(constraint.MinDistance, constraint.MaxDistance - constraint.MinDistance)
-                            .SelectMany(radius => tilePosition
-                                .GenerateOrderedRingPath(tilePosition, radius))
-                            .Where(position => map.ContainsKey(position))
-                            .Select(position => map[position])
-                            .Where(tile => tile.ConfigId == constraint.NeighborConfigId)
-                            .Count();
-
-                        return exactTileAmountInRing <= constraint.MaxAmount &&
-                            exactTileAmountInRing >= constraint.MinAmount;
-                    });
-                }));
+                .Where(tileConfig => CheckIfTileCanBePlacedAtPosition(
+                    tileConfig,
+                    tilePosition,
+                    map)));
 
             return result;
+        }
+
+        private bool CheckIfTileCanBePlacedAtPosition(
+            TileConfig tileConfig,
+            IPosition tilePosition,
+            IReadOnlyDictionary<IPosition, Tile> map)
+        {
+            foreach (var constraint in tileConfig.Neighbors)
+            {
+                IEnumerable<IPosition> region;
+
+                if (constraint.MaxDistance > 0)
+                {
+                    var spiralPath = tilePosition.GenerateOrderedSpiralPath(
+                        tilePosition,
+                        constraint.MaxDistance);
+
+                    region = map.Keys.Intersect(spiralPath);
+                }
+                else
+                {
+                    region = map.Keys;
+                }
+
+                if (constraint.MinDistance > 0)
+                {
+                    var spiralPath = tilePosition.GenerateOrderedSpiralPath(
+                        tilePosition,
+                        constraint.MinDistance);
+
+                    region = region.Except(spiralPath);
+                }
+
+                var exactTileAmountInRing = 0;
+                foreach (var position in region)
+                {
+                    if (map[position].ConfigId == constraint.NeighborConfigId)
+                    {
+                        exactTileAmountInRing++;
+                    }
+
+                    if (exactTileAmountInRing > constraint.MaxAmount ||
+                        exactTileAmountInRing < constraint.MinAmount)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
         private Dictionary<IPosition, Tile> RecalculateMutationChances(

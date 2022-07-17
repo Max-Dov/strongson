@@ -69,6 +69,10 @@ namespace WorldProcessor.Core.Services
 
                     result.Add(position, mutatedTile);
                 }
+                else
+                {
+                    result.Add(position, tile);
+                }
             }
 
             return result;
@@ -84,6 +88,11 @@ namespace WorldProcessor.Core.Services
             {
                 var tile = map[position];
                 var tileConfig = tileConfigs.First(config => config.Id == tile.ConfigId);
+
+                if (!result.ContainsKey(position))
+                {
+                    result.Add(position, tile);
+                }
 
                 var affectedPositionsList = position
                     .GenerateOrderedSpiralPath(
