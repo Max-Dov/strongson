@@ -40,6 +40,35 @@ namespace WorldProcessor.Application.Handlers.WorldProcessing.Queries
                 {
                     throw new ValidationException($"Tile with configId {tileConfig.Id}. MinAge > MaxAge");
                 }
+
+                ValidateNeighbourConstraints(tileConfig);
+            }
+        }
+
+        private void ValidateNeighbourConstraints(TileConfigDto config)
+        {
+            if(config.Neighbors is not null)
+            {
+                foreach (var constraint in config.Neighbors)
+                {
+                    if (constraint.MinDistance != 0 &&
+                        constraint.MaxDistance != 0 &&
+                        constraint.MinDistance > constraint.MaxDistance)
+                    {
+                        throw new ValidationException($"Tile with configId {config.Id}. " +
+                            $"Neigbour with NeighborConfigId {constraint.NeighborConfigId}. " +
+                            $"MinDistance > MaxDistance");
+                    }
+
+                    if (constraint.MinAmount != 0 &&
+                        constraint.MaxAmount != 0 &&
+                        constraint.MinAmount > constraint.MaxAmount)
+                    {
+                        throw new ValidationException($"Tile with configId {config.Id}. " +
+                            $"Neigbour with NeighborConfigId {constraint.NeighborConfigId}. " +
+                            $"MinAmount > MaxAmount");
+                    }
+                }
             }
         }
     }
