@@ -91,13 +91,17 @@ const generateHexagonalTiles = (
     const tileShape = world.tileShape;
     const tilesAmount: { [key in Tile['configId']]: number } = {};
     coordinates.forEach(coordinate => {
+        // generate tile
         const newTile = generateRandomTile<TileShape.HEXAGONAL>(
             coordinate,
             worldConfig.tiles,
             world,
         );
-        applyTileMultipliers(newTile, world, worldConfig);
+        // set tile in world
         tiles[getTileHash(newTile.coordinates, tileShape)] = newTile;
+
+        // apply tiles' tileConfig multipliers to neighbors
+        applyTileMultipliers(newTile, world, worldConfig);
 
         // tracking tiles amount
         const configId = newTile.configId;

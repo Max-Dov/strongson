@@ -8,10 +8,10 @@ import {rationHexCoordinates} from '@utils/ration-hex-coordinates.util';
  */
 export const getTileHash = (tileCoordinates: Tile<TileShape>['coordinates'], tileShape: TileShape): TileHash => {
     if (tileShape === TileShape.HEXAGONAL) {
-        return getHexagonalTileHash(tileCoordinates as  Tile<TileShape.HEXAGONAL>['coordinates'])
+        return getHexagonalTileHash(tileCoordinates as Tile<TileShape.HEXAGONAL>['coordinates']);
     }
     return tileCoordinates.join(',');
-}
+};
 
 export const getHexagonalTileHash = (tileCoordinates: Tile<TileShape.HEXAGONAL>['coordinates']): TileHash =>
-    rationHexCoordinates(tileCoordinates).join(',')
+    rationHexCoordinates(tileCoordinates).join(',');

@@ -35,14 +35,12 @@ export const generateRandomTile = <Shape extends TileShape>(
      * Make sure to account for tile "crowdWeightMultipliers" and base "mutationWeight" for a tile config.
      */
     let tileConfig: TileConfig;
-    let worldTile = tiles[getTileHash(coordinates, tileShape)];
+    // tile info that already existed on given coordinate
+    let placeholderTile = tiles[getTileHash(coordinates, tileShape)];
+    const crowdWeightMultipliers = placeholderTile.crowdWeightMultipliers || {};
     {
-        if (!worldTile.crowdWeightMultipliers) {
-            worldTile.crowdWeightMultipliers = {};
-        }
-        const worldTileCrowdWeightMultipliers = worldTile.crowdWeightMultipliers;
         const tileSegments = availableTileConfigs.map(tileConfig => {
-            const crowdWeightMultiplier = worldTileCrowdWeightMultipliers[tileConfig.id] || 1;
+            const crowdWeightMultiplier = crowdWeightMultipliers[tileConfig.id] || 1;
             return tileConfig.mutationWeight * crowdWeightMultiplier;
         });
         const tileConfigIndex = rngSegmentIndex(seed, epoch, coordinates, tileSegments);
@@ -61,7 +59,7 @@ export const generateRandomTile = <Shape extends TileShape>(
         representationId,
         coordinates,
         birthEpoch: world.epoch,
-        chanceToMutate: tileConfig.mutationChance * (worldTile.chanceToMutate || 1),
-        crowdWeightMultipliers: worldTile.crowdWeightMultipliers,
+        chanceToMutate: tileConfig.mutationChance * (placeholderTile.chanceToMutate || 1),
+        crowdWeightMultipliers,
     };
 };
