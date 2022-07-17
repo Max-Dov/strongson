@@ -22,37 +22,37 @@ export const applyTileMultipliers = <Shape extends TileShape>(
     const tileConfig = worldConfig.tiles.find(tileConfig => tileConfig.id === tileConfigId);
     if (!tileConfig) return; // should not happen, but theoretically can.
     const {
-        crowdWeightMultiplier, crowdWeightMultiplierRadius,
-        neighborsMutationMultiplier, neighborsMutationMultiplierRadius,
+        mutationWeightMultiplier, mutationWeightMultiplierRadius,
+        mutationChanceMultiplier, mutationChanceMultiplierRadius,
     } = tileConfig;
 
     /**
      * Apply crowd multipliers.
      */
-    if (crowdWeightMultiplierRadius && crowdWeightMultiplier) {
-        const tileNeighbors = getNeighbors(tile.coordinates, world, crowdWeightMultiplierRadius);
+    if (mutationWeightMultiplierRadius && mutationWeightMultiplier) {
+        const tileNeighbors = getNeighbors(tile.coordinates, world, mutationWeightMultiplierRadius);
         for (const tileHash in tileNeighbors) {
             const neighbor = tileNeighbors[tileHash];
             if (!neighbor.crowdWeightMultipliers) {
                 neighbor.crowdWeightMultipliers = {};
             }
             const currentCrowdWeightMultiplier = neighbor.crowdWeightMultipliers[tileConfigId] || 1;
-            neighbor.crowdWeightMultipliers[tileConfigId] = currentCrowdWeightMultiplier * crowdWeightMultiplier;
+            neighbor.crowdWeightMultipliers[tileConfigId] = currentCrowdWeightMultiplier * mutationWeightMultiplier;
         }
     }
 
     /**
      * Apply mutation chance multipliers.
      */
-    if (neighborsMutationMultiplierRadius && neighborsMutationMultiplier) {
-        const tileNeighbors = getNeighbors(tile.coordinates, world, neighborsMutationMultiplierRadius);
+    if (mutationChanceMultiplierRadius && mutationChanceMultiplier) {
+        const tileNeighbors = getNeighbors(tile.coordinates, world, mutationChanceMultiplierRadius);
         for (const tileHash in tileNeighbors) {
             const neighbor = tileNeighbors[tileHash];
             if (!neighbor.chanceToMutate) {
                 neighbor.chanceToMutate = 1;
             }
             const currentChanceToMutate = neighbor.chanceToMutate;
-            neighbor.chanceToMutate = currentChanceToMutate * neighborsMutationMultiplier;
+            neighbor.chanceToMutate = currentChanceToMutate * mutationChanceMultiplier;
         }
     }
 };
