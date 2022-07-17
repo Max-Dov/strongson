@@ -6,17 +6,29 @@ import {TileRepresentation} from '@models/tile-representation.model';
  */
 export interface TileConfig {
     /**
-     * Unique tile ID; e.g. "castle-lvl1"
+     * Unique tile ID; e.g. "castle-lvl1".
      */
     id: string;
+    /**
+     * List of tile representations ids.
+     */
+    representationsIds: Array<TileRepresentation['id']>;
     /**
      * List of neighbor constraints.
      */
     neighbors: Array<NeighborConstraint>;
     /**
-     * List of possible tile representations ids.
+     * Base chance to mutate into another tile. Dimension is %. E.g. "15" stands for "15%".
      */
-    representationsIds: Array<TileRepresentation['id']>
+    mutationChance: number;
+    /**
+     * Multiplier on neighbor tiles that affects their mutationChance.
+     */
+    neighborsMutationMultiplier?: number;
+    /**
+     * Radius of multiplier on neighbor tiles that affects their mutationChance.
+     */
+    neighborsMutationMultiplierRadius?: number;
     /**
      * Factor to count when tile needs to mutate into another tile.
      *
@@ -24,10 +36,6 @@ export interface TileConfig {
      * New tiles with greater mutationWeight will have greater chance to be mutated into.
      */
     mutationWeight: number;
-    /**
-     * Base chance to mutate into another tile. Dimension is %. E.g. "15" stands for "15%".
-     */
-    mutationChance: number;
     /**
      * Factor to count when tile needs to mutate into another tile.
      *
@@ -47,12 +55,4 @@ export interface TileConfig {
      * Maximum amount of epoch cycles when tile may exist.
      */
     maxAge?: number;
-    /**
-     * Multiplier on neighbor tiles that affects their mutationChance.
-     */
-    neighborsMutationMultiplier?: number;
-    /**
-     * Radius of multiplier on neighbor tiles that affects their mutationChance.
-     */
-    neighborsMutationMultiplierRadius?: number;
 }
