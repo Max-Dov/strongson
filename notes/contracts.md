@@ -1,4 +1,4 @@
-# Contracts <sup>v3</sup>
+# Contracts <sup>v4</sup>
 
 Contracts between Strongson modules. Contracts are written in TypeScript.
 
@@ -42,7 +42,7 @@ export interface World<Shape extends TileShape = TileShape.UNKNOWN> {
      */
     epoch: number;
     /**
-     * World geometry. Geometry stands for tile shape. Display format is dependent on geometry.
+     * World tile shape. Distance between tiles and world display is dependent on what shape tiles have.
      */
     tileShape: Shape;
     /**
@@ -228,6 +228,13 @@ export interface Tile<Shape extends TileShape = TileShape.UNKNOWN> {
      */
     chanceToMutate: number;
     /**
+     * Multipliers for choosing new tile during tile mutation.
+     * Tiles that are more numerous around current coordinate have greater chance to be picked as next tile.
+     */
+    crowdWeightMultipliers: {
+        [key in TileConfig['id']]: number;
+    };
+    /**
      * World['epoch'] when tile started existing.
      */
     birthEpoch: number;
@@ -245,7 +252,7 @@ export type TileHash = string;
 Misc
 =====
 
-Сигнатура итератора/генератора мира
+World iterator function signature.
 -----
 ```typescript
 /**
@@ -258,7 +265,7 @@ Misc
 type iterateWorld = (worldConfig: WorldConfig, world?: World) => World
 ```
 
-Сигнатура функции генерации псевдо-случайного числа
+Pseudo-random number generation function signature.
 -----
 ```typescript
 /**

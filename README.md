@@ -23,7 +23,7 @@ where once there was forest, there is a mountain may appear in a couple of turns
 Look into "readme" files in project modules stored in root directory. Currently, there are 4 things:
 
 * 🧱 Config Editor - stateless webapp, world config editor for world generation algorithm.
-* 🏭 World Iterator - stateless API service, service that can generate (or iterate) world based on world config (and world for iterations).
+* 🏭 World Processor - stateless API service, service that can generate (or iterate) world based on world config (and world for iterations).
 * 🦜 Strongson Frontend - stateless webapp, UI of Strongson game based on exact world config.
 * 🐢 Strongson Backend - stateful API service, backend of Strongson game based on exact world config.
 

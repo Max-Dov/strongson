@@ -1,0 +1,77 @@
+{
+	"info": {
+		"_postman_id": "110f4b5c-6160-4fd1-bd96-af590997163a",
+		"name": "Strongson World Processor API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6855394"
+	},
+	"item": [
+		{
+			"name": "Generate World",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dimensions\": [\r\n        10,\r\n        10,\r\n        10\r\n    ],\r\n    \"epoch\": 0,\r\n    \"seed\": 131646,\r\n    \"worldConfig\": \r\n    {\r\n \"tileShape\": \"HEXAGONAL\",\r\n \"id\": \"Strongson v1.6 - baboon\",\r\n \"tiles\": [\r\n  {\r\n   \"id\": \"grassland\",\r\n   \"representationsIds\": [\r\n    \"0\",\r\n    \"1\",\r\n    \"2\",\r\n    \"3\",\r\n    \"4\",\r\n    \"5\"\r\n   ],\r\n   \"mutationChance\": 1,\r\n   \"mutationWeight\": 1\r\n  },\r\n  {\r\n   \"id\": \"hills\",\r\n   \"neighbors\": [\r\n    {\r\n     \"configId\": \"hills\",\r\n     \"neighborConfigId\": \"city-lvl-1\",\r\n     \"maxAmount\": 0,\r\n     \"maxDistance\": 10\r\n    },\r\n    {\r\n     \"configId\": \"hills\",\r\n     \"neighborConfigId\": \"hills\",\r\n     \"maxAmount\": 10,\r\n     \"maxDistance\": 20\r\n    }\r\n   ],\r\n   \"representationsIds\": [\r\n    \"0\",\r\n    \"1\",\r\n    \"2\",\r\n    \"3\",\r\n    \"4\",\r\n    \"5\"\r\n   ],\r\n   \"mutationChance\": 1,\r\n   \"mutationWeight\": 2,\r\n   \"crowdWeightMultiplier\": 3,\r\n   \"crowdWeightMultiplierRadius\": 3,\r\n   \"minAge\": 5\r\n  },\r\n  {\r\n   \"id\": \"forest\",\r\n   \"neighbors\": [\r\n    {\r\n     \"configId\": \"forest\",\r\n     \"neighborConfigId\": \"city-lvl-1\",\r\n     \"maxAmount\": 0,\r\n     \"maxDistance\": 5\r\n    },\r\n    {\r\n     \"configId\": \"forest\",\r\n     \"neighborConfigId\": \"forest\",\r\n     \"maxAmount\": 40,\r\n     \"maxDistance\": 15\r\n    }\r\n   ],\r\n   \"representationsIds\": [\r\n    \"0\",\r\n    \"1\",\r\n    \"2\",\r\n    \"3\",\r\n    \"4\",\r\n    \"5\"\r\n   ],\r\n   \"mutationChance\": 1,\r\n   \"mutationWeight\": 2,\r\n   \"crowdWeightMultiplier\": 3,\r\n   \"crowdWeightMultiplierRadius\": 3,\r\n   \"minAge\": 5\r\n  },\r\n  {\r\n   \"id\": \"city-lvl-1\",\r\n   \"neighbors\": [\r\n    {\r\n     \"configId\": \"city-lvl-1\",\r\n     \"neighborConfigId\": \"city-lvl-1\",\r\n     \"maxAmount\": 15,\r\n     \"maxDistance\": 30\r\n    },\r\n    {\r\n     \"configId\": \"city-lvl-1\",\r\n     \"neighborConfigId\": \"mountain\",\r\n     \"maxDistance\": 3,\r\n     \"maxAmount\": 0\r\n    },\r\n    {\r\n     \"configId\": \"city-lvl-1\",\r\n     \"neighborConfigId\": \"hills\",\r\n     \"maxAmount\": 0,\r\n     \"maxDistance\": 5\r\n    },\r\n    {\r\n     \"configId\": \"city-lvl-1\",\r\n     \"neighborConfigId\": \"forest\",\r\n     \"maxAmount\": 0,\r\n     \"maxDistance\": 5\r\n    }\r\n   ],\r\n   \"representationsIds\": [\r\n    \"0\",\r\n    \"1\",\r\n    \"2\",\r\n    \"3\",\r\n    \"4\",\r\n    \"5\",\r\n    \"6\",\r\n    \"7\"\r\n   ],\r\n   \"mutationChance\": 1,\r\n   \"mutationWeight\": 5,\r\n   \"crowdWeightMultiplier\": 3,\r\n   \"crowdWeightMultiplierRadius\": 1,\r\n   \"neighborsMutationMultiplier\": 2,\r\n   \"neighborsMutationMultiplierRadius\": 1,\r\n   \"maxAge\": 8\r\n  },\r\n  {\r\n   \"id\": \"water\",\r\n   \"neighbors\": [\r\n    {\r\n     \"configId\": \"water\",\r\n     \"neighborConfigId\": \"mountains\",\r\n     \"maxAmount\": 0,\r\n     \"maxDistance\": 3\r\n    },\r\n    {\r\n     \"configId\": \"water\",\r\n     \"maxAmount\": 30,\r\n     \"maxDistance\": 20,\r\n     \"neighborConfigId\": \"water\"\r\n    }\r\n   ],\r\n   \"mutationChance\": 1,\r\n   \"minAge\": 10,\r\n   \"mutationWeight\": 2,\r\n   \"neighborsMutationMultiplier\": 5,\r\n   \"neighborsMutationMultiplierRadius\": 1,\r\n   \"representationsIds\": [\r\n    \"0\",\r\n    \"1\",\r\n    \"2\",\r\n    \"3\",\r\n    \"4\",\r\n    \"5\"\r\n   ],\r\n   \"crowdWeightMultiplier\": 3,\r\n   \"crowdWeightMultiplierRadius\": 3\r\n  },\r\n  {\r\n   \"id\": \"mountains\",\r\n   \"neighbors\": [\r\n    {\r\n     \"configId\": \"mountains\",\r\n     \"neighborConfigId\": \"hills\",\r\n     \"minAmount\": 3,\r\n     \"maxDistance\": 1\r\n    }\r\n   ],\r\n   \"mutationChance\": 1,\r\n   \"minAge\": 20,\r\n   \"mutationWeight\": 30,\r\n   \"neighborsMutationMultiplier\": 3,\r\n   \"neighborsMutationMultiplierRadius\": 2,\r\n   \"representationsIds\": [\r\n    \"0\",\r\n    \"1\",\r\n    \"2\",\r\n    \"3\",\r\n    \"4\",\r\n    \"5\"\r\n   ]\r\n  }\r\n ]\r\n}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3088/generate-world",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3088",
+					"path": [
+						"generate-world"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Strongson v1.6 - baboon",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dimensions\": [\r\n        10,\r\n        10,\r\n        10\r\n    ],\r\n    \"epoch\": 0,\r\n    \"seed\": 131646,\r\n    \"worldConfig\": {\r\n        \"tileShape\": \"HEXAGONAL\",\r\n        \"id\": \"Strongson v1.6 - baboon\",\r\n        \"tiles\": [\r\n            {\r\n                \"id\": \"grassland\",\r\n                \"representationsIds\": [\r\n                    \"0\",\r\n                    \"1\",\r\n                    \"2\",\r\n                    \"3\",\r\n                    \"4\",\r\n                    \"5\"\r\n                ],\r\n                \"mutationChance\": 1,\r\n                \"mutationWeight\": 1\r\n            },\r\n            {\r\n                \"id\": \"hills\",\r\n                \"neighbors\": [\r\n                    {\r\n                        \"configId\": \"hills\",\r\n                        \"neighborConfigId\": \"city-lvl-1\",\r\n                        \"maxAmount\": 0,\r\n                        \"maxDistance\": 10\r\n                    },\r\n                    {\r\n                        \"configId\": \"hills\",\r\n                        \"neighborConfigId\": \"hills\",\r\n                        \"maxAmount\": 10,\r\n                        \"maxDistance\": 20\r\n                    }\r\n                ],\r\n                \"representationsIds\": [\r\n                    \"0\",\r\n                    \"1\",\r\n                    \"2\",\r\n                    \"3\",\r\n                    \"4\",\r\n                    \"5\"\r\n                ],\r\n                \"mutationChance\": 1,\r\n                \"mutationWeight\": 2,\r\n                \"crowdWeightMultiplier\": 3,\r\n                \"crowdWeightMultiplierRadius\": 3,\r\n                \"minAge\": 5\r\n            },\r\n            {\r\n                \"id\": \"forest\",\r\n                \"neighbors\": [\r\n                    {\r\n                        \"configId\": \"forest\",\r\n                        \"neighborConfigId\": \"city-lvl-1\",\r\n                        \"maxAmount\": 0,\r\n                        \"maxDistance\": 5\r\n                    },\r\n                    {\r\n                        \"configId\": \"forest\",\r\n                        \"neighborConfigId\": \"forest\",\r\n                        \"maxAmount\": 40,\r\n                        \"maxDistance\": 15\r\n                    }\r\n                ],\r\n                \"representationsIds\": [\r\n                    \"0\",\r\n                    \"1\",\r\n                    \"2\",\r\n                    \"3\",\r\n                    \"4\",\r\n                    \"5\"\r\n                ],\r\n                \"mutationChance\": 1,\r\n                \"mutationWeight\": 2,\r\n                \"crowdWeightMultiplier\": 3,\r\n                \"crowdWeightMultiplierRadius\": 3,\r\n                \"minAge\": 5\r\n            },\r\n            {\r\n                \"id\": \"city-lvl-1\",\r\n                \"neighbors\": [\r\n                    {\r\n                        \"configId\": \"city-lvl-1\",\r\n                        \"neighborConfigId\": \"city-lvl-1\",\r\n                        \"maxAmount\": 15,\r\n                        \"maxDistance\": 30\r\n                    },\r\n                    {\r\n                        \"configId\": \"city-lvl-1\",\r\n                        \"neighborConfigId\": \"mountain\"\r\n                    },\r\n                    {\r\n                        \"configId\": \"city-lvl-1\",\r\n                        \"neighborConfigId\": \"hills\",\r\n                        \"maxAmount\": 0,\r\n                        \"maxDistance\": 5\r\n                    },\r\n                    {\r\n                        \"configId\": \"city-lvl-1\",\r\n                        \"neighborConfigId\": \"forest\",\r\n                        \"maxAmount\": 0,\r\n                        \"maxDistance\": 5\r\n                    }\r\n                ],\r\n                \"representationsIds\": [\r\n                    \"0\",\r\n                    \"1\",\r\n                    \"2\",\r\n                    \"3\",\r\n                    \"4\",\r\n                    \"5\",\r\n                    \"6\",\r\n                    \"7\"\r\n                ],\r\n                \"mutationChance\": 1,\r\n                \"mutationWeight\": 5,\r\n                \"crowdWeightMultiplier\": 3,\r\n                \"crowdWeightMultiplierRadius\": 1,\r\n                \"neighborsMutationMultiplier\": 2,\r\n                \"neighborsMutationMultiplierRadius\": 1,\r\n                \"maxAge\": 8\r\n            },\r\n            {\r\n                \"id\": \"water\",\r\n                \"neighbors\": [\r\n                    {\r\n                        \"configId\": \"water\",\r\n                        \"neighborConfigId\": \"mountains\",\r\n                        \"maxAmount\": 0,\r\n                        \"maxDistance\": 3\r\n                    },\r\n                    {\r\n                        \"configId\": \"water\",\r\n                        \"maxAmount\": 30,\r\n                        \"maxDistance\": 20,\r\n                        \"neighborConfigId\": \"water\"\r\n                    }\r\n                ],\r\n                \"mutationChance\": 1,\r\n                \"minAge\": 10,\r\n                \"mutationWeight\": 2,\r\n                \"neighborsMutationMultiplier\": 5,\r\n                \"neighborsMutationMultiplierRadius\": 1,\r\n                \"representationsIds\": [\r\n                    \"0\",\r\n                    \"1\",\r\n                    \"2\",\r\n                    \"3\",\r\n                    \"4\",\r\n                    \"5\"\r\n                ],\r\n                \"crowdWeightMultiplier\": 3,\r\n                \"crowdWeightMultiplierRadius\": 3\r\n            },\r\n            {\r\n                \"id\": \"mountains\",\r\n                \"neighbors\": [\r\n                    {\r\n                        \"configId\": \"mountains\",\r\n                        \"neighborConfigId\": \"hills\",\r\n                        \"minAmount\": 3,\r\n                        \"maxDistance\": 1\r\n                    }\r\n                ],\r\n                \"mutationChance\": 1,\r\n                \"minAge\": 20,\r\n                \"mutationWeight\": 30,\r\n                \"neighborsMutationMultiplier\": 3,\r\n                \"neighborsMutationMultiplierRadius\": 2,\r\n                \"representationsIds\": [\r\n                    \"0\",\r\n                    \"1\",\r\n                    \"2\",\r\n                    \"3\",\r\n                    \"4\",\r\n                    \"5\"\r\n                ]\r\n            }\r\n        ]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3088/generate-world",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3088",
+							"path": [
+								"generate-world"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		}
+	]
+}
