@@ -18,7 +18,7 @@ export const validateTileConfig = (tileConfig: unknown): null | never => {
     if (typeof id !== 'string') throw new Error('TileConfig.id must be a string.');
     if (typeof mutationWeight !== 'number') throw new Error('TileConfig.mutationWeight must be a number.');
     if (typeof mutationChance !== 'number') throw new Error('TileConfig.mutationChance must be a number.');
-    if (!Array.isArray(representationsIds)) throw new Error('TileConfig.neighbors must be an array.');
+    if (!Array.isArray(representationsIds)) throw new Error('TileConfig.representationsIds must be an array.');
 
     /**
      * Optional params checks.

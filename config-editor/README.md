@@ -60,13 +60,13 @@ Latest stable version is available at: https://strongson-config-editor.surge.sh
 * Search by config fields; saves some time scrolling.
 
 ## Development
-To start dev server, run `npm run start` in project root directory.
+To start dev server, run `npm run start` in Config Editor root directory:
 ```
 cd config-editor
 npm run start
 ```
 
-To build production build, run `npm run build` in project root directory.
+To build production build, run `npm run build` in Config Editor root directory:
 ```
 cd config-editor
 npm run build

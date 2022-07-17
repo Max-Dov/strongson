@@ -1,4 +1,4 @@
-# Contracts <sup>v3</sup>
+# Contracts <sup>v4</sup>
 
 Contracts between Strongson modules. Contracts are written in TypeScript.
 
@@ -252,7 +252,7 @@ export type TileHash = string;
 Misc
 =====
 
-Сигнатура итератора/генератора мира
+World iterator function signature.
 -----
 ```typescript
 /**
@@ -265,7 +265,7 @@ Misc
 type iterateWorld = (worldConfig: WorldConfig, world?: World) => World
 ```
 
-Сигнатура функции генерации псевдо-случайного числа
+Pseudo-random number generation function signature.
 -----
 ```typescript
 /**
