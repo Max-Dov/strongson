@@ -38,7 +38,13 @@ strong {
   font-weight: $font-bold;
 }
 
-span, p {
+a {
+  color: $font-color;
+  text-decoration: none;
+  border-bottom: 1px dashed;
+}
+
+span, p, a {
   font-weight: $font-regular;
 }
 
