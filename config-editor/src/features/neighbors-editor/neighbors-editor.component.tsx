@@ -1,10 +1,11 @@
-import {TileConfig} from '../../models/tile-config.model';
+import {TileConfig} from '@models/tile-config.model';
 import {ReactNode} from 'react';
-import {NeighborConstraintEditor} from '../neighbor-constraint-editor/neighbor-constraint-editor.component';
-import {NeighborConstraint} from '../../models/neighbor-constraint.model';
-import {AddHexagonButton} from '../../svgs/add-hexagon-button.svg';
+import {NeighborConstraintEditor} from '@features/neighbor-constraint-editor/neighbor-constraint-editor.component';
+import {NeighborConstraint} from '@models/neighbor-constraint.model';
+import {AddHexagonButton} from '@svgs/add-hexagon-button.svg';
 import './neighbors-editor.styles.scss';
-import {Tooltip} from '../../shared/tooltip/tooltip.component';
+import {Tooltip} from '@shared/tooltip/tooltip.component';
+import React from 'react';
 
 type Neighbor = Partial<TileConfig['neighbors'][number]>
 

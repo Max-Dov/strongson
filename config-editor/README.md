@@ -72,9 +72,8 @@ cd config-editor
 npm run build
 ```
 
-## Tech Stack
+## Technologies used
 
 * [TypeScript](https://www.typescriptlang.org/) - programming language;
 * [React](https://reactjs.org/) - library to build UIs;
 * [Sass](https://sass-lang.com/) - CSS processor;
-* [Creat React App](https://create-react-app.dev) - bootstrap library with devtools for ReactJS projects;

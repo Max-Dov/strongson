@@ -1,10 +1,11 @@
 import {ReactNode} from 'react';
-import {WorldConfig} from '../../models/world-config.model';
-import {TileConfigEditor} from '../tile-config-editor/tile-config-editor.component';
-import {TileConfig} from '../../models/tile-config.model';
-import {AddHexagonButton} from '../../svgs/add-hexagon-button.svg';
+import {WorldConfig} from '@models/world-config.model';
+import {TileConfigEditor} from '@features/tile-config-editor/tile-config-editor.component';
+import {TileConfig} from '@models/tile-config.model';
+import {AddHexagonButton} from '@svgs/add-hexagon-button.svg';
 import './tiles-editor.styles.scss';
-import {Tooltip} from '../../shared/tooltip/tooltip.component';
+import {Tooltip} from '@shared/tooltip/tooltip.component';
+import React from 'react';
 
 type Tile = Partial<WorldConfig['tiles'][number]>
 type Tiles = Array<Tile>

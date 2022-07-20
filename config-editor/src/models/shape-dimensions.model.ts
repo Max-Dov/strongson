@@ -1,4 +1,4 @@
-import {TileShape} from '../constants/tile-shape.model';
+import {TileShape} from '@constants/tile-shape.model';
 
 /**
  * Relation of TileShape to its dimensions (set of coordinates).

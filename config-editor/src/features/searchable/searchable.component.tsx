@@ -1,5 +1,6 @@
 import {HTMLAttributes, useContext, useEffect, useState} from 'react';
-import {SearchContext} from '../app/app.component';
+import {SearchContext} from '@features/app/app.component';
+import React from 'react';
 
 interface SearchProps extends HTMLAttributes<HTMLDivElement> {
     /**

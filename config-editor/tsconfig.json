@@ -2,22 +2,30 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "target": "ES2021",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "commonjs",
     "resolveJsonModule": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "baseUrl": "src"
+    "jsx": "react",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@commonStyles/*": ["src/commonStyles/*"],
+      "@components/*": ["src/components/*"],
+      "@models/*": ["src/models/*"],
+      "@shared/*": ["src/shared/*"],
+      "@constants/*": ["src/constants/*"],
+      "@services/*": ["src/services/*"],
+      "@features/*": ["src/features/*"],
+      "@svgs/*": ["src/svgs/*"],
+      "@utils/*": ["src/utils/*"],
+      "@redux/*": ["src/redux/*"]
+    }
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

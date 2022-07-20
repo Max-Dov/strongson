@@ -1,5 +1,5 @@
-import {TileConfig} from './tile-config.model';
-import {TileShape} from '../constants/tile-shape.model';
+import {TileConfig} from '@models/tile-config.model';
+import {TileShape} from '@constants/tile-shape.model';
 
 /**
  * Config that is used by World Compilator to create world or next iteration of world.

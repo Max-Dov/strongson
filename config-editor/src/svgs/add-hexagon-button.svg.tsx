@@ -1,4 +1,4 @@
-import {ButtonHTMLAttributes} from 'react';
+import React, {ButtonHTMLAttributes} from 'react';
 
 export const AddHexagonButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) =>
     <button {...props}>

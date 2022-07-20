@@ -1,4 +1,4 @@
-import {NeighborConstraint} from './neighbor-constraint.model';
+import {NeighborConstraint} from '@models/neighbor-constraint.model';
 
 /**
  * Single tile config.

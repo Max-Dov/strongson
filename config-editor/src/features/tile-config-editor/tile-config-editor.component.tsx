@@ -1,10 +1,11 @@
-import {TileConfig} from '../../models/tile-config.model';
-import {Searchable} from '../searchable/searchable.component';
-import {Input} from '../../shared/input/input.component';
-import {NeighborsEditor} from '../neighbors-editor/neighbors-editor.component';
-import {NeighborConstraint} from '../../models/neighbor-constraint.model';
+import {TileConfig} from '@models/tile-config.model';
+import {Searchable} from '@features/searchable/searchable.component';
+import {Input} from '@shared/input/input.component';
+import {NeighborsEditor} from '@features/neighbors-editor/neighbors-editor.component';
+import {NeighborConstraint} from '@models/neighbor-constraint.model';
 import './tile-config-editor.styles.scss';
-import {RemoveCircleButton} from '../../svgs/remove-circle-button.svg';
+import {RemoveCircleButton} from '@svgs/remove-circle-button.svg';
+import React from 'react';
 
 interface TileConfigEditorProps {
     /**

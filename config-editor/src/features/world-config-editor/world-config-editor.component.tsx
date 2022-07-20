@@ -1,10 +1,11 @@
-import {WorldConfig} from '../../models/world-config.model';
-import {Input} from '../../shared/input/input.component';
-import {Searchable} from '../searchable/searchable.component';
-import {TileShape} from '../../constants/tile-shape.model';
-import {TilesEditor} from '../tiles-editor/tiles-editor.component';
-import {TileConfig} from '../../models/tile-config.model';
+import {WorldConfig} from '@models/world-config.model';
+import {Input} from '@shared/input/input.component';
+import {Searchable} from '@features/searchable/searchable.component';
+import {TileShape} from '@constants/tile-shape.model';
+import {TilesEditor} from '@features/tiles-editor/tiles-editor.component';
+import {TileConfig} from '@models/tile-config.model';
 import './world-config-editor.styles.scss';
+import React from 'react';
 
 interface WorldConfigEditorProps {
     worldConfig: Partial<WorldConfig>;
