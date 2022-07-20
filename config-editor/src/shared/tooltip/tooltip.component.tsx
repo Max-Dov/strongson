@@ -1,4 +1,4 @@
-import {HTMLAttributes, useEffect, useRef, useState} from 'react';
+import React, {HTMLAttributes, useEffect, useRef, useState} from 'react';
 import './tooltip.styles.scss';
 
 export const Tooltip = ({children}: HTMLAttributes<HTMLElement>) => {

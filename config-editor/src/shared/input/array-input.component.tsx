@@ -1,6 +1,7 @@
 import {InputHTMLAttributes} from 'react';
-import {RemoveCircleButton} from '../../svgs/remove-circle-button.svg';
-import {AddHexagonButton} from '../../svgs/add-hexagon-button.svg';
+import {RemoveCircleButton} from '@svgs/remove-circle-button.svg';
+import {AddHexagonButton} from '@svgs/add-hexagon-button.svg';
+import React from 'react';
 
 interface ArrayInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
     onChange?: (newValues: Array<string>) => void;

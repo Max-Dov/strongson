@@ -2,7 +2,8 @@ import {ChangeEvent, InputHTMLAttributes, ReactNode} from 'react';
 import {RadioInput} from './radio-input.component';
 import {ArrayInput} from './array-input.component';
 import './input.styles.scss';
-import {Tooltip} from '../tooltip/tooltip.component';
+import {Tooltip} from '@shared/tooltip/tooltip.component';
+import React from 'react';
 
 type RadioOptions = Array<{ value: string, displayLabel: string }>
 

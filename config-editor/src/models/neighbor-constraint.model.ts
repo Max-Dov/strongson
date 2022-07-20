@@ -1,4 +1,4 @@
-import {TileConfig} from './tile-config.model';
+import {TileConfig} from '@models/tile-config.model';
 
 /**
  * Single neighbor constraint description.

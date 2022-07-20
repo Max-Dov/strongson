@@ -1,7 +1,8 @@
-import {Input} from '../../shared/input/input.component';
-import {SearchContext} from '../app/app.component';
+import {Input} from '@shared/input/input.component';
+import {SearchContext} from '@features/app/app.component';
 import {useContext} from 'react';
 import './search-bar.styles.scss'
+import React from 'react';
 
 /**
  * Displays search bar for all inputs in World Config.

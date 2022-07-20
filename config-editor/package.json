@@ -1,43 +1,54 @@
 {
   "name": "config-editor",
-  "version": "1.0",
+  "version": "2",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.4.1",
-    "@types/node": "^16.11.32",
-    "@types/react": "^18.0.8",
-    "@types/react-dom": "^18.0.3",
-    "node-sass": "^7.0.1",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.6.4",
-    "web-vitals": "^2.1.4"
-  },
+  "description": "https://github.com/Max-Dov/strongson/tree/main/strongson-frontend",
   "scripts": {
-    "start config editor": "react-scripts start",
-    "build config editor": "react-scripts build",
-    "deploy config editor": "cd build && surge --domain strongson-config-editor.surge.sh"
+    "build-config-editor": "webpack --config webpack.config.ts",
+    "start-config-editor": "webpack serve --config webpack.config.ts --open",
+    "deploy-config-editor": "cd build && surge --domain strongson-config-editor.surge.sh"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.15.0",
+    "@types/node": "^18.0.0",
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
+    "@types/react-redux": "^7.1.20",
+    "@types/react-router": "^5.1.17",
+    "@types/react-router-dom": "^5.3.2",
+    "@types/three": "^0.141.0",
+    "@types/webpack": "^5.28.0",
+    "babel-loader": "^8.2.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.5.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "portfinder-sync": "^0.0.2",
+    "sass": "^1.43.4",
+    "sass-loader": "^12.3.0",
+    "style-loader": "^3.3.1",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3",
+    "webpack": "^5.61.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.9.2"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@react-three/drei": "^9.13.2",
+    "@react-three/fiber": "^8.0.26",
+    "@reduxjs/toolkit": "^1.6.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^7.2.6",
+    "react-router": "^5.2.1",
+    "react-router-dom": "^5.3.0",
+    "socket.io-client": "^4.5.1",
+    "three": "^0.141.0"
   }
 }

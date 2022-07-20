@@ -16,7 +16,7 @@
       "@constants/*": ["src/constants/*"],
       "@services/*": ["src/services/*"],
       "@utils/*": ["src/utils/*"],
-      "@redux/*": ["src/redux/*"],
+      "@redux/*": ["src/redux/*"]
     }
   },
   "include": [

@@ -1,6 +1,7 @@
 import {ChangeEvent, useEffect, useRef, useState} from 'react';
 import './json-viewer.styles.scss';
-import {Button} from '../../shared/button/button.component';
+import {Button} from '@shared/button/button.component';
+import React from 'react';
 
 interface JsonViewerProps<ObjectToDisplay extends object> {
     objectToDisplay: ObjectToDisplay;

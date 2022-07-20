@@ -1,17 +1,16 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
-import * as CopyPlugin from 'copy-webpack-plugin';
 import 'webpack-dev-server';
 const portFinderSync = require('portfinder-sync');
 
-const PORT = 3002;
+const PORT = 3003;
 
 const config: webpack.Configuration = {
     mode: 'development',
     stats: 'errors-warnings',
     infrastructureLogging: {level: 'warn'},
-    entry: './src/main.tsx',
+    entry: './src/index.tsx',
     target: 'web',
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
@@ -20,9 +19,12 @@ const config: webpack.Configuration = {
             '@components': path.resolve(__dirname, 'src', 'components'),
             '@models': path.resolve(__dirname, 'src', 'models'),
             '@constants': path.resolve(__dirname, 'src', 'constants'),
+            '@shared': path.resolve(__dirname, 'src', 'shared'),
             '@services': path.resolve(__dirname, 'src', 'services'),
+            '@features': path.resolve(__dirname, 'src', 'features'),
             '@utils': path.resolve(__dirname, 'src', 'utils'),
             '@redux': path.resolve(__dirname, 'src', 'redux'),
+            '@svgs': path.resolve(__dirname, 'src', 'svgs'),
         },
     },
     devtool: 'inline-source-map',
@@ -71,17 +73,6 @@ const config: webpack.Configuration = {
         new HtmlWebpackPlugin({
             template: 'public/index.html',
         }),
-        new CopyPlugin({
-            patterns: [
-                {from: path.join('public', 'favicon.ico')},
-                {from: path.join('public', 'assets', 'city-lvl-1')},
-                {from: path.join('public', 'assets', 'forest')},
-                {from: path.join('public', 'assets', 'hills')},
-                {from: path.join('public', 'assets', 'grassland')},
-                {from: path.join('public', 'assets', 'shore-water')},
-                {from: path.join('public', 'assets', 'mountains')},
-            ],
-        }),
     ],
     output: {
         path: __dirname + '/build',
@@ -103,7 +94,7 @@ const config: webpack.Configuration = {
         historyApiFallback: true,
         setupMiddlewares: function (middlewares, devServer) {
             console.log('\n');
-            console.log('Strongson Frontend');
+            console.log('Strongson Config Editor');
             console.log('Project is running on your local network at:');
             console.log(`http://${devServer.options.host}:${devServer.options.port}`);
             console.log(`Check served assets:`);

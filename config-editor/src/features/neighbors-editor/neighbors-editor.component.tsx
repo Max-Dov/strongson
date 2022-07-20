@@ -1,10 +1,11 @@
-import {TileConfig} from '../../models/tile-config.model';
+import {TileConfig} from '@models/tile-config.model';
 import {ReactNode} from 'react';
-import {NeighborConstraintEditor} from '../neighbor-constraint-editor/neighbor-constraint-editor.component';
-import {NeighborConstraint} from '../../models/neighbor-constraint.model';
-import {AddHexagonButton} from '../../svgs/add-hexagon-button.svg';
+import {NeighborConstraintEditor} from '@features/neighbor-constraint-editor/neighbor-constraint-editor.component';
+import {NeighborConstraint} from '@models/neighbor-constraint.model';
+import {AddHexagonButton} from '@svgs/add-hexagon-button.svg';
 import './neighbors-editor.styles.scss';
-import {Tooltip} from '../../shared/tooltip/tooltip.component';
+import {Tooltip} from '@shared/tooltip/tooltip.component';
+import React from 'react';
 
 type Neighbor = Partial<TileConfig['neighbors'][number]>
 
@@ -64,7 +65,12 @@ export const NeighborsEditor = ({
     return <section className="neighbors-editor">
         <h4>
             <strong>Neighbors</strong>
-            <Tooltip>Constraints that must all be true for every tile in world.</Tooltip>
+            <Tooltip>
+               List of neighbor constraints. Tile can exist only if all it's constraints are satisfied.<br/><br/>
+
+               E.g.: if "Mountain" tile needs at least 5 "Hills" tiles around it,<br/>
+               then that would be declared as neighbor constraint from "Hills", with prop "minAmount" equal to 5.<br/>
+            </Tooltip>
             <AddHexagonButton onClick={onAddNeighbor}/>
         </h4>
         {neighbors?.map(renderNeighborConstraintEditor)}

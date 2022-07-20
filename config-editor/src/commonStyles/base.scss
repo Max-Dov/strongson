@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:wght@100;400;700&display=swap');
-@import 'commonStyles/constants.scss';
-@import 'commonStyles/layout.scss';
+@import '@commonStyles/constants.scss';
+@import '@commonStyles/layout.scss';
 
 // A base stylesheet describing base rules for all elements on page.
 
@@ -38,7 +38,13 @@ strong {
   font-weight: $font-bold;
 }
 
-span, p {
+a {
+  color: $font-color;
+  text-decoration: none;
+  border-bottom: 1px dashed;
+}
+
+span, p, a {
   font-weight: $font-regular;
 }
 
