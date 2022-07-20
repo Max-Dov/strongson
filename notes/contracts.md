@@ -310,7 +310,7 @@ World iterator function signature
  * @param world - actual world to iterate.
  * @returns next or first world iteration
  */
-type iterateWorld = (worldConfig: WorldConfig, world?: World) => World
+type iterateWorld = (worldConfig: WorldConfig, world: World) => World
 ```
 
 Pseudo-random number generation function signature
