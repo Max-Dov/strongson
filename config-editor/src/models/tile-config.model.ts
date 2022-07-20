@@ -1,7 +1,11 @@
 import {NeighborConstraint} from '@models/neighbor-constraint.model';
 
 /**
- * Single tile config.
+ * Tile config describing "behavior" properties of Tile in World.
+ *
+ * Notes:
+ * - "Tile mutation" means changing "configId" for Tile in World.
+ * - When tile mutates, when new tile config is selected, multipliers are immediately applied to neighboring tiles.
  */
 export interface TileConfig {
     /**
@@ -9,51 +13,84 @@ export interface TileConfig {
      */
     id: string;
     /**
-     * List of neighbor constraints.
+     * List of tile representations IDs.
+     *
+     * Representation contains display info about tile and is dependent on game implementation.
+     * But server doing calculations refers to representation by ID, allowing representation to be as flexible
+     * as frontend needs.
+     */
+    representationsIds: Array<string>;
+    /**
+     * List of neighbor constraints. Tile can exist only if all it's constraints are satisfied.
+     *
+     * E.g.: if "Mountain" tile needs at least 5 "Hills" tiles around it,
+     * then that would be declared as neighbor constraint from "Hills", with prop "minAmount" equal to 5.
      */
     neighbors: Array<NeighborConstraint>;
     /**
-     * List of possible tile representations ids.
-     */
-    representationsIds: Array<string>
-    /**
-     * Factor to count when tile needs to mutate into another tile.
+     * Base chance to mutate into another tile. May be affected by neighboring tiles.
      *
-     * For example, when tile must mutate, it will roll a random number and then pick new tile.
-     * Possible tiles with greater mutationWeight will have greater chance to be mutated into.
-     */
-    mutationWeight: number;
-    /**
-     * Base chance to mutate into another tile. Dimension is %. E.g. "15" stands for "15%".
+     * Tile can not mutate into itself, e.g.: "Forest" tile can not mutate into "Forest" tile, technically
+     * remaining same tile with reset "birthEpoch".
+     *
+     * Dimension is percents (%). E.g. "15" stands for "15%".
      */
     mutationChance: number;
     /**
-     * Factor to count when tile needs to mutate into another tile.
-     * Useful when tiles need to be grouped up or loosely spread across map.
+     * Mutation chance multiplier to apply to NEIGHBORING tiles around current tile.
      *
-     * For example, when tile must mutate, it will roll a random number and then pick new tile.
-     * Possible tiles that have greater number around current coordinate will have greater chance to be mutated into.
+     * If neighboring tiles need to be forced to mutate or have their mutation chance decreased, then that parameter
+     * can be adjusted.
+     * Mutation chance multiplier does not affect origin tile.
+     *
+     * Dimension is "positive number" that would be multiplied with "percents (%)" units.
      */
-    crowdWeightMultiplier?: number;
+    mutationChanceMultiplier?: number;
     /**
-     * Radius of crowd weight multiplier effect.
+     * Radius of mutation chance multiplier.
+     *
+     * Every tile within multiplier radius will have its mutationChance multiplied by mutationChanceMultiplier.
+     *
+     * Dimension is "tiles" which represents max amount of tiles between origin tile and target tile.
      */
-    crowdWeightMultiplierRadius?: number;
+    mutationChanceMultiplierRadius?: number;
     /**
-     * Minimum amount of epoch cycles for tile to exist.
+     * Base mutation weight of tile config among other "competing" tile configs.
+     *
+     * May be affected by same tiles in proximity (same in terms of tiles with same "configId").
+     * When tile rolls "mutationChance" parameter and has to mutate into another tile, it will choose random
+     * tile config, yet tile config chance to be picked is proportional to it's "weight" represented by mutationWeight.
+     *
+     * Dimension is "positive number".
+     */
+    mutationWeight: number;
+    /**
+     * Mutation weight multiplier to apply to SAME* tiles around current tile.
+     *
+     * SAME tiles are tiles with same "configId".
+     * That parameter is used for grouping tiles. For example, "Forest" tiles are expected to be grouped, so
+     * mutationWeightMultiplier can be adjusted to be number 2, for example. 6 "Forest" tiles on hexagonal grid will
+     * increase mutationWeight of tile in between these 6 tiles by 2^6 or 64 times, thus greatly increasing chance to be
+     * chosen over other possible tile configs.
+     */
+    mutationWeightMultiplier?: number;
+    /**
+     * Radius of mutation weight multiplier.
+     *
+     * Tiles with same "configId" within multiplier radius will have its mutationWeight multiplied by
+     * mutationWeightMultiplier.
+     *
+     * Dimension is "tiles" which represents max amount of tiles between origin tile and target tile.
+     */
+    mutationWeightMultiplierRadius?: number;
+    /**
+     * Minimum amount of epoch cycles when tile will exist no matter what mutation chance is.
      */
     minAge?: number;
     /**
-     * Maximum amount of epoch cycles when tile may exist. Tile may mutate earlier than that value.
+     * Maximum amount of epoch cycles when tile may exist.
+     *
+     * It may mutate before that value, but once maxAge is stepped over, tile will mutate.
      */
     maxAge?: number;
-    /**
-     * Multiplier on neighbor tiles that multiplies their mutationChance.
-     * Useful when neighbor tiles need to be forced to mutate.
-     */
-    neighborsMutationMultiplier?: number;
-    /**
-     * Radius of neighbors mutation multiplier effect.
-     */
-    neighborsMutationMultiplierRadius?: number;
 }

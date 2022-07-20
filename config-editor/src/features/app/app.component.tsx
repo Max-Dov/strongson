@@ -21,7 +21,7 @@ export const App = () => {
     return (
         <div className="app">
             <h1><strong>Strongson</strong> World Config Editor <sup>v2</sup></h1>
-            <p><strong>Paste</strong> and <strong>edit</strong> world config or <strong>create</strong> it from scratch.
+            <p><strong>Paste</strong> JSON and <strong>edit</strong> world config or <strong>create</strong> world config from scratch.
             </p>
             <SearchContext.Provider value={{searchValue, setSearchValue: onSearchValueUpdate}}>
                 <div className="editor-and-json-sections">
