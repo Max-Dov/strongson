@@ -3,9 +3,14 @@ import * as webpack from 'webpack';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import * as CopyPlugin from 'copy-webpack-plugin';
 import 'webpack-dev-server';
+const portFinderSync = require('portfinder-sync');
+
+const PORT = 3002;
 
 const config: webpack.Configuration = {
     mode: 'development',
+    stats: 'errors-warnings',
+    infrastructureLogging: {level: 'warn'},
     entry: './src/main.tsx',
     target: 'web',
     resolve: {
@@ -18,7 +23,7 @@ const config: webpack.Configuration = {
             '@services': path.resolve(__dirname, 'src', 'services'),
             '@utils': path.resolve(__dirname, 'src', 'utils'),
             '@redux': path.resolve(__dirname, 'src', 'redux'),
-        }
+        },
     },
     devtool: 'inline-source-map',
     module: {
@@ -37,11 +42,11 @@ const config: webpack.Configuration = {
                         presets: [
                             ['@babel/preset-typescript'],
                             ['@babel/preset-env'],
-                            ['@babel/preset-react']
+                            ['@babel/preset-react'],
                         ],
                         plugins: ['@babel/plugin-proposal-class-properties'],
-                    }
-                }
+                    },
+                },
             },
             { // scss
                 test: /\.scss$/,
@@ -51,20 +56,20 @@ const config: webpack.Configuration = {
                         loader: 'css-loader',
                         options: {
                             url: false,
-                        }
+                        },
                     },
-                    'sass-loader'
+                    'sass-loader',
                 ],
             },
             { // fonts
                 test: /\.woff2?$/,
-                type: 'asset/resource'
+                type: 'asset/resource',
             },
-        ]
+        ],
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: 'public/index.html'
+            template: 'public/index.html',
         }),
         new CopyPlugin({
             patterns: [
@@ -84,10 +89,30 @@ const config: webpack.Configuration = {
         publicPath: '/',
     },
     devServer: {
-        port: 3002,
+        /**
+         * If you are using LAN cable instead of Wi-Fi connection, you might want to switch to Wi-Fi if you want
+         * Strongson app to be accessible on other devices.
+         */
+        host: 'local-ip',
+        // host: '192.168.100.xx', // Wi-Fi IPV4 override in case you use both Wi-Fi + LAN.
+        port: portFinderSync.getPort(PORT),
+        open: true,
+        https: false,
+        allowedHosts: 'all',
         hot: true,
         historyApiFallback: true,
-    }
-}
+        setupMiddlewares: function (middlewares, devServer) {
+            console.log('\n');
+            console.log('Strongson Frontend');
+            console.log('Project is running on your local network at:');
+            console.log(`http://${devServer.options.host}:${devServer.options.port}`);
+            console.log(`Check served assets:`);
+            console.log(`http://${devServer.options.host}:${devServer.options.port}/webpack-dev-server`);
+            console.log('\n');
+
+            return middlewares;
+        },
+    },
+};
 
 export default config;

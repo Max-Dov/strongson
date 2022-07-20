@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "description": "https://github.com/Max-Dov/strongson/tree/main/strongson-frontend",
   "scripts": {
-    "build frontend": "webpack --config webpack.config.ts",
-    "start frontend": "webpack serve --config webpack.config.ts --open"
+    "build-frontend": "webpack --config webpack.config.ts",
+    "start-frontend": "webpack serve --config webpack.config.ts --open"
   },
   "author": "",
   "license": "MIT",
@@ -28,6 +28,7 @@
     "css-loader": "^6.5.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
+    "portfinder-sync": "^0.0.2",
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
     "style-loader": "^3.3.1",
