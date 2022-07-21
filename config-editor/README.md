@@ -12,43 +12,185 @@ Latest stable version is available at: https://strongson-config-editor.surge.sh
 
 ```JSON
 {
- "tiles": [
-  {
-   "id": "forest",
-   "mutationChance": 5,
-   "maxAge": 10,
-   "crowdWeightMultiplier": 1.5,
-   "crowdWeightMultiplierRadius": 2,
-   "mutationWeight": 10,
-   "minAge": 0
-  },
-  {
-   "id": "field",
-   "mutationChance": 5,
-   "minAge": 0,
-   "maxAge": 10,
-   "mutationWeight": 10
-  },
-  {
-   "id": "city-lvl1",
-   "neighbors": [
+  "tileShape": "HEXAGONAL",
+  "id": "Strongson v1.6 - baboon",
+  "tiles": [
     {
-     "configId": "city-lvl1",
-     "neighborConfigId": "forest",
-     "maxAmount": 0,
-     "maxDistance": 1
+      "id": "grassland",
+      "representationsIds": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "mutationChance": 1,
+      "mutationWeight": 1
+    },
+    {
+      "id": "hills",
+      "neighbors": [
+        {
+          "configId": "hills",
+          "neighborConfigId": "city-lvl-1",
+          "maxAmount": 0,
+          "maxDistance": 10
+        },
+        {
+          "configId": "hills",
+          "neighborConfigId": "hills",
+          "maxAmount": 10,
+          "maxDistance": 20
+        }
+      ],
+      "representationsIds": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "mutationChance": 1,
+      "mutationWeight": 2,
+      "mutationWeightMultiplier": 3,
+      "mutationWeightMultiplierRadius": 3,
+      "minAge": 5
+    },
+    {
+      "id": "forest",
+      "neighbors": [
+        {
+          "configId": "forest",
+          "neighborConfigId": "city-lvl-1",
+          "maxAmount": 0,
+          "maxDistance": 5
+        },
+        {
+          "configId": "forest",
+          "neighborConfigId": "forest",
+          "maxAmount": 40,
+          "maxDistance": 15
+        }
+      ],
+      "representationsIds": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "mutationChance": 1,
+      "mutationWeight": 2,
+      "mutationWeightMultiplier": 3,
+      "mutationWeightMultiplierRadius": 3,
+      "minAge": 5
+    },
+    {
+      "id": "city-lvl-1",
+      "neighbors": [
+        {
+          "configId": "city-lvl-1",
+          "neighborConfigId": "city-lvl-1",
+          "maxAmount": 15,
+          "maxDistance": 30
+        },
+        {
+          "configId": "city-lvl-1",
+          "neighborConfigId": "mountain",
+          "maxDistance": 3,
+          "maxAmount": 0
+        },
+        {
+          "configId": "city-lvl-1",
+          "neighborConfigId": "hills",
+          "maxAmount": 0,
+          "maxDistance": 5
+        },
+        {
+          "configId": "city-lvl-1",
+          "neighborConfigId": "forest",
+          "maxAmount": 0,
+          "maxDistance": 5
+        }
+      ],
+      "representationsIds": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "mutationChance": 1,
+      "mutationWeight": 5,
+      "mutationWeightMultiplier": 3,
+      "mutationWeightMultiplierRadius": 1,
+      "mutationChanceMultiplier": 2,
+      "mutationChanceMultiplierRadius": 1,
+      "maxAge": 8
+    },
+    {
+      "id": "shore-water",
+      "neighbors": [
+        {
+          "configId": "shore-water",
+          "neighborConfigId": "mountains",
+          "maxAmount": 0,
+          "maxDistance": 3
+        },
+        {
+          "configId": "shore-water",
+          "maxAmount": 30,
+          "maxDistance": 20,
+          "neighborConfigId": "shore-water"
+        }
+      ],
+      "mutationChance": 1,
+      "minAge": 10,
+      "mutationWeight": 2,
+      "mutationChanceMultiplier": 5,
+      "mutationChanceMultiplierRadius": 1,
+      "representationsIds": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "mutationWeightMultiplier": 3,
+      "mutationWeightMultiplierRadius": 3
+    },
+    {
+      "id": "mountains",
+      "neighbors": [
+        {
+          "configId": "mountains",
+          "neighborConfigId": "hills",
+          "minAmount": 3,
+          "maxDistance": 1
+        }
+      ],
+      "mutationChance": 1,
+      "minAge": 20,
+      "mutationWeight": 30,
+      "mutationChanceMultiplier": 3,
+      "mutationChanceMultiplierRadius": 2,
+      "representationsIds": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
     }
-   ],
-   "minAge": 10,
-   "crowdWeightMultiplier": 10,
-   "crowdWeightMultiplierRadius": 1,
-   "mutationWeight": 2,
-   "neighborsMutationMultiplier": 1.5,
-   "neighborsMutationMultiplierRadius": 1
-  }
- ],
- "tileShape": "HEXAGONAL",
- "id": "Strongson v0.1"
+  ]
 }
 ```
 

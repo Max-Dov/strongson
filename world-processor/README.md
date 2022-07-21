@@ -103,8 +103,8 @@ Note: try keeping dimensions around `10` number for best performance (<1 sec to 
         ],
         "mutationChance": 1,
         "mutationWeight": 2,
-        "crowdWeightMultiplier": 3,
-        "crowdWeightMultiplierRadius": 3,
+        "mutationWeightMultiplier": 3,
+        "mutationWeightMultiplierRadius": 3,
         "minAge": 5
       },
       {
@@ -133,8 +133,8 @@ Note: try keeping dimensions around `10` number for best performance (<1 sec to 
         ],
         "mutationChance": 1,
         "mutationWeight": 2,
-        "crowdWeightMultiplier": 3,
-        "crowdWeightMultiplierRadius": 3,
+        "mutationWeightMultiplier": 3,
+        "mutationWeightMultiplierRadius": 3,
         "minAge": 5
       },
       {
@@ -177,10 +177,10 @@ Note: try keeping dimensions around `10` number for best performance (<1 sec to 
         ],
         "mutationChance": 1,
         "mutationWeight": 5,
-        "crowdWeightMultiplier": 3,
-        "crowdWeightMultiplierRadius": 1,
-        "neighborsMutationMultiplier": 2,
-        "neighborsMutationMultiplierRadius": 1,
+        "mutationWeightMultiplier": 3,
+        "mutationWeightMultiplierRadius": 1,
+        "mutationChanceMultiplier": 2,
+        "mutationChanceMultiplierRadius": 1,
         "maxAge": 8
       },
       {
@@ -202,8 +202,8 @@ Note: try keeping dimensions around `10` number for best performance (<1 sec to 
         "mutationChance": 1,
         "minAge": 10,
         "mutationWeight": 2,
-        "neighborsMutationMultiplier": 5,
-        "neighborsMutationMultiplierRadius": 1,
+        "mutationChanceMultiplier": 5,
+        "mutationChanceMultiplierRadius": 1,
         "representationsIds": [
           "0",
           "1",
@@ -212,8 +212,8 @@ Note: try keeping dimensions around `10` number for best performance (<1 sec to 
           "4",
           "5"
         ],
-        "crowdWeightMultiplier": 3,
-        "crowdWeightMultiplierRadius": 3
+        "mutationWeightMultiplier": 3,
+        "mutationWeightMultiplierRadius": 3
       },
       {
         "id": "mountains",
@@ -228,8 +228,8 @@ Note: try keeping dimensions around `10` number for best performance (<1 sec to 
         "mutationChance": 1,
         "minAge": 20,
         "mutationWeight": 30,
-        "neighborsMutationMultiplier": 3,
-        "neighborsMutationMultiplierRadius": 2,
+        "mutationChanceMultiplier": 3,
+        "mutationChanceMultiplierRadius": 2,
         "representationsIds": [
           "0",
           "1",
