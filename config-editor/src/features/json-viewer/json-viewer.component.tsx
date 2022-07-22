@@ -76,11 +76,10 @@ export const JsonViewer = <ObjectToDisplay extends object>({
             placeholder="Paste World Config JSON there.."
             onChange={onChange}
         />
-        {isObjectInvalid && <p className="error-message">
-            <strong>
-                Above object is not valid JSON.
-            </strong>
-        </p>}
+        {isObjectInvalid
+            ? <p className="error-message"><strong>Above object is not valid JSON.</strong></p>
+            : <p className="valid-json-message">Above object is valid JSON.<br/>(But it may be invalid World Config)</p>
+        }
         <Button onClick={onCopy}>
             Copy to clipboard
         </Button>

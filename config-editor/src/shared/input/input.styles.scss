@@ -41,7 +41,7 @@
     }
 
     &::placeholder {
-      color: rgba($font-color, 0.5)
+      color: $font-color-dimmed
     }
   }
 
