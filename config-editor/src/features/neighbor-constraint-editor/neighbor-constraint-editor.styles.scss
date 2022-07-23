@@ -1,6 +1,8 @@
 @import "@commonStyles/constants.scss";
 
-.neighbor-constraint-editor {
+section.neighbor-constraint-editor {
+  background: transparent;
+
   .remove-button {
     float: right;
     font-size: 1em;
