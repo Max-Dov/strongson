@@ -1,0 +1,44 @@
+@import '@commonStyles/constants.scss';
+
+.tiles-editor {
+  h3 {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    .header-cell {
+      display: flex;
+      align-items: center;
+    }
+
+    .add-tile-config-row {
+      display: flex;
+      justify-content: center;
+
+      width: 100%;
+      padding: 0.5em;
+      margin-top: 0.5em;
+
+      box-sizing: border-box;
+      border: 2px dashed $font-color-dimmed;
+
+      transition-property: outline-color, outline-offset, border-top-color, border-right-color, border-left-color, border-bottom-color;
+      transition-duration: $transition-normal;
+
+      &:active, &:focus {
+        border-color: transparent;
+      }
+    }
+
+    // columns width
+    thead > tr {
+      :nth-child(1) { // ID
+
+      }
+    }
+  }
+}
