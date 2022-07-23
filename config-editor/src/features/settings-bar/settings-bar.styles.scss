@@ -1,6 +1,6 @@
 @import "@commonStyles/constants.scss";
 
-.search-bar {
+.settings-bar {
   display: inline-block;
   font-size: 1rem;
   box-shadow: $shadow-medium;
@@ -8,12 +8,14 @@
   padding: 0 0.5rem;
   background-color: $primary-color;
 
-  .input, label {
-    margin: 0.5rem 0;
-  }
-
-  label {
-    display: inline-block;
-    margin-right: 0.5rem;
+  .settings-bar-button {
+    height: 100%;
+    &.expanded {
+      color: $accent-color;
+    }
+    svg {
+      display: inline-block;
+      font-size: 1.4em;
+    }
   }
 }

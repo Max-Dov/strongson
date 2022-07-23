@@ -24,6 +24,7 @@ const config: webpack.Configuration = {
             '@features': path.resolve(__dirname, 'src', 'features'),
             '@utils': path.resolve(__dirname, 'src', 'utils'),
             '@redux': path.resolve(__dirname, 'src', 'redux'),
+            '@contexts': path.resolve(__dirname, 'src', 'contexts'),
             '@svgs': path.resolve(__dirname, 'src', 'svgs'),
         },
     },

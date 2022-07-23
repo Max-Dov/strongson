@@ -11,6 +11,16 @@
   > h1, > p {
     margin: 1rem
   }
+
+  .sticky-bars {
+    position: sticky;
+    top: 1rem;
+
+    display: flex;
+    gap: 1rem;
+
+    z-index: 1; // to be on top of tooltips
+  }
 }
 
 .editor-and-json-sections {
@@ -23,11 +33,15 @@
   margin-bottom: 1rem;
   padding: 0 1rem;
 
+  &.flex-column {
+    flex-direction: column;
+  }
+
   @media (max-width: $small-screen) {
     flex-direction: column;
   }
 
-  .json-viewer, .world-config-section-with-search {
+  .json-viewer, .world-config-section-with-bars {
     flex: 1;
   }
 
@@ -36,7 +50,7 @@
     box-shadow: 0 0 0.5rem rgba(black, 0.3);
   }
 
-  .world-config-section-with-search {
+  .world-config-section-with-bars {
     display: flex;
     gap: 1rem;
     flex-direction: column;

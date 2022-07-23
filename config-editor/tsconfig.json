@@ -17,6 +17,7 @@
       "@constants/*": ["src/constants/*"],
       "@services/*": ["src/services/*"],
       "@features/*": ["src/features/*"],
+      "@contexts/*": ["src/contexts/*"],
       "@svgs/*": ["src/svgs/*"],
       "@utils/*": ["src/utils/*"],
       "@redux/*": ["src/redux/*"]
