@@ -1,22 +1,25 @@
-import React, {Suspense} from 'react';
-import {Canvas} from '@react-three/fiber';
-import {MapControls} from '@react-three/drei';
-import './landing-page.styles.scss';
-import {STRONGSON_WORLD} from '@components/pages/landing-page/strongson-world.const';
-import {Tile as TileModel} from '@models/tile.model';
-import {Tile} from '@components/features/tile/tile.component';
+import React from 'react';
+import {STRONGSON_WORLD} from '@constants/strongson-world.const';
+import {Tile} from '@models/tile.model';
+import {TilesCanvas} from '@components/features/tiles-canvas/tiles-canvas.component';
 import {TileShape} from '@constants/tile-shape.model';
+import './landing-page.styles.scss';
 
 export const LandingPage = () => {
-    const tiles = Object.values(STRONGSON_WORLD.tiles);
-    const renderTile = (tile: TileModel<TileShape.HEXAGONAL>) => <Tile key={tile.coordinates.join(',')} tile={tile}/>;
+    const tiles = Object.values(STRONGSON_WORLD.tiles) as Tile<TileShape.HEXAGONAL>[];
 
-    return <section id="landing-page">
-        <Canvas orthographic camera={{position: [0, 0, 10], zoom: 100, up: [0, 0, 1], far: 10000}}>
-            <Suspense fallback={null}>
-                {tiles.map(renderTile)}
-            </Suspense>
-            <MapControls/>
-        </Canvas>
-    </section>;
+    return <>
+        <section id="landing-page">
+            <h1>
+                Config ID: {STRONGSON_WORLD.configId}
+            </h1>
+            <p>
+                <div><b>Seed:</b> {JSON.stringify(STRONGSON_WORLD.seed)}</div>
+                <div><b>Epoch:</b> {JSON.stringify(STRONGSON_WORLD.epoch)}</div>
+                <div><b>Dimensions:</b> {JSON.stringify(STRONGSON_WORLD.dimensions)}</div>
+                <div><b>Number of tiles:</b> {Object.values(STRONGSON_WORLD.tiles).length}</div>
+            </p>
+            <TilesCanvas tiles={tiles}/>
+        </section>
+    </>;
 };
