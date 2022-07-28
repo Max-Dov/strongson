@@ -26,6 +26,7 @@ export const Image = ({
     shouldAlignBottom = true,
     coordinates,
     position,
+    children,
     ...meshProps
 }: ImageProps) => {
     const texture = useLoader(TextureLoader, url);
@@ -34,11 +35,15 @@ export const Image = ({
 
     const actualCoordinates = coordinates
         ? shouldAlignBottom
-            ? [coordinates[0], coordinates[1] + image.height / 2 / image.width, coordinates[2]] as [number, number, number]
+            ? [
+                coordinates[0],
+                coordinates[1] + ratio / 2,
+                coordinates[2],
+            ] as [number, number, number]
             : coordinates
-        : null
+        : null;
 
-    return <mesh {...meshProps} position={actualCoordinates || position} scale={1}>
+    return <mesh {...meshProps} position={actualCoordinates || position}>
         <planeGeometry args={[1, ratio]}/>
         <meshBasicMaterial
             transparent
@@ -47,5 +52,6 @@ export const Image = ({
             map-minFilter={NearestFilter}
             map-magFilter={NearestFilter}
         />
+        {children}
     </mesh>;
 };
