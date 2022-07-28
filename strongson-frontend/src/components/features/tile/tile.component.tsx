@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Tile as TileModel} from '@models/tile.model';
 import {Image} from '@components/shared/image.component';
 import {TileShape} from '@constants/tile-shape.model';
@@ -16,6 +16,7 @@ interface TileProps {
  * ThreeJS Tile representation.
  */
 export const Tile = ({tile}: TileProps) => {
+    const [isHovered, setIsHovered] = useState(false);
     const {representationId, configId, coordinates} = tile;
 
     const representation = getTileRepresentation(configId, representationId);
@@ -25,5 +26,15 @@ export const Tile = ({tile}: TileProps) => {
 
     const planeCoords = transformTileCoordsToPlaneCoords(coordinates);
 
-    return <Image url={representation.pictureUrl} coordinates={planeCoords} scale={0.5}/>;
+    const onHover = () => {
+        setIsHovered(true)
+        console.log(coordinates)
+    }
+
+    return <Image
+        url={representation.pictureUrl}
+        coordinates={planeCoords} scale={isHovered ? 1.5 : 1}
+        onPointerEnter={onHover}
+        onPointerLeave={() => setIsHovered(false)}
+    />;
 };

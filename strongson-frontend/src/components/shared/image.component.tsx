@@ -38,7 +38,7 @@ export const Image = ({
             : coordinates
         : null
 
-    return <mesh {...meshProps} position={actualCoordinates || position} scale={1}>
+    return <mesh {...meshProps} position={actualCoordinates || position}>
         <planeGeometry args={[1, ratio]}/>
         <meshBasicMaterial
             transparent
