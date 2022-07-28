@@ -13,6 +13,6 @@ export const transformTileCoordsToPlaneCoords = (tileCoordinates: TileModel<Tile
     return [
         x - (y + z) * sin30,
         (z - y) * cos30,
-        z // could be 0, but since map would not rotate across XY axes it would be good to have proper "z-index" for tiles
+        y - z // could be 0, but since map would not rotate across XY axes it would be good to have proper "z-index" for tiles
     ]
 }
