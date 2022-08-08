@@ -8,6 +8,8 @@
 
         public double MutationChance { get; set; }
 
+        public Dictionary<string, double> MutationWeightMultipliers { get; set; }
+
         public int BirthEpoch { get; set; }
 
         public object Clone()

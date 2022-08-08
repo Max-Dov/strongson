@@ -4,24 +4,24 @@
     {
         public string Id { get; set; }
 
-        public NeighborConstraintDto[]? Neighbors { get; set; }
-
         public string[] RepresentationsIds { get; set; }
 
-        public int MutationWeight { get; set; }
+        public NeighborConstraintDto[]? Neighbors { get; set; }
 
         public double MutationChance { get; set; }
 
-        public double CrowdWeightMultiplier { get; set; }
+        public double? MutationChanceMultiplier { get; set; }
 
-        public int CrowdWeightMultiplierRadius { get; set; }
+        public int? MutationChanceMultiplierRadius { get; set; }
 
-        public int MinAge { get; set; }
+        public double MutationWeight { get; set; }
 
-        public int MaxAge { get; set; }
+        public double? MutationWeightMultiplier { get; set; }
 
-        public double NeighborsMutationMultiplier { get; set; }
+        public int? MutationWeightMultiplierRadius { get; set; }
 
-        public int NeighborsMutationMultiplierRadius { get; set; }
+        public int? MinAge { get; set; }
+
+        public int? MaxAge { get; set; }
     }
 }

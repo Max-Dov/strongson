@@ -156,5 +156,44 @@ namespace WorldProcessor.Core.ValueTypes
 
         public IEnumerable<int> GetCoordinatesList()
             => new List<int>() { X, Y, Z };
+
+        public List<IPosition> GenerateInitialField(IPosition dimensions)
+        {
+            var dimensions3 = (Position3)dimensions;
+
+            var initialField = new List<IPosition>()
+            {
+                new Position3(0, 0, 0)
+            };
+
+            for(var z = 1; z < dimensions3.Z; z++)
+            {
+                initialField.Add(new Position3(0, 0, z));
+                for(var x = 1; x < dimensions3.X; x++)
+                {
+                    initialField.Add(new Position3(x, 0, z));
+                }
+            }
+
+            for(var x = 1; x < dimensions3.X; x++)
+            {
+                initialField.Add(new Position3(x, 0, 0));
+                for(var y = 1; y < dimensions3.Y; y++)
+                {
+                    initialField.Add(new Position3(x, y, 0));
+                }
+            }
+
+            for(var y = 1; y < dimensions3.Y; y++)
+            {
+                initialField.Add(new Position3(0, y, 0));
+                for(var z = 1; z < dimensions3.Z; z++)
+                {
+                    initialField.Add(new Position3(0, y, z));
+                }
+            }
+
+            return initialField;
+        }
     }
 }

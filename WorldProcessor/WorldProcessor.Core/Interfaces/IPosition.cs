@@ -21,5 +21,7 @@
         public IEnumerable<IPosition> GenerateOrderedSpiralPath(IPosition center, int radius);
 
         public IEnumerable<int> GetCoordinatesList();
+
+        public List<IPosition> GenerateInitialField(IPosition dimensions);
     }
 }

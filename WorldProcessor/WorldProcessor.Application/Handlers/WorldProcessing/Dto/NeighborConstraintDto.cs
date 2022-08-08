@@ -6,12 +6,12 @@
 
         public string NeighborConfigId { get; set; }
 
-        public int MinAmount { get; set; }
+        public int? MinAmount { get; set; }
 
-        public int MaxAmount { get; set; }
+        public int? MaxAmount { get; set; }
 
-        public int MinDistance { get; set; }
+        public int? MinDistance { get; set; }
 
-        public int MaxDistance { get; set; }
+        public int? MaxDistance { get; set; }
     }
 }

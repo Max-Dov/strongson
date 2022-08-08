@@ -135,5 +135,10 @@ namespace WorldProcessor.Core.ValueTypes
 
         public IEnumerable<int> GetCoordinatesList()
             => new List<int>() { X, Y };
+
+        public List<IPosition> GenerateInitialField(IPosition dimensions)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
