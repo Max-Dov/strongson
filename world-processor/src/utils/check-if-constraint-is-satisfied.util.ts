@@ -29,7 +29,7 @@ export const checkIfConstraintIsSatisfied = <Shape extends TileShape>(
     const constraintNeighbors = filterTilesByConfigId(allNeighbors, neighborConfigId);
     const neighborsAmount = Object.values(constraintNeighbors).length;
     const isSatisfied =
-        neighborsAmount <= (maxAmount as number)
-        && (!minAmount || neighborsAmount <= minAmount);
+        (!maxAmount || neighborsAmount <= maxAmount)
+        && (!minAmount || neighborsAmount >= minAmount);
     return isSatisfied;
 };
