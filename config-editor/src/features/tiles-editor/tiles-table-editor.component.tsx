@@ -5,6 +5,11 @@ import './tiles-table-editor.styles.scss';
 import {TileConfig} from '@models/tile-config.model';
 import {Input} from '@shared/input/input.component';
 import {AddHexagonButton} from '@svgs/add-hexagon-button.svg';
+import {MutationSvg} from '@svgs/mutation.svg';
+import {MultiplierSvg} from '@svgs/multiplier.svg';
+import {DumbbellSvg} from '@svgs/dumbbell.svg';
+import {ClockSvg} from '@svgs/clock.svg';
+import {RulerSvg} from '@svgs/ruler.svg';
 
 type Tile = Partial<WorldConfig['tiles'][number]>
 type Tiles = Array<Tile>
@@ -54,15 +59,15 @@ const HeaderRow = () => (
     <tr>
         <th>
             <div className="header-cell">
-                <span>ID</span>
+                ID
                 <Tooltip>Unique tile ID; e.g. "castle-lvl1".</Tooltip>
             </div>
         </th>
         <th>
             <div className="header-cell">
-                <span>Mutation chance</span>
-                <Tooltip>
-                    Base chance to mutate into another tile. May be affected by neighboring tiles.<br/><br/>
+                <Tooltip customTooltip={<><MutationSvg/><sup>%</sup></>}>
+                    <h2>Mutation Chance</h2>
+                    Base chance to mutate into another tile. May be affected by neighboring tiles.<br/>
                     Tile can not mutate into itself, e.g.: "Forest" tile can not mutate into "Forest" tile,
                     technically remaining same tile with reset "birthEpoch".<br/>
                     Dimension is percents (%). E.g. "15" stands for "15%".
@@ -71,8 +76,8 @@ const HeaderRow = () => (
         </th>
         <th>
             <div className="header-cell">
-                Mutation chance multiplier
-                <Tooltip>
+                <Tooltip customTooltip={<><MutationSvg/><sup>%</sup><MultiplierSvg/></>}>
+                    <h2>Mutation chance multiplier</h2>
                     Mutation chance multiplier to apply to NEIGHBORING tiles around current tile.<br/><br/>
                     If neighboring tiles need to be forced to mutate or have their mutation chance decreased, <br/>
                     then that parameter can be adjusted.<br/>
@@ -83,8 +88,8 @@ const HeaderRow = () => (
         </th>
         <th>
             <div className="header-cell">
-                Mutation chance multiplier radius
-                <Tooltip>
+                <Tooltip customTooltip={<><MutationSvg/><sup>%</sup><RulerSvg/></>}>
+                    <h2>Mutation chance multiplier radius</h2>
                     Radius of mutation chance multiplier.<br/><br/>
                     Every tile within multiplier radius will have its mutationChance multiplied by
                     mutationChanceMultiplier.<br/>
@@ -94,8 +99,8 @@ const HeaderRow = () => (
         </th>
         <th>
             <div className="header-cell">
-                Mutation weight
-                <Tooltip>
+                <Tooltip customTooltip={<><MutationSvg/><sup><DumbbellSvg/></sup></>}>
+                    <h2>Mutation weight</h2>
                     Base mutation weight of tile config among other "competing" tile configs.<br/><br/>
                     May be affected by same tiles in proximity (same in terms of tiles with same "configId").<br/>
                     When tile rolls "mutationChance" parameter and has to mutate into another tile, it will choose
@@ -109,8 +114,8 @@ const HeaderRow = () => (
 
         <th>
             <div className="header-cell">
-                Mutation weight multiplier
-                <Tooltip>
+                <Tooltip customTooltip={<><MutationSvg/><sup><DumbbellSvg/></sup><MultiplierSvg/></>}>
+                    <h2>Mutation weight multiplier</h2>
                     Mutation weight multiplier to apply to SAME* tiles around current tile.<br/><br/>
                     SAME tiles are tiles with same "configId".<br/>
                     That parameter is used for grouping tiles. For example, "Forest" tiles are expected to be grouped,
@@ -126,8 +131,8 @@ const HeaderRow = () => (
         </th>
         <th>
             <div className="header-cell">
-                Mutation weight multiplier radius
-                <Tooltip>
+                <Tooltip customTooltip={<><MutationSvg/><sup><DumbbellSvg/></sup><RulerSvg/></>}>
+                    <h2>Mutation weight multiplier radius</h2>
                     Radius of mutation weight multiplier.<br/><br/>
                     Tiles with same "configId" within multiplier radius will have its mutationWeight multiplied by<br/>
                     mutationWeightMultiplier.<br/>
@@ -137,16 +142,16 @@ const HeaderRow = () => (
         </th>
         <th>
             <div className="header-cell">
-                Minimum age
-                <Tooltip>
+                <Tooltip customTooltip={<><ClockSvg/><sup>min</sup></>}>
+                    <h2>Minimum age</h2>
                     Minimum amount of epoch cycles when tile will exist no matter what mutation chance is.
                 </Tooltip>
             </div>
         </th>
         <th>
             <div className="header-cell">
-                Maximum age
-                <Tooltip>
+                <Tooltip customTooltip={<><ClockSvg/><sup>max</sup></>}>
+                    <h2>Maximum age</h2>
                     Maximum amount of epoch cycles when tile may exist.<br/><br/>
                     It may mutate before that value, but once maxAge is stepped over, tile will mutate.
                 </Tooltip>

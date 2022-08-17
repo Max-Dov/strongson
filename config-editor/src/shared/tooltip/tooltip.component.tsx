@@ -1,7 +1,15 @@
-import React, {HTMLAttributes, useEffect, useRef, useState} from 'react';
+import React, {HTMLAttributes, ReactElement, useEffect, useRef, useState} from 'react';
 import './tooltip.styles.scss';
+import {TooltipSvg} from '@svgs/tooltip.svg';
 
-export const Tooltip = ({children}: HTMLAttributes<HTMLElement>) => {
+interface TooltipProps extends Pick<HTMLAttributes<HTMLElement>, 'children'> {
+    /**
+     * Tooltip SVG override in case "question in circle" is not good enough.
+     */
+    customTooltip?: ReactElement;
+}
+
+export const Tooltip = ({children, customTooltip}: TooltipProps) => {
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const tooltipRef = useRef<HTMLDivElement>(null);
     const [isActive, setIsActive] = useState<boolean>(false);
@@ -28,19 +36,11 @@ export const Tooltip = ({children}: HTMLAttributes<HTMLElement>) => {
             onMouseLeave={() => setIsHovered(false)}
             onClick={() => setIsActive(!isActive)}
             type="button"
+            className={isActive ? 'is-active' : ''}
         >
-            <svg
-                xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round"
-                strokeLinejoin="round"
-                className={isActive ? 'is-active' : ''}
-            >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                <circle cx="12" cy="12" r="9"/>
-                <line x1="12" y1="17" x2="12" y2="17.01"/>
-                <path d="M12 13.5a1.5 1.5 0 0 1 1 -1.5a2.6 2.6 0 1 0 -3 -4"/>
-            </svg>
-
+            {customTooltip
+                ? <span >{customTooltip}</span>
+                : <TooltipSvg />}
         </button>
         {(isDisplayed) && <div className="tooltip-text" ref={tooltipRef}>
             {children}

@@ -11,8 +11,10 @@
     border-collapse: collapse;
 
     .header-cell {
-      display: flex;
-      align-items: center;
+      font-size: 1.6em;
+      svg {
+        display: inline-block;
+      }
     }
 
     .add-tile-config-row {
